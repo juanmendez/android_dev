@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/Users/Public/development/practice/android/commonsware/_phase2/my_demos/DroidSpace/actionbar/ActionBarDemoNative1/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="accent">#ffee58</color>
+    <color name="primary">#3f51b5</color>
+    <color name="primary_dark">#1a237e</color>
+    <!-- From: file:/C:/Users/Public/development/practice/android/commonsware/_phase2/my_demos/DroidSpace/actionbar/ActionBarDemoNative1/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="about">About</string>
+    <string name="add">Add</string>
+    <string name="app_name">Action Bar Demo</string>
+    <string name="reset">Reset</string>
+    <string name="share">Share</string>
+    <!-- From: file:/C:/Users/Public/development/practice/android/commonsware/_phase2/my_demos/DroidSpace/actionbar/ActionBarDemoNative1/app/src/main/res/values/styles_example.xml -->
+    <eat-comment/>
+    <style name="ActionBar.Solid.Example" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/ab_solid_example</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_example</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_example</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Example</item>
+    </style>
+    <style name="ActionBar.Transparent.Example" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_example</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Example</item>
+    </style>
+    <style name="ActionBarTabStyle.Example" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_example</item>
+    </style>
+    <style name="ActionButton.CloseMode.Example" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_example</item>
+    </style>
+    <!-- From: file:/C:/Users/Public/development/practice/android/commonsware/_phase2/my_demos/DroidSpace/actionbar/ActionBarDemoNative1/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppTheme" parent="android:Theme.Material">
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorAccent">@color/accent</item>
+    </style>
+    <!-- From: file:/C:/Users/Public/development/practice/android/commonsware/_phase2/my_demos/DroidSpace/actionbar/ActionBarDemoNative1/app/src/main/res/values/styles_example.xml -->
+    <eat-comment/>
+    <style name="DropDownListView.Example" parent="@android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_example</item>
+    </style>
+    <style name="DropDownNav.Example" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_example</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_example</item>
+    </style>
+    <style name="PopupMenu.Example" parent="@android:style/Widget.Holo.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>	
+    </style>
+    <style name="ProgressBar.Example" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_example</item>
+    </style>
+    <style name="Theme.Example" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_example</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Example</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Example</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Example</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Example</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Example</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_example</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_example</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Example</item>
+        
+                <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Example.Widget</item>
+
+    </style>
+    <style name="Theme.Example.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Example</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Example</item>
+    </style>
+</resources>

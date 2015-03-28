@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@android:id/list" />
+</LinearLayout><!-- From: file:/C:/Users/Public/development/practice/android/commonsware/_phase2/my_demos/DroidSpace/actionbar/ActionBarDemoNative1/app/src/main/res/layout/list_layout.xml -->
