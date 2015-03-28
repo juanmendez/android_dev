@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Static Fragment</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="static_fragment">Static Fragment</string>
+    <string name="dynamic_fragment">Dynamic Fragment</string>
+</resources>

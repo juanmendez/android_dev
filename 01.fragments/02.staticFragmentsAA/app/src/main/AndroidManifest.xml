@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="info.juanmendez.staticfragments" >
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="22"/>
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <activity android:name=".controllers.RightActivity_"
+            android:configChanges="orientation|screenSize"
+            android:label="RightFragment"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <!--stateHidden hides keyboard-->
+        <activity
+            android:name=".controllers.MainActivity_"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

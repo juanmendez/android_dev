@@ -1,0 +1,6 @@
+**/.gradle/**
+**/.svn/**
+**/.idea/**
+**/.DS_Store/**
+**/build/**
+**/.gitignore/**
