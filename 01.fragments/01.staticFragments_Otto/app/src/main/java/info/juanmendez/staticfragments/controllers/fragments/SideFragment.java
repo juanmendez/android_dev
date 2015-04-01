@@ -62,16 +62,11 @@ public class SideFragment extends Fragment {
         imm.hideSoftInputFromWindow( editText.getWindowToken(), 0 );
     }
 
-    protected void consoleLog( String content )
-    {
-        Log.i(MainActivity.tag, fragmentName + " :" + content);
-    }
-
     @Override public void onResume() {
         super.onResume();
 
         // Register ourselves so that we can provide the initial value.
-        TheApp.getOtto().register(this);
+        getApp().register(this);
     }
 
 
@@ -79,9 +74,12 @@ public class SideFragment extends Fragment {
         super.onPause();
 
         // Always unregister when an object no longer should be on the bus.
-        TheApp.getOtto().unregister(this);
+        getApp().unregister(this);
     }
 
 
-
+    protected TheApp getApp()
+    {
+        return (TheApp) this.getActivity().getApplication();
+    }
 }

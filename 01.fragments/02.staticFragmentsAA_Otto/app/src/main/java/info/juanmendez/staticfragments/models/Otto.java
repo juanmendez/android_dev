@@ -1,17 +1,21 @@
-package info.juanmendez.staticfragments;
-
-import android.app.Application;
+package info.juanmendez.staticfragments.models;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;
 import com.squareup.otto.ThreadEnforcer;
 
-import info.juanmendez.staticfragments.models.ValueChangedEvent;
+import org.androidannotations.annotations.EBean;
 
-public class TheApp extends Application
+@EBean( scope= EBean.Scope.Singleton)
+public class Otto
 {
-    private Bus bus  = new Bus( ThreadEnforcer.MAIN);
+    private Bus bus;
     private ValueChangedEvent event;
+
+    Otto()
+    {
+        bus  = new Bus( ThreadEnforcer.MAIN);
+    }
 
     public void register( Object o )
     {

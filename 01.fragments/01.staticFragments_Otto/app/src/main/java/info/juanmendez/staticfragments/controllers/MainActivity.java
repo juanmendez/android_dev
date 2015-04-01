@@ -43,65 +43,21 @@ public class MainActivity extends Activity
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        consoleLog( "onRestoreInstanceState");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-        consoleLog( "onRestart");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-
-        consoleLog( "onSaveInstanceState");
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
 
-        consoleLog( "onPause");
-        TheApp.getOtto().unregister(this);
+        ((TheApp)getApplication()).unregister(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        TheApp.getOtto().register(this);
-        consoleLog("onResume");
+
+        ((TheApp)getApplication()).register(this);
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        consoleLog( "onStart");
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-
-        consoleLog( "onDestroy" );
-    }
-
-    private void consoleLog( String content )
-    {
-        Log.i(tag, "MainActivity: " + content);
-    }
-
     @Subscribe
     public void onValueChanged( ValueChangedEvent event )
     {
-
         if( event.getTarget() == left && ( right == null || !right.isVisible() ) )
         {
             Intent intent = new Intent( this, RightActivity.class );

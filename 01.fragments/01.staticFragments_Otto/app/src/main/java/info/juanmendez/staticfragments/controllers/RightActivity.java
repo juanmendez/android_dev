@@ -26,7 +26,6 @@ public class RightActivity extends Activity
 
         super.onCreate(savedInstanceState);
 
-        consoleLog( "onCreate");
         setContentView( R.layout.activity_right );
 
         right = (RightFragment) getFragmentManager().findFragmentById(R.id.rightFragment);
@@ -36,60 +35,17 @@ public class RightActivity extends Activity
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        consoleLog( "onRestoreInstanceState");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-        consoleLog( "onRestart");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-
-        consoleLog( "onSaveInstanceState");
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
 
-        consoleLog( "onPause");
-        TheApp.getOtto().unregister(this);
+        ((TheApp)getApplication()).unregister(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        consoleLog( "onResume");
-        TheApp.getOtto().register(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        consoleLog( "onStart");
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-
-        consoleLog( "onDestroy" );
-    }
-
-    private void consoleLog( String content )
-    {
-        Log.i(MainActivity.tag, "RightActivity: " + content);
+        ((TheApp)getApplication()).register(this);
     }
 
     @Subscribe
