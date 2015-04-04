@@ -50,12 +50,12 @@ public class MainActivity extends Activity
             }
         }**/
 
-        fts.add(R.id.leftContainer, left);
+        fts.replace(R.id.leftContainer, left);
         fts.addToBackStack("left");
 
         if( findViewById(R.id.rightContainer ) != null  )
         {
-            fts.add(R.id.rightContainer, right);
+            fts.replace(R.id.rightContainer, right);
             fts.addToBackStack( "right");
         }
 
@@ -117,10 +117,13 @@ public class MainActivity extends Activity
                 tag = "left";
             }
 
+            /*01
             Bundle args = new Bundle();
             args.putInt("value", event.getValue() );
             f.setArguments( args );
-            fts.add(R.id.leftContainer, f );
+            */
+
+            fts.replace(R.id.leftContainer, f );
             fts.addToBackStack( tag );
             fts.commit();
         }
