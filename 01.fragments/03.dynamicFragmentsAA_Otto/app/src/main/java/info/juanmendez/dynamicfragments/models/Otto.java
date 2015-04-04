@@ -14,10 +14,6 @@ public class Otto
     private Bus bus;
     public static final String tag = "dynamicFragment";
 
-    public ValueChangedEvent getEvent() {
-        return event;
-    }
-
     private ValueChangedEvent event;
 
     Otto()

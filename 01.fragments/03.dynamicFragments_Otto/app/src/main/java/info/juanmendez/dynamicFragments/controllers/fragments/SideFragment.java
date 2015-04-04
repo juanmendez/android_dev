@@ -40,7 +40,7 @@ public class SideFragment extends Fragment {
             //\01
 
             //02
-            ValueChangedEvent event = getApp().getEvent();
+            ValueChangedEvent event = getApp().produceValueEvent();
 
             if( event != null )
             {

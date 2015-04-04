@@ -42,8 +42,4 @@ public class TheApp extends Application
     {
         Log.i(tag, content);
     }
-
-    public ValueChangedEvent getEvent() {
-        return event;
-    }
 }

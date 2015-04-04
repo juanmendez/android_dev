@@ -37,7 +37,7 @@ public class SideHelper {
     @AfterViews
     void afterViews()
     {
-        ValueChangedEvent event = otto.getEvent();
+        ValueChangedEvent event = otto.produceValueEvent();
 
         if( event != null )
         {
