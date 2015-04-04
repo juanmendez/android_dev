@@ -1,0 +1,120 @@
+package info.juanmendez.dynamicFragments.controllers;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
+import com.squareup.otto.Subscribe;
+
+import info.juanmendez.dynamicFragments.R;
+import info.juanmendez.dynamicFragments.TheApp;
+import info.juanmendez.dynamicFragments.controllers.fragments.LeftFragment;
+import info.juanmendez.dynamicFragments.controllers.fragments.RightFragment;
+import info.juanmendez.dynamicFragments.controllers.fragments.SideFragment;
+import info.juanmendez.dynamicFragments.models.ValueChangedEvent;
+
+public class MainActivity extends Activity
+{
+    SideFragment right;
+    SideFragment left;
+    ValueChangedEvent valueChanged;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        FragmentTransaction fts = getFragmentManager().beginTransaction();
+
+        right = new RightFragment();
+        left = new LeftFragment();
+
+        if( savedInstanceState != null )
+        {
+            int value = savedInstanceState.getInt( "value",0);
+
+            if( value != 0 )
+            {
+                Bundle args = new Bundle();
+                args.putInt("value", value );
+                right.setArguments( args );
+                left.setArguments( args );
+            }
+        }
+
+        fts.add(R.id.leftContainer, left);
+        fts.addToBackStack("left");
+
+        if( findViewById(R.id.rightContainer ) != null  )
+        {
+            fts.add(R.id.rightContainer, right);
+            fts.addToBackStack( "right");
+        }
+
+        if( valueChanged != null )
+        {
+            TheApp.consoleLog( "mainActivity: " + valueChanged.toString() );
+        }
+
+        fts.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        ((TheApp)getApplication()).unregister(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        if( valueChanged != null )
+        {
+            outState.putInt( "value", valueChanged.getValue() );
+        }
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ((TheApp)getApplication()).register(this);
+    }
+    @Subscribe
+    public void onValueChanged( ValueChangedEvent event )
+    {
+        valueChanged = event;
+
+        if( findViewById(R.id.rightContainer ) == null  )
+        {
+            FragmentTransaction fts = getFragmentManager().beginTransaction();
+            Fragment f = left;
+            String tag = "left";
+
+            if( !right.isVisible() )
+            {
+                right = new RightFragment();
+                f = right;
+                tag = "right";
+            }
+            else
+            {
+                left = new LeftFragment();
+                f = left;
+                tag = "left";
+            }
+
+            Bundle args = new Bundle();
+            args.putInt("value", event.getValue() );
+            f.setArguments( args );
+            fts.add(R.id.leftContainer, f );
+            fts.addToBackStack( tag );
+            fts.commit();
+        }
+    }
+}
