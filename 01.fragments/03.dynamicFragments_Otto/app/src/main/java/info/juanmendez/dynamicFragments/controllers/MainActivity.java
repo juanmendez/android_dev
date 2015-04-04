@@ -3,7 +3,6 @@ package info.juanmendez.dynamicFragments.controllers;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.squareup.otto.Subscribe;
@@ -15,6 +14,11 @@ import info.juanmendez.dynamicFragments.controllers.fragments.RightFragment;
 import info.juanmendez.dynamicFragments.controllers.fragments.SideFragment;
 import info.juanmendez.dynamicFragments.models.ValueChangedEvent;
 
+/**
+ * upon activity initialization we can check
+ * for saved instance state for last valueChanged 01.
+ * otherwise, the app can hold such value 02
+ */
 public class MainActivity extends Activity
 {
     SideFragment right;
@@ -31,6 +35,8 @@ public class MainActivity extends Activity
         right = new RightFragment();
         left = new LeftFragment();
 
+        //01
+        /**
         if( savedInstanceState != null )
         {
             int value = savedInstanceState.getInt( "value",0);
@@ -42,7 +48,7 @@ public class MainActivity extends Activity
                 right.setArguments( args );
                 left.setArguments( args );
             }
-        }
+        }**/
 
         fts.add(R.id.leftContainer, left);
         fts.addToBackStack("left");
@@ -68,6 +74,8 @@ public class MainActivity extends Activity
         ((TheApp)getApplication()).unregister(this);
     }
 
+    //01
+    /**
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
@@ -77,7 +85,7 @@ public class MainActivity extends Activity
         }
 
         super.onSaveInstanceState(outState);
-    }
+    }**/
 
     @Override
     protected void onResume() {

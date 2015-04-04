@@ -12,6 +12,7 @@ import info.juanmendez.dynamicFragments.models.ValueChangedEvent;
 public class TheApp extends Application
 {
     private Bus bus  = new Bus( ThreadEnforcer.MAIN);
+
     private ValueChangedEvent event;
     public static final String tag = "dynamicFragments";
 
@@ -40,5 +41,9 @@ public class TheApp extends Application
     public static void consoleLog( String content )
     {
         Log.i(tag, content);
+    }
+
+    public ValueChangedEvent getEvent() {
+        return event;
     }
 }
