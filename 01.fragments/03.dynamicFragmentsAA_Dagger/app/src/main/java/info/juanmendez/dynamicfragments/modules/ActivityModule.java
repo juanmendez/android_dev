@@ -26,7 +26,6 @@ import info.juanmendez.dynamicfragments.helpers.SideHelper_;
  @Module(
         injects = {
                 MainActivity_.class,
-
                 LeftFragment_.class,
                 RightFragment_.class,
                 SideHelper_.class
@@ -44,8 +43,26 @@ public class ActivityModule
     }
 
     @Provides
+    @Singleton
+    public MainActivity mainActivityProvider()
+    {
+        return this.activity;
+    }
+
+    @Provides
     public InputMethodManager inputMethodManagerProvider()
     {
         return (InputMethodManager)this.activity.getSystemService(Context.INPUT_METHOD_SERVICE );
+    }
+
+    /**
+     * This provider is very dried when it comes to Dagger injections. Just by using a breakpoint, I could
+     * tell none of those dagger injections are available.
+     * @return
+     */
+    @Provides
+    public SideHelper sideHelperProvider()
+    {
+        return SideHelper_.getInstance_( (Context) this.activity );
     }
 }

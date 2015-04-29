@@ -1,5 +1,6 @@
 package info.juanmendez.dynamicfragments.controllers.fragments;
 
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import org.androidannotations.annotations.ViewById;
 import javax.inject.Inject;
 
 import info.juanmendez.dynamicfragments.R;
+import info.juanmendez.dynamicfragments.controllers.MainActivity;
+import info.juanmendez.dynamicfragments.helpers.FragmentHelper;
 import info.juanmendez.dynamicfragments.helpers.SideHelper;
 import info.juanmendez.dynamicfragments.models.BusEvent;
 import info.juanmendez.dynamicfragments.models.ValueChangedEvent;
@@ -25,8 +28,8 @@ import info.juanmendez.dynamicfragments.models.ValueChangedEvent;
 @EFragment( R.layout.left_fragment )
 public class LeftFragment extends TheFragment
 {
-    @Bean
-    SideHelper helper;
+    @Inject
+    FragmentHelper fragmentHelper;
 
     @ViewById (R.id.editText)
     EditText editText;
@@ -34,13 +37,20 @@ public class LeftFragment extends TheFragment
     @Inject
     BusEvent busEvent;
 
-    @AfterViews
-    void afterViews()
-    {
+    /**
+     * in order to listen to changes,, make sure it is once the Activity is created.
+     * @AfterViews is called when fragment has been created and is first available.
+     * That still requires to wait for Activity. As I was waiting for AfterViews, I noticed
+     * the editText reference in FragmentHelper being lost.
+     * @param savedInstanceState
+     */
+    @Override public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ((MainActivity) getActivity()).inject( this );
+
         if( editText != null )
         {
-            helper.setFragmentName( "leftFragment" );
-
+            fragmentHelper.setEditText( editText );
             editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
                 @Override
@@ -50,7 +60,7 @@ public class LeftFragment extends TheFragment
                         try
                         {
                             busEvent.requestValueChanged(new ValueChangedEvent(Integer.valueOf(editText.getText().toString()), LeftFragment.this));
-                            helper.hideKeyboard();
+                            fragmentHelper.hideKeyboard();
                         }
                         catch (Exception e)
                         {
@@ -84,6 +94,6 @@ public class LeftFragment extends TheFragment
     public void onValueChanged( ValueChangedEvent event )
     {
         if( event.getTarget() != this )
-            helper.receiveValue( event.getValue() );
+            fragmentHelper.receiveValue( event.getValue() );
     }
 }

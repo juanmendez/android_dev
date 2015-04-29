@@ -1,5 +1,6 @@
 package info.juanmendez.dynamicfragments.controllers.fragments;
 
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import org.androidannotations.annotations.ViewById;
 import javax.inject.Inject;
 
 import info.juanmendez.dynamicfragments.R;
+import info.juanmendez.dynamicfragments.controllers.MainActivity;
+import info.juanmendez.dynamicfragments.helpers.FragmentHelper;
 import info.juanmendez.dynamicfragments.helpers.SideHelper;
 import info.juanmendez.dynamicfragments.models.BusEvent;
 import info.juanmendez.dynamicfragments.models.ValueChangedEvent;
@@ -28,18 +31,24 @@ public class RightFragment extends TheFragment
     @Inject
     BusEvent busEvent;
 
-    @Bean
-    SideHelper helper;
+    @Inject
+    SideHelper sideHelper;
+
+    @Inject
+    FragmentHelper fragmentHelper;
 
     @ViewById (R.id.editText)
     EditText editText;
 
-    @AfterViews
-    void afterViews()
-    {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        ((MainActivity) getActivity()).inject( this );
+
         if( editText != null )
         {
-            helper.setFragmentName( "rightFragment" );
+            fragmentHelper.setEditText( editText );
             editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
                 @Override
@@ -49,7 +58,7 @@ public class RightFragment extends TheFragment
 
                         try
                         {
-                            helper.hideKeyboard();
+                            fragmentHelper.hideKeyboard();
                             busEvent.requestValueChanged(new ValueChangedEvent(Integer.valueOf(editText.getText().toString()), RightFragment.this));
                         }
                         catch (Exception e)
@@ -85,7 +94,7 @@ public class RightFragment extends TheFragment
     {
         if( event.getTarget() != this )
         {
-            helper.receiveValue(event.getValue());
+            fragmentHelper.receiveValue(event.getValue());
         }
     }
 }

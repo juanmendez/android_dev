@@ -18,6 +18,12 @@ import info.juanmendez.dynamicfragments.models.ValueChangedEvent;
 @EBean
 public class SideHelper {
 
+    /**
+     * I tried to use SideHelper through Dagger and instantiating it as
+     * ActivityModule.sideHelperProvider but what I noticed is other Dagger injections
+     * are not created when this class is instantiated. The only injection available is
+     * parentActivity which is from AndroidAnnotations
+     */
     @Inject
     BusEvent busEvent;
 
@@ -32,14 +38,14 @@ public class SideHelper {
 
     private String fragmentName;
 
-    public SideHelper()
-    {
+    @Inject
+    public SideHelper(){
+
     }
 
     @AfterViews
     void afterViews()
     {
-        parentActivity.inject( this );
         ValueChangedEvent event = busEvent.produceValueEvent();
 
         if( event != null )

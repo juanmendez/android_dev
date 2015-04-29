@@ -110,4 +110,12 @@ public class MainActivity extends ActionBarActivity
     public void inject(Object object) {
         activityGraph.inject(object);
     }
+
+    @Override
+    protected void onDestroy() {
+        // Eagerly clear the reference to the activity graph to allow it to be garbage collected as
+        // soon as possible.
+        activityGraph = null;
+        super.onDestroy();
+    }
 }
