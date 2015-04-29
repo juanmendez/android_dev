@@ -35,6 +35,13 @@ public class FirstFragment extends Fragment
     @ViewById
     TextView tvLabel;
 
+    @Override public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        ((MainActivity) getActivity()).inject( this );
+
+    }
+
     @AfterViews
     void afterViews()
     {

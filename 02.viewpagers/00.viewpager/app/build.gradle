@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 //added for android annotations
 apply plugin: 'android-apt'
 def AAVersion = '3.2'
+def DagerVersion = '1.2.2'
 def MyProject = 'info.juanmendez.android.viewpager'
 
 //buildscript added for android annotations
@@ -63,4 +64,6 @@ dependencies {
     //added for android annotations
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
+    compile "com.squareup.dagger:dagger:$DagerVersion"
+    compile "com.squareup.dagger:dagger-compiler:$DagerVersion"
 }
