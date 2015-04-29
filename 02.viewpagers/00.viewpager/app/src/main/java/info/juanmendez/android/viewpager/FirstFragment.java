@@ -1,9 +1,8 @@
 package info.juanmendez.android.viewpager;
 
-import android.app.Fragment;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -26,6 +25,8 @@ public class FirstFragment extends Fragment
     @FragmentArg
     int someColor;
 
+    private Boolean isColorApplied = false;
+
     public static FirstFragment newInstance( int page, String title, int color )
     {
         FirstFragment fragment = FirstFragment_.builder().someInt( page).someTitle( title ).someColor( color ).build();
@@ -35,24 +36,22 @@ public class FirstFragment extends Fragment
     @ViewById
     TextView tvLabel;
 
+    private MainActivity mainActivity;
+
     @Override public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        ((MainActivity) getActivity()).inject( this );
+        mainActivity = ((MainActivity) getActivity());
+        mainActivity.inject(this);
 
+        ColorDrawable cd = new ColorDrawable( mainActivity.getResources().getColor( someColor ));
+        this.getView().setBackground(cd);
     }
 
     @AfterViews
     void afterViews()
     {
         tvLabel.setText( someInt + " -- " + someTitle );
-
-        if( this.getView() != null )
-        {
-            ColorDrawable cd = new ColorDrawable( getActivity().getResources().getColor( someColor ));
-            this.getView().setBackground(cd);
-        }
-
     }
 
 }
