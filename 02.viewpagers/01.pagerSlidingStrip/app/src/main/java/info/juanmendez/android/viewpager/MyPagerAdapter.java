@@ -37,4 +37,9 @@ public class MyPagerAdapter extends FragmentPagerAdapter
     public CharSequence getPageTitle(int position) {
         return "Page " + position;
     }
+
+    @Override
+    public float getPageWidth (int position) {
+        return 0.93f;
+    }
 }

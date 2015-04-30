@@ -36,6 +36,10 @@ public class MainActivity extends ActionBarActivity {
 
         vpPager.setAdapter( myPagerAdapter );
         tabStrip.setViewPager( vpPager );
+
+        vpPager.setOffscreenPageLimit(3);
+        vpPager.setClipToPadding(false);
+        vpPager.setPageMargin(12);
     }
 
     public void inject(Object object)
