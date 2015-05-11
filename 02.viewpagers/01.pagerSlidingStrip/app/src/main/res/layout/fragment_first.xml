@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <!--http://stackoverflow.com/questions/3276448/android-edit-text-go-button-->
-    <TextView android:id="@+id/tvLabel" android:layout_width="match_parent" android:layout_height="wrap_content"
+    <EditText android:id="@+id/tvLabel" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textSize="@dimen/abc_text_size_large_material"
         android:textColor="#ff000000" />

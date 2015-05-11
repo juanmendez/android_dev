@@ -25,8 +25,6 @@ public class FirstFragment extends Fragment
     @FragmentArg
     int someColor;
 
-    private Boolean isColorApplied = false;
-
     public static FirstFragment newInstance( int page, String title, int color )
     {
         FirstFragment fragment = FirstFragment_.builder().someInt( page).someTitle( title ).someColor( color ).build();
