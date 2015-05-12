@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.widget.ListView;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
@@ -17,6 +18,13 @@ import java.util.List;
 public class AsyncTasker extends AsyncTask<String[], String, String>
 {
     @Bean ListAdapter adapter;
+    @Bean BusHandler busHandler;
+
+    @AfterInject
+    void afterInject()
+    {
+        busHandler.register( this );
+    }
 
     @Override
     protected String doInBackground(String[]... stringArray) {
@@ -41,8 +49,9 @@ public class AsyncTasker extends AsyncTask<String[], String, String>
 
     @Override
     protected void onProgressUpdate(String... item) {
-        adapter.getList().add(item[0]);
-        adapter.notifyDataSetChanged();
+
+        StringEvent e = new StringEvent( item[0]);
+        busHandler.requestValueChanged(e);
     }
 
     @Override
