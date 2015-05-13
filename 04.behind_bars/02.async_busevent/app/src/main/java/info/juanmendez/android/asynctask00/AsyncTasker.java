@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Juan on 5/11/2015.
  */
 
-@EBean
+@EBean(scope = EBean.Scope.Singleton)
 public class AsyncTasker extends AsyncTask<String[], String, String>
 {
     @Bean ListAdapter adapter;

@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 
 //added for android annotations
 apply plugin: 'android-apt'
-def AAVersion = '3.3'
+def AAVersion = '3.2'
 def DagerVersion = '1.2.2'
 def MyProject = 'info.juanmendez.android.asynctask00'
 
@@ -65,5 +65,4 @@ dependencies {
     //added for android annotations
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
-    compile 'com.squareup:otto:1.3.6'
 }
