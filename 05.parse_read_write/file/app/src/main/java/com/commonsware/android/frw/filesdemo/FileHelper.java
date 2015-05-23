@@ -32,4 +32,9 @@ public class FileHelper
 
         return (result);
     }
+
+    public static synchronized void remove( File target ) throws IOException
+    {
+        FileUtils.forceDelete( target );
+    }
 }

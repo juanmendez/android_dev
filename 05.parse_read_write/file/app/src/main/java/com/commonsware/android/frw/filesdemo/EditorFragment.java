@@ -35,6 +35,9 @@ public class EditorFragment extends Fragment
     LoadTask loadTask;
 
     @Bean
+    DeleteTask deleteTask;
+
+    @Bean
     BusHandler busHandler;
 
     @Override
@@ -71,6 +74,12 @@ public class EditorFragment extends Fragment
         saveTask.execute(editor.getText().toString(), getTarget());
     }
 
+    @OptionsItem
+    void deleteBackgroundSelected()
+    {
+        deleteTask.execute( getTarget() );
+    }
+
     @Subscribe
     public void onValueChanged( String content )
     {
@@ -85,6 +94,12 @@ public class EditorFragment extends Fragment
     {
         Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         Logging.print("Exception saving file" + e.getMessage());
+    }
+
+    @Subscribe
+    public void onDeleteEvent( DeleteEvent e )
+    {
+        editor.setText( "" );
     }
 
     private File getTarget()

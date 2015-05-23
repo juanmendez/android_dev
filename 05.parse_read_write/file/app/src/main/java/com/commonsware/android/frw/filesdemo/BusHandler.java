@@ -15,6 +15,7 @@ public class BusHandler {
     private Bus bus;
     private String content;
     private Exception exception;
+    private DeleteEvent event;
 
     BusHandler(){
         bus = new Bus(ThreadEnforcer.MAIN );
@@ -52,5 +53,18 @@ public class BusHandler {
     public Exception produceException()
     {
         return exception;
+    }
+
+
+    public void requestEvent(DeleteEvent e)
+    {
+        event = e;
+        bus.post(event);
+    }
+
+    @Produce
+    public DeleteEvent productDeleteEvent()
+    {
+        return event;
     }
 }

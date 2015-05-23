@@ -14,6 +14,13 @@
         android:title="@string/save">
     </item>
     <item
+        android:id="@+id/deleteBackground"
+        android:icon="@android:drawable/ic_menu_delete"
+        app:showAsAction="never"
+        android:title="@string/deleteBackground">
+    </item>
+
+    <item
         android:id="@+id/saveBackground"
         android:icon="@android:drawable/ic_menu_save"
         app:showAsAction="never"

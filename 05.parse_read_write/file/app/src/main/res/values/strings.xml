@@ -7,5 +7,6 @@
     <string name="save">Save</string>
     <string name="location">Your Location</string>
     <string name="saveBackground">Save in Background</string>
+    <string name="deleteBackground">Delete in Background</string>
     <string name="action_settings">Action Settings</string>
 </resources>
