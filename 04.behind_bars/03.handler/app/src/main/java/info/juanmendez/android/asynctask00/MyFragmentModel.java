@@ -26,6 +26,11 @@ public class MyFragmentModel extends Fragment
         setRetainInstance(true);
     }
 
+    /**
+     * I didn't search for a more optimized form to split the string..
+     * I'm sure there is one.
+     * @return
+     */
     public List<String> getItems()
     {
         int loc = _list.size();
