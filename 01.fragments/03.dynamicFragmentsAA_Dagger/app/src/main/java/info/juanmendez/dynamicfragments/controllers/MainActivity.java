@@ -52,7 +52,6 @@ public class MainActivity extends ActionBarActivity
         busEvent.register(this);
     }
 
-
     @AfterViews
     void afterViews()
     {

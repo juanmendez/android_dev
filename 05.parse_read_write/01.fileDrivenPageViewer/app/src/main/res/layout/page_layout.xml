@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/pageTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/page_title"
+        android:inputType="textAutoComplete" />
+
+    <EditText
+        android:inputType="textMultiLine"
+        android:lines="15"
+        android:minLines="10"
+        android:maxLines="20"
+        android:gravity="top|left"
+        android:id="@+id/pageContent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/page_content" />
+</LinearLayout>
