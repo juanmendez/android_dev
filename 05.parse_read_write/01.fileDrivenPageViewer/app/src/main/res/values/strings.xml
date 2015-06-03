@@ -6,8 +6,9 @@
     <string name="bg">Background</string>
     <string name="save">Save</string>
     <string name="location">Your Location</string>
-    <string name="saveBackground">Save in Background</string>
-    <string name="deleteBackground">Delete in Background</string>
+    <string name="savePage">Save Page</string>
+    <string name="deletePage">Delete Page</string>
+    <string name="addPage">Add Page</string>
     <string name="action_settings">Action Settings</string>
     <string name="page_title">Title</string>
     <string name="page_content">Content</string>

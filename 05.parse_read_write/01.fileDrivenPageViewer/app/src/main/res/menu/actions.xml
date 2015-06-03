@@ -1,29 +1,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".FileDemoActivity">
-    <item
-        android:id="@+id/location"
-        android:actionLayout="@layout/action_location"
-        app:showAsAction="always"
-        android:title="@string/location">
-    </item>
-    <item
-        android:id="@+id/save"
-        android:icon="@android:drawable/ic_menu_save"
-        app:showAsAction="always|withText"
-        android:title="@string/save">
-    </item>
-    <item
-        android:id="@+id/deleteBackground"
-        android:icon="@android:drawable/ic_menu_delete"
-        app:showAsAction="never"
-        android:title="@string/deleteBackground">
-    </item>
 
     <item
         android:id="@+id/saveBackground"
         android:icon="@android:drawable/ic_menu_save"
-        app:showAsAction="never"
-        android:title="@string/saveBackground">
+        app:showAsAction="always"
+        android:title="@string/savePage">
+    </item>
+
+    <item
+        android:id="@+id/deleteBackground"
+        android:icon="@android:drawable/ic_menu_delete"
+        app:showAsAction="always"
+        android:title="@string/deletePage">
+    </item>
+
+    <item
+        android:id="@+id/addNewPageBackground"
+        android:icon="@android:drawable/ic_menu_add"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/addPage">
     </item>
 </menu>

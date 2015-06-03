@@ -1,14 +1,16 @@
 package com.commonsware.android.frw.filesdemo;
 
 import android.support.v4.app.Fragment;
+import android.view.MenuItem;
 
+import com.commonsware.android.frw.filesdemo.model.ActionEvent;
 import com.commonsware.android.frw.filesdemo.model.MenuItemEvent;
 import com.commonsware.android.frw.filesdemo.model.Page;
 import com.commonsware.android.frw.filesdemo.service.BusHandler;
+import com.commonsware.android.frw.filesdemo.service.LoadTask;
+import com.commonsware.android.frw.filesdemo.service.SaveTask;
 import com.commonsware.android.frw.filesdemo.utils.Logging;
 import com.fasterxml.jackson.jr.ob.JSON;
-import com.fasterxml.jackson.jr.ob.JSONComposer;
-import com.fasterxml.jackson.jr.ob.comp.ObjectComposer;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterInject;
@@ -16,6 +18,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -30,6 +33,12 @@ public class PageFragment extends Fragment
     @Bean
     BusHandler busHandler;
 
+    @Bean
+    SaveTask saveTask;
+
+    @Bean
+    LoadTask loadTask;
+
     Page _page;
 
     public static PageFragment newInstance( Page thisPage ) throws IOException {
@@ -41,15 +50,7 @@ public class PageFragment extends Fragment
          * this application uses jackson-jr, the new fragment is going to have injected a json object
          * and generated as string.
          */
-        JSON json = JSON.std;
-        JSONComposer composer = json.with(JSON.Feature.PRETTY_PRINT_OUTPUT).composeString();
-        ObjectComposer objectComposer = composer.startObject();
-        objectComposer.put( "title", thisPage.getTitle() ).
-                put("dateCreated", thisPage.getDateCreated().getTime()).
-                put("fileName", thisPage.getFileName()).
-                put("content", thisPage.getContent() ).end();
-
-        return PageFragment_.builder()._pageJson(composer.finish().toString()).build();
+        return PageFragment_.builder()._pageJson( Page.getJSONPage(thisPage, true )).build();
     }
 
     /**
@@ -62,8 +63,33 @@ public class PageFragment extends Fragment
     {
         try {
             _page = JSON.std.beanFrom( Page.class, _pageJson );
+
+            //lets go and load the rest of the application..
+            loadTask.execute( new File( getActivity().getFilesDir(), _page.getFileName() ) );
+
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    @Subscribe
+    public void actionEventSubscriber( ActionEvent event )
+    {
+        if( event.getFile().getName().equals(_page.getFileName()) )
+        {
+            if( event.getAction() == ActionEvent.ActionType.LOAD )
+            {
+                try {
+
+                    if( event.getContent() != null && !event.getContent().isEmpty() )
+                    {
+                        _page = JSON.std.beanFrom(Page.class, event.getContent() );
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -95,7 +121,38 @@ public class PageFragment extends Fragment
 
     @Subscribe
     public void menuItemSubscriber( MenuItemEvent menuItemEvent ) {
-        Logging.print(menuItemEvent.getMenuItem().toString());
+        MenuItem menuItem = menuItemEvent.getMenuItem();
+
+        switch( menuItem.getItemId() )
+        {
+            case R.id.saveBackground:
+                saveHandler();
+                break;
+
+            case R.id.deleteBackground:
+
+                break;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+
+        busHandler.unregister(this);
+        super.onDetach();
+    }
+
+    private void saveHandler()
+    {
+        try{
+
+            File file = new File( getActivity().getFilesDir(), _page.getFileName() );
+            saveTask.execute( Page.getJSONPage(_page, true ), file );
+        }
+        catch (Exception e )
+        {
+            Logging.print( "saving pages.json has an exception" + e.getMessage() );
+        }
     }
 
     public Page getPage()

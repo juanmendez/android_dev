@@ -12,7 +12,7 @@ import java.io.File;
 /**
  * I wanted to show the demo having this class separate rather than being an internal one at EditorFragment
  */
-@EBean(scope = EBean.Scope.Singleton)
+@EBean
 public class LoadTask
 {
     private String _content = "";

@@ -1,9 +1,8 @@
 package com.commonsware.android.frw.filesdemo.service;
 
-import android.view.MenuItem;
-
 import com.commonsware.android.frw.filesdemo.model.ActionEvent;
 import com.commonsware.android.frw.filesdemo.model.MenuItemEvent;
+import com.commonsware.android.frw.filesdemo.utils.Logging;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;
 import com.squareup.otto.ThreadEnforcer;
@@ -27,12 +26,29 @@ public class BusHandler {
 
     public void register( Object o )
     {
-        bus.register( o );
+        try{
+            bus.register(o);
+        }
+        catch (Exception e )
+        {
+            Logging.print( "bus register exception: " + e.getMessage() );
+        }
     }
 
+    /**
+     * It seems like the pagefragment is discarded, and this can cause
+     * an error if just trying to unregister it.
+     * @param o
+     */
     public void unregister( Object o )
     {
-        bus.unregister(o);
+       try{
+           bus.unregister(o);
+       }
+       catch (Exception e )
+       {
+           Logging.print( "bus unregister exception: " + e.getMessage() );
+       }
     }
 
     public void requestMenuItem( MenuItemEvent menuItemEvent )

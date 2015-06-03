@@ -1,4 +1,4 @@
-package com.commonsware.android.frw.filesdemo.model;
+package com.commonsware.android.frw.filesdemo.service;
 
 import com.commonsware.android.frw.filesdemo.TheApp;
 

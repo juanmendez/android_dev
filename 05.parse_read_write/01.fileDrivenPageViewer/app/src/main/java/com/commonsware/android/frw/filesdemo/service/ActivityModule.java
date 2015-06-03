@@ -1,7 +1,6 @@
-package com.commonsware.android.frw.filesdemo.model;
+package com.commonsware.android.frw.filesdemo.service;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.inputmethod.InputMethodManager;
 
@@ -10,7 +9,6 @@ import com.commonsware.android.frw.filesdemo.MainActivity_;
 import com.commonsware.android.frw.filesdemo.PageFragment;
 import com.commonsware.android.frw.filesdemo.PageFragment_;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

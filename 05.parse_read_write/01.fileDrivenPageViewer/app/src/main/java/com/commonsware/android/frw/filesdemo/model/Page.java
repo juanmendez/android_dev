@@ -1,5 +1,11 @@
 package com.commonsware.android.frw.filesdemo.model;
 
+import com.fasterxml.jackson.jr.ob.JSON;
+import com.fasterxml.jackson.jr.ob.JSONComposer;
+import com.fasterxml.jackson.jr.ob.JSONObjectException;
+import com.fasterxml.jackson.jr.ob.comp.ObjectComposer;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,10 +51,14 @@ public class Page
         this.title = title;
     }
 
-    private String fileName;
-    private Date dateCreated;
-    private String content;
-    private String title;
+    /**
+     * lets fill these to their defaults, so that we don't worry
+     * for exceptions when creating PageFragment
+     */
+    private String fileName = "";
+    private Date dateCreated = new Date();
+    private String content = "";
+    private String title = "";
 
     private static final SimpleDateFormat formatter = new SimpleDateFormat("EEEE, yyyy/MM/dd/hh:mm:ss");
 
@@ -62,5 +72,19 @@ public class Page
         this.dateCreated = dateCreated;
         this.content = content;
         this.title = title;
+    }
+
+    public static String getJSONPage( Page page, Boolean full ) throws IOException
+    {
+        JSON json = JSON.std;
+        JSONComposer composer = json.with(JSON.Feature.PRETTY_PRINT_OUTPUT).composeString();
+        ObjectComposer objectComposer = composer.startObject();
+
+        objectComposer.put( "title", page.getTitle() ).
+                put("dateCreated", page.getDateCreated().getTime()).
+                put("fileName", page.getFileName()).
+                put("content", page.getContent() ).end();
+
+        return composer.finish().toString();
     }
 }

@@ -9,14 +9,17 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.commonsware.android.frw.filesdemo.model.ActionEvent;
-import com.commonsware.android.frw.filesdemo.model.ActivityModule;
+import com.commonsware.android.frw.filesdemo.service.ActivityModule;
 import com.commonsware.android.frw.filesdemo.model.MenuItemEvent;
 import com.commonsware.android.frw.filesdemo.model.Page;
 import com.commonsware.android.frw.filesdemo.model.PagerAdapter;
-import com.commonsware.android.frw.filesdemo.service.BuildTask;
 import com.commonsware.android.frw.filesdemo.service.BusHandler;
 import com.commonsware.android.frw.filesdemo.service.LoadTask;
+import com.commonsware.android.frw.filesdemo.service.SaveTask;
+import com.commonsware.android.frw.filesdemo.utils.Logging;
 import com.fasterxml.jackson.jr.ob.JSON;
+import com.fasterxml.jackson.jr.ob.JSONComposer;
+import com.fasterxml.jackson.jr.ob.comp.ArrayComposer;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -27,6 +30,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
     LoadTask loadTask;
 
     @Bean
-    BuildTask buildTask;
+    SaveTask saveTask;
 
     @Bean
     BusHandler busHandler;
@@ -62,6 +66,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Inject
     FragmentManager fm;
+
+    private Boolean loaded = false;
 
     @Override
     public void onPause()
@@ -94,7 +100,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         //buildTask.execute();
-        loadTask.execute((new File(getFilesDir(), "pages.json")));
+        loadTask.execute((new File(getFilesDir(), "all_pages.json")));
     }
 
     private StrictMode.ThreadPolicy buildPolicy()
@@ -111,30 +117,36 @@ public class MainActivity extends ActionBarActivity {
     @Subscribe
     public void actionEventSubscriber( ActionEvent event )
     {
-        if( event.getAction() == ActionEvent.ActionType.LOAD )
+        if( event.getFile().getName().equals("all_pages.json") )
         {
-            /**
-             * after loading, lets use the new list  to generate pages for pagerviewer,
-             * and of course, through the adapter. Also lets not forget to update the adapter
-             * to show the new pages!
-             */
-            if( event.getFile().getName().equals("pages.json") )
+            if( event.getAction() == ActionEvent.ActionType.LOAD )
             {
+                /**
+                 * after loading, lets use the new list  to generate pages for pagerviewer,
+                 * and of course, through the adapter. Also lets not forget to update the adapter
+                 * to show the new pages!
+                 */
+                loaded = true;
                 try {
-
-                    List<Page> list = JSON.std.listOfFrom( Page.class, event.getContent() );
+                    List<Page> list;
+                    list = JSON.std.listOfFrom( Page.class, event.getContent() );
 
                     for( Page page: list)
                     {
                         fragmentList.add(PageFragment.newInstance(page));
                     }
-
-                    pagerAdapter.notifyDataSetChanged();
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                finally
+                {
+                    pagerAdapter.notifyDataSetChanged();
+                }
+            }
+            else
+            if( event.getAction() == ActionEvent.ActionType.SAVE )
+            {
+                Logging.print( "save page.json" );
             }
         }
     }
@@ -150,7 +162,77 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        busHandler.requestMenuItem( new MenuItemEvent( item ) );
+        if( loaded )
+        {
+            switch ( item.getItemId())
+            {
+                case R.id.addNewPageBackground:
+                    addNewPageHandler();
+                    break;
+
+                case R.id.saveBackground:
+                    savePageHandler();
+                    busHandler.requestMenuItem( new MenuItemEvent( item ) );
+                    break;
+
+                case R.id.deleteBackground:
+                    deletePageHandler();
+                    busHandler.requestMenuItem( new MenuItemEvent( item ) );
+                    break;
+
+                default:
+
+            }
+        }
+
         return (super.onOptionsItemSelected(item));
+    }
+
+    private void addNewPageHandler()
+    {
+        Page page = new Page( "page_" + fragmentList.size()  + ".json", new Date(), "", "" );
+
+        try {
+            fragmentList.add( PageFragment.newInstance(page) );
+            pagerAdapter.notifyDataSetChanged();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void savePageHandler()
+    {
+        try{
+
+            JSON json = JSON.std;
+            JSONComposer composer = json.with(JSON.Feature.PRETTY_PRINT_OUTPUT).composeString();
+            ArrayComposer arrayComposer = composer.startArray();
+
+
+            for( PageFragment pageFragment: fragmentList)
+            {
+                Page page = pageFragment.getPage();
+
+                if( page != null )
+                {
+                    arrayComposer.startObject().put("fileName", page.getFileName() ).end();
+                }
+            }
+
+            arrayComposer.end();
+            String myJsonString = composer.finish().toString();
+
+            File file = new File( this.getFilesDir(), "all_pages.json");
+            saveTask.execute( myJsonString, file );
+        }
+        catch (Exception e )
+        {
+            Logging.print( "saving all_pages.json has an exception" + e.getMessage() );
+        }
+    }
+
+    private void deletePageHandler()
+    {
+
     }
 }

@@ -1,5 +1,6 @@
 package com.commonsware.android.frw.filesdemo.service;
 
+import com.commonsware.android.frw.filesdemo.model.ActionEvent;
 import com.commonsware.android.frw.filesdemo.service.BusHandler;
 import com.commonsware.android.frw.filesdemo.service.FileHelper;
 
@@ -13,7 +14,7 @@ import java.io.File;
 /**
  * I wanted to show the demo having this class separate rather than being an internal one at EditorFragment
  */
-@EBean(scope = EBean.Scope.Singleton)
+@EBean
 public class SaveTask
 {
     @Bean
@@ -49,6 +50,10 @@ public class SaveTask
         if (e != null)
         {
             busHandler.requestException(e);
+        }
+        else
+        {
+            busHandler.requestEvent( new ActionEvent(ActionEvent.ActionType.SAVE, target));
         }
     }
 }

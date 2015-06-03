@@ -1,8 +1,8 @@
 package com.commonsware.android.frw.filesdemo;
 
 import android.app.Application;
-import com.commonsware.android.frw.filesdemo.model.AppModule;
-import javax.inject.Inject;
+import com.commonsware.android.frw.filesdemo.service.AppModule;
+
 import dagger.ObjectGraph;
 
 public class TheApp extends Application
