@@ -7,8 +7,7 @@ import com.commonsware.android.frw.filesdemo.model.ActionEvent;
 import com.commonsware.android.frw.filesdemo.model.MenuItemEvent;
 import com.commonsware.android.frw.filesdemo.model.Page;
 import com.commonsware.android.frw.filesdemo.service.BusHandler;
-import com.commonsware.android.frw.filesdemo.service.LoadTask;
-import com.commonsware.android.frw.filesdemo.service.SaveTask;
+import com.commonsware.android.frw.filesdemo.service.FileTask;
 import com.commonsware.android.frw.filesdemo.utils.Logging;
 import com.fasterxml.jackson.jr.ob.JSON;
 import com.squareup.otto.Subscribe;
@@ -34,10 +33,7 @@ public class PageFragment extends Fragment
     BusHandler busHandler;
 
     @Bean
-    SaveTask saveTask;
-
-    @Bean
-    LoadTask loadTask;
+    FileTask fileTask;
 
     Page _page;
 
@@ -50,7 +46,7 @@ public class PageFragment extends Fragment
          * this application uses jackson-jr, the new fragment is going to have injected a json object
          * and generated as string.
          */
-        return PageFragment_.builder()._pageJson( Page.getJSONPage(thisPage, true )).build();
+        return PageFragment_.builder()._pageJson( Page.getJSONPage(thisPage )).build();
     }
 
     /**
@@ -65,7 +61,7 @@ public class PageFragment extends Fragment
             _page = JSON.std.beanFrom( Page.class, _pageJson );
 
             //lets go and load the rest of the application..
-            loadTask.execute( new File( getActivity().getFilesDir(), _page.getFileName() ) );
+            fileTask.load_execute(new File(getActivity().getFilesDir(), _page.getFileName()));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,10 +106,12 @@ public class PageFragment extends Fragment
         {
             if (isVisibleToUser)
             {
+                _page.setVisible( true );
                 busHandler.register(this);
             }
             else
             {
+                _page.setVisible( false );
                 busHandler.unregister(this);
             }
         }
@@ -147,7 +145,7 @@ public class PageFragment extends Fragment
         try{
 
             File file = new File( getActivity().getFilesDir(), _page.getFileName() );
-            saveTask.execute( Page.getJSONPage(_page, true ), file );
+            fileTask.save_execute(Page.getJSONPage(_page ), file );
         }
         catch (Exception e )
         {

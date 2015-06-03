@@ -9,13 +9,12 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.commonsware.android.frw.filesdemo.model.ActionEvent;
-import com.commonsware.android.frw.filesdemo.service.ActivityModule;
 import com.commonsware.android.frw.filesdemo.model.MenuItemEvent;
 import com.commonsware.android.frw.filesdemo.model.Page;
 import com.commonsware.android.frw.filesdemo.model.PagerAdapter;
+import com.commonsware.android.frw.filesdemo.service.ActivityModule;
 import com.commonsware.android.frw.filesdemo.service.BusHandler;
-import com.commonsware.android.frw.filesdemo.service.LoadTask;
-import com.commonsware.android.frw.filesdemo.service.SaveTask;
+import com.commonsware.android.frw.filesdemo.service.FileTask;
 import com.commonsware.android.frw.filesdemo.utils.Logging;
 import com.fasterxml.jackson.jr.ob.JSON;
 import com.fasterxml.jackson.jr.ob.JSONComposer;
@@ -53,10 +52,7 @@ public class MainActivity extends ActionBarActivity {
     PagerSlidingTabStrip tabStrip;
 
     @Bean
-    LoadTask loadTask;
-
-    @Bean
-    SaveTask saveTask;
+    FileTask fileTask;
 
     @Bean
     BusHandler busHandler;
@@ -100,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         //buildTask.execute();
-        loadTask.execute((new File(getFilesDir(), "all_pages.json")));
+        fileTask.load_execute((new File(getFilesDir(), "all_pages.json")));
     }
 
     private StrictMode.ThreadPolicy buildPolicy()
@@ -156,8 +152,6 @@ public class MainActivity extends ActionBarActivity {
      * has been picked. So BusHandler does that for us, all we need is to assign
      * a new MenuItemEvent. I wanted to use directly the MenuItem instance but there was a precompiled error
      * from Otto telling that the object is not from a concrete class, so I decided to embed it.
-     * @param item
-     * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -190,7 +184,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void addNewPageHandler()
     {
-        Page page = new Page( "page_" + fragmentList.size()  + ".json", new Date(), "", "" );
+        Page page = new Page( "page_" + fragmentList.size()  + ".json", new Date(), "", "", false );
 
         try {
             fragmentList.add( PageFragment.newInstance(page) );
@@ -215,7 +209,8 @@ public class MainActivity extends ActionBarActivity {
 
                 if( page != null )
                 {
-                    arrayComposer.startObject().put("fileName", page.getFileName() ).end();
+                    arrayComposer.startObject().put("fileName", page.getFileName())
+                            .put("visible", page.getVisible()).end();
                 }
             }
 
@@ -223,7 +218,7 @@ public class MainActivity extends ActionBarActivity {
             String myJsonString = composer.finish().toString();
 
             File file = new File( this.getFilesDir(), "all_pages.json");
-            saveTask.execute( myJsonString, file );
+            fileTask.save_execute( myJsonString, file );
         }
         catch (Exception e )
         {
@@ -233,6 +228,16 @@ public class MainActivity extends ActionBarActivity {
 
     private void deletePageHandler()
     {
+        Page page;
 
+        for( PageFragment pageFragment: fragmentList)
+        {
+            page = pageFragment.getPage();
+
+            if( page.getVisible() == true )
+            {
+                Logging.print( "we should delete this file! " + page.getFileName() );
+            }
+        }
     }
 }

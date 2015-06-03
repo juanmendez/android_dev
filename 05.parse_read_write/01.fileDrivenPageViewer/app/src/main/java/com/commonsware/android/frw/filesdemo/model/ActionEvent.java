@@ -7,7 +7,7 @@ public class ActionEvent
     private ActionType _action;
     private File _file;
 
-    private String _content;
+    private String _content = "";
 
     public ActionEvent( ActionType action )
     {
@@ -41,7 +41,6 @@ public class ActionEvent
 
     public enum ActionType
     {
-
         LOAD( "load"),
         SAVE("save"),
         DELETE("delete"),
