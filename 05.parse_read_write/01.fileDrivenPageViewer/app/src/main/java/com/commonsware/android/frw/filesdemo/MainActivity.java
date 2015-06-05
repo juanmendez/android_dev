@@ -2,17 +2,16 @@ package com.commonsware.android.frw.filesdemo;
 
 import android.os.Build;
 import android.os.StrictMode;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.commonsware.android.frw.filesdemo.model.ActionEvent;
+import com.commonsware.android.frw.filesdemo.model.FragmentModel;
 import com.commonsware.android.frw.filesdemo.model.MenuItemEvent;
 import com.commonsware.android.frw.filesdemo.model.Page;
 import com.commonsware.android.frw.filesdemo.model.PagerAdapter;
-import com.commonsware.android.frw.filesdemo.service.ActivityModule;
 import com.commonsware.android.frw.filesdemo.service.BusHandler;
 import com.commonsware.android.frw.filesdemo.service.FileTask;
 import com.commonsware.android.frw.filesdemo.utils.Logging;
@@ -32,18 +31,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import dagger.ObjectGraph;
-
 @EActivity(R.layout.main)
 @OptionsMenu(R.menu.actions)
 public class MainActivity extends ActionBarActivity {
-
-    private ObjectGraph graph;
-
-    @Inject
-    PagerAdapter pagerAdapter;
 
     @ViewById
     ViewPager vpPager;
@@ -57,25 +47,27 @@ public class MainActivity extends ActionBarActivity {
     @Bean
     BusHandler busHandler;
 
-    @Inject
+    FragmentModel fragmentModel;
+    PagerAdapter pagerAdapter;
     List<PageFragment> fragmentList;
-
-    @Inject
-    FragmentManager fm;
-
-    private Boolean loaded = false;
 
     @Override
     public void onPause()
     {
         super.onPause();
         busHandler.unregister(this);
-        graph = null;
     }
 
     @AfterViews
     void afterViews()
     {
+        fragmentModel = (FragmentModel) getFragmentManager().findFragmentByTag("fragment_model");
+
+        if( fragmentModel == null )
+        {
+            fragmentModel = new FragmentModel();
+            getFragmentManager().beginTransaction().add( fragmentModel, "fragment_model").commit();
+        }
 
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
         {
@@ -84,10 +76,10 @@ public class MainActivity extends ActionBarActivity {
 
         busHandler.register(this);
 
-        graph = ((TheApp)getApplication()).getApplicationGraph().plus(new ActivityModule( this ));
-        inject(this);
-
+        fragmentList = fragmentModel.getFragmentList();
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragmentList );
         vpPager.setAdapter(pagerAdapter);
+
         //tabStrip.setViewPager( vpPager );
 
         vpPager.setOffscreenPageLimit(3);
@@ -96,18 +88,14 @@ public class MainActivity extends ActionBarActivity {
 
 
         //buildTask.execute();
-        fileTask.load_execute((new File(getFilesDir(), "all_pages.json")));
+        if( !fragmentModel.getLoaded() )
+            fileTask.load_execute((new File(getFilesDir(), "all_pages.json")));
     }
 
     private StrictMode.ThreadPolicy buildPolicy()
     {
         return (new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog()
                 .build());
-    }
-
-    public void inject(Object object)
-    {
-        graph.inject(object);
     }
 
     @Subscribe
@@ -122,8 +110,8 @@ public class MainActivity extends ActionBarActivity {
                  * and of course, through the adapter. Also lets not forget to update the adapter
                  * to show the new pages!
                  */
-                loaded = true;
                 try {
+                    fragmentModel.setLoaded(true);
                     List<Page> list;
                     list = JSON.std.listOfFrom( Page.class, event.getContent() );
 
@@ -142,7 +130,32 @@ public class MainActivity extends ActionBarActivity {
             else
             if( event.getAction() == ActionEvent.ActionType.SAVE )
             {
-                Logging.print( "save page.json" );
+                pagerAdapter.notifyDataSetChanged();
+            }
+        }
+        else
+        if( event.getAction() == ActionEvent.ActionType.DELETE_CONFIRMED )
+        {
+            PageFragment pageFragment;
+            int i, length = fragmentList.size();
+
+            for(  i = 0; i < length; i++)
+            {
+                pageFragment = fragmentList.get(i);
+
+                if( pageFragment.getPage().getFileName().equals( event.getFile().getName()))
+                {
+
+                    if( i == length-1)
+                        vpPager.setCurrentItem( i-1 );
+                    else
+                    if( i == 0 && length > 1 )
+                       vpPager.setCurrentItem(1);
+
+                    fragmentList.remove(i);
+                    savePageHandler();
+                    break;
+                }
             }
         }
     }
@@ -156,7 +169,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if( loaded )
+        if( fragmentModel.getLoaded() )
         {
             switch ( item.getItemId())
             {
@@ -170,12 +183,11 @@ public class MainActivity extends ActionBarActivity {
                     break;
 
                 case R.id.deleteBackground:
-                    deletePageHandler();
                     busHandler.requestMenuItem( new MenuItemEvent( item ) );
                     break;
 
                 default:
-
+                    Logging.print( "couldn't find action for " + item.getItemId() );
             }
         }
 
@@ -187,7 +199,7 @@ public class MainActivity extends ActionBarActivity {
         Page page = new Page( "page_" + fragmentList.size()  + ".json", new Date(), "", "", false );
 
         try {
-            fragmentList.add( PageFragment.newInstance(page) );
+            fragmentList.add(PageFragment.newInstance(page));
             pagerAdapter.notifyDataSetChanged();
         } catch (IOException e) {
             e.printStackTrace();

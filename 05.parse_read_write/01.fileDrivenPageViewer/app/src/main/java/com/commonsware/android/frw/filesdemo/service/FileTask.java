@@ -82,7 +82,7 @@ public class FileTask
     @UiThread
     protected void onPostExecute()
     {
-        if (_exception == null)
+        if (_exception == null || event.getAction() == ActionEvent.ActionType.DELETE )
         {
             busHandler.requestEvent( event );
         }

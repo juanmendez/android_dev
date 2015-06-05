@@ -86,6 +86,11 @@ public class PageFragment extends Fragment
                     e.printStackTrace();
                 }
             }
+            else
+            if( event.getAction() == ActionEvent.ActionType.DELETE )
+            {
+                busHandler.requestEvent( new ActionEvent(ActionEvent.ActionType.DELETE_CONFIRMED, event.getFile() ));
+            }
         }
     }
 
@@ -128,7 +133,7 @@ public class PageFragment extends Fragment
                 break;
 
             case R.id.deleteBackground:
-
+                deleteHandler();
                 break;
         }
     }
@@ -151,6 +156,12 @@ public class PageFragment extends Fragment
         {
             Logging.print( "saving pages.json has an exception" + e.getMessage() );
         }
+    }
+
+    private void deleteHandler()
+    {
+        File file = new File( getActivity().getFilesDir(), _page.getFileName() );
+        fileTask.delete_execute(file);
     }
 
     public Page getPage()

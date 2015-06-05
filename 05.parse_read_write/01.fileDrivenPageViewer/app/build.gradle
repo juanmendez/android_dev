@@ -72,7 +72,4 @@ dependencies {
 
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
-
-    compile "com.squareup.dagger:dagger:$DagerVersion"
-    compile "com.squareup.dagger:dagger-compiler:$DagerVersion"
 }

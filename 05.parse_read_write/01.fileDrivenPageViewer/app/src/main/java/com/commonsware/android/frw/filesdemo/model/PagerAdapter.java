@@ -6,22 +6,20 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.commonsware.android.frw.filesdemo.PageFragment;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * Created by Juan on 4/29/2015.
  */
 public class PagerAdapter extends FragmentPagerAdapter
 {
-    @Inject
     List<PageFragment> fragmentList;
 
-    @Inject
-    public PagerAdapter(FragmentManager fragmentManager)
+    public PagerAdapter(FragmentManager fragmentManager, List<PageFragment> _fragmentList )
     {
         super(fragmentManager);
+        fragmentList = _fragmentList;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class PagerAdapter extends FragmentPagerAdapter
     // Returns the page title for the top indicator
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Page " + position;
+        return fragmentList.get(position).getPage().getTitle();
     }
 
 

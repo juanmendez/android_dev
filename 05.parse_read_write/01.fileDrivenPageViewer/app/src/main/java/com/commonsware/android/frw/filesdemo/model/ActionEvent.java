@@ -6,7 +6,6 @@ public class ActionEvent
 {
     private ActionType _action;
     private File _file;
-
     private String _content = "";
 
     public ActionEvent( ActionType action )
@@ -44,6 +43,7 @@ public class ActionEvent
         LOAD( "load"),
         SAVE("save"),
         DELETE("delete"),
+        DELETE_CONFIRMED("deleteConfirmed"),
         UPDATE( "update");
 
         public String name;
