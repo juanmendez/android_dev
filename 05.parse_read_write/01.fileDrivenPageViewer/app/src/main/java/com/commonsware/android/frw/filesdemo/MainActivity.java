@@ -3,7 +3,7 @@ package com.commonsware.android.frw.filesdemo;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -33,7 +33,7 @@ import java.util.List;
 
 @EActivity(R.layout.main)
 @OptionsMenu(R.menu.actions)
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     @ViewById
     ViewPager vpPager;
@@ -52,35 +52,30 @@ public class MainActivity extends ActionBarActivity {
     List<PageFragment> fragmentList;
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         busHandler.unregister(this);
     }
 
     @AfterViews
-    void afterViews()
-    {
+    void afterViews() {
         fragmentModel = (FragmentModel) getFragmentManager().findFragmentByTag("fragment_model");
 
-        if( fragmentModel == null )
-        {
+        if (fragmentModel == null) {
             fragmentModel = new FragmentModel();
-            getFragmentManager().beginTransaction().add( fragmentModel, "fragment_model").commit();
+            getFragmentManager().beginTransaction().add(fragmentModel, "fragment_model").commit();
         }
 
-        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
-        {
+        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             StrictMode.setThreadPolicy(buildPolicy());
         }
 
         busHandler.register(this);
 
         fragmentList = fragmentModel.getFragmentList();
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragmentList );
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragmentList);
         vpPager.setAdapter(pagerAdapter);
-
-        //tabStrip.setViewPager( vpPager );
+        //tabStrip.setViewPager(vpPager);
 
         vpPager.setOffscreenPageLimit(3);
         vpPager.setClipToPadding(false);
@@ -88,23 +83,19 @@ public class MainActivity extends ActionBarActivity {
 
 
         //buildTask.execute();
-        if( !fragmentModel.getLoaded() )
+        if (!fragmentModel.getLoaded())
             fileTask.load_execute((new File(getFilesDir(), "all_pages.json")));
     }
 
-    private StrictMode.ThreadPolicy buildPolicy()
-    {
+    private StrictMode.ThreadPolicy buildPolicy() {
         return (new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog()
                 .build());
     }
 
     @Subscribe
-    public void actionEventSubscriber( ActionEvent event )
-    {
-        if( event.getFile().getName().equals("all_pages.json") )
-        {
-            if( event.getAction() == ActionEvent.ActionType.LOAD )
-            {
+    public void actionEventSubscriber(ActionEvent event) {
+        if (event.getFile().getName().equals("all_pages.json")) {
+            if (event.getAction() == ActionEvent.ActionType.LOAD) {
                 /**
                  * after loading, lets use the new list  to generate pages for pagerviewer,
                  * and of course, through the adapter. Also lets not forget to update the adapter
@@ -113,44 +104,32 @@ public class MainActivity extends ActionBarActivity {
                 try {
                     fragmentModel.setLoaded(true);
                     List<Page> list;
-                    list = JSON.std.listOfFrom( Page.class, event.getContent() );
+                    list = JSON.std.listOfFrom(Page.class, event.getContent());
 
-                    for( Page page: list)
-                    {
+                    for (Page page : list) {
                         fragmentList.add(PageFragment.newInstance(page));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-                finally
-                {
+                } finally {
                     pagerAdapter.notifyDataSetChanged();
                 }
-            }
-            else
-            if( event.getAction() == ActionEvent.ActionType.SAVE )
-            {
+            } else if (event.getAction() == ActionEvent.ActionType.SAVE) {
                 pagerAdapter.notifyDataSetChanged();
             }
-        }
-        else
-        if( event.getAction() == ActionEvent.ActionType.DELETE_CONFIRMED )
-        {
+        } else if (event.getAction() == ActionEvent.ActionType.DELETE_CONFIRMED) {
             PageFragment pageFragment;
             int i, length = fragmentList.size();
 
-            for(  i = 0; i < length; i++)
-            {
+            for (i = 0; i < length; i++) {
                 pageFragment = fragmentList.get(i);
 
-                if( pageFragment.getPage().getFileName().equals( event.getFile().getName()))
-                {
+                if (pageFragment.getPage().getFileName().equals(event.getFile().getName())) {
 
-                    if( i == length-1)
-                        vpPager.setCurrentItem( i-1 );
-                    else
-                    if( i == 0 && length > 1 )
-                       vpPager.setCurrentItem(1);
+                    if (i == length - 1)
+                        vpPager.setCurrentItem(i - 1);
+                    else if (i == 0 && length > 1)
+                        vpPager.setCurrentItem(1);
 
                     fragmentList.remove(i);
                     savePageHandler();
@@ -167,36 +146,32 @@ public class MainActivity extends ActionBarActivity {
      * from Otto telling that the object is not from a concrete class, so I decided to embed it.
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        if( fragmentModel.getLoaded() )
-        {
-            switch ( item.getItemId())
-            {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (fragmentModel.getLoaded()) {
+            switch (item.getItemId()) {
                 case R.id.addNewPageBackground:
                     addNewPageHandler();
                     break;
 
                 case R.id.saveBackground:
                     savePageHandler();
-                    busHandler.requestMenuItem( new MenuItemEvent( item ) );
+                    busHandler.requestMenuItem(new MenuItemEvent(item));
                     break;
 
                 case R.id.deleteBackground:
-                    busHandler.requestMenuItem( new MenuItemEvent( item ) );
+                    busHandler.requestMenuItem(new MenuItemEvent(item));
                     break;
 
                 default:
-                    Logging.print( "couldn't find action for " + item.getItemId() );
+                    Logging.print("couldn't find action for " + item.getItemId());
             }
         }
 
         return (super.onOptionsItemSelected(item));
     }
 
-    private void addNewPageHandler()
-    {
-        Page page = new Page( "page_" + fragmentList.size()  + ".json", new Date(), "", "", false );
+    private void addNewPageHandler() {
+        Page page = new Page("page_" + fragmentList.size() + ".json", new Date(), "", "", false);
 
         try {
             fragmentList.add(PageFragment.newInstance(page));
@@ -206,21 +181,18 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void savePageHandler()
-    {
-        try{
+    private void savePageHandler() {
+        try {
 
             JSON json = JSON.std;
             JSONComposer composer = json.with(JSON.Feature.PRETTY_PRINT_OUTPUT).composeString();
             ArrayComposer arrayComposer = composer.startArray();
 
 
-            for( PageFragment pageFragment: fragmentList)
-            {
+            for (PageFragment pageFragment : fragmentList) {
                 Page page = pageFragment.getPage();
 
-                if( page != null )
-                {
+                if (page != null) {
                     arrayComposer.startObject().put("fileName", page.getFileName())
                             .put("visible", page.getVisible()).end();
                 }
@@ -229,26 +201,21 @@ public class MainActivity extends ActionBarActivity {
             arrayComposer.end();
             String myJsonString = composer.finish().toString();
 
-            File file = new File( this.getFilesDir(), "all_pages.json");
-            fileTask.save_execute( myJsonString, file );
-        }
-        catch (Exception e )
-        {
-            Logging.print( "saving all_pages.json has an exception" + e.getMessage() );
+            File file = new File(this.getFilesDir(), "all_pages.json");
+            fileTask.save_execute(myJsonString, file);
+        } catch (Exception e) {
+            Logging.print("saving all_pages.json has an exception" + e.getMessage());
         }
     }
 
-    private void deletePageHandler()
-    {
+    private void deletePageHandler() {
         Page page;
 
-        for( PageFragment pageFragment: fragmentList)
-        {
+        for (PageFragment pageFragment : fragmentList) {
             page = pageFragment.getPage();
 
-            if( page.getVisible() == true )
-            {
-                Logging.print( "we should delete this file! " + page.getFileName() );
+            if (page.getVisible() == true) {
+                Logging.print("we should delete this file! " + page.getFileName());
             }
         }
     }

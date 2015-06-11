@@ -1,5 +1,9 @@
 package com.commonsware.android.frw.filesdemo.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.commonsware.android.frw.filesdemo.BR;
 import com.fasterxml.jackson.jr.ob.JSON;
 import com.fasterxml.jackson.jr.ob.JSONComposer;
 import com.fasterxml.jackson.jr.ob.JSONObjectException;
@@ -13,7 +17,7 @@ import java.util.Date;
 /**
  * Model for each page
  */
-public class Page
+public class Page extends BaseObservable
 {
     /**
      * lets fill these to their defaults, so that we don't worry
@@ -25,14 +29,17 @@ public class Page
     private String title = "";
     private Boolean visible = false;
 
+    @Bindable
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+        //notifyPropertyChanged(BR.content);
     }
 
+    @Bindable
     public Date getDateCreated() {
         return dateCreated;
     }
@@ -45,6 +52,7 @@ public class Page
         this.dateCreated = new Date(mils);
     }
 
+    @Bindable
     public String getFileName() {
         return fileName;
     }
@@ -53,12 +61,14 @@ public class Page
         this.fileName = fileName;
     }
 
+    @Bindable
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+        //notifyPropertyChanged(BR.title);
     }
 
     public Boolean getVisible() {
