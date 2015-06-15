@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         //buildTask.execute();
         if (!fragmentModel.getLoaded())
-            fileTask.load_execute((new File(getFilesDir(), "all_pages.json")));
+            fileTask.load_execute("all_pages.json");
     }
 
     private StrictMode.ThreadPolicy buildPolicy() {
@@ -124,14 +124,19 @@ public class MainActivity extends AppCompatActivity {
             for (i = 0; i < length; i++) {
                 pageFragment = fragmentList.get(i);
 
-                if (pageFragment.getPage().getFileName().equals(event.getFile().getName())) {
+                if ( pageFragment.getPage().getFileName() != null && pageFragment.getPage().getFileName().equals(event.getFile().getName())) {
 
+                    /**
                     if (i == length - 1)
                         vpPager.setCurrentItem(i - 1);
                     else if (i == 0 && length > 1)
                         vpPager.setCurrentItem(1);
+                    **/
 
+                    //how to: http://stackoverflow.com/questions/13664155/dynamically-add-and-remove-view-to-viewpager
+                    vpPager.setAdapter(null);
                     fragmentList.remove(i);
+                    vpPager.setAdapter(pagerAdapter);
                     savePageHandler();
                     break;
                 }
@@ -201,22 +206,9 @@ public class MainActivity extends AppCompatActivity {
             arrayComposer.end();
             String myJsonString = composer.finish().toString();
 
-            File file = new File(this.getFilesDir(), "all_pages.json");
-            fileTask.save_execute(myJsonString, file);
+            fileTask.save_execute(myJsonString, "all_pages.json" );
         } catch (Exception e) {
             Logging.print("saving all_pages.json has an exception" + e.getMessage());
-        }
-    }
-
-    private void deletePageHandler() {
-        Page page;
-
-        for (PageFragment pageFragment : fragmentList) {
-            page = pageFragment.getPage();
-
-            if (page.getVisible() == true) {
-                Logging.print("we should delete this file! " + page.getFileName());
-            }
         }
     }
 }

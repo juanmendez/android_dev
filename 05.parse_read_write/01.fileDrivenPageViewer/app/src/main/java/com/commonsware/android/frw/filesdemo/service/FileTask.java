@@ -1,10 +1,12 @@
 package com.commonsware.android.frw.filesdemo.service;
 
+import com.commonsware.android.frw.filesdemo.MainActivity;
 import com.commonsware.android.frw.filesdemo.model.ActionEvent;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.apache.commons.io.FileUtils;
 
@@ -20,16 +22,20 @@ public class FileTask
     private Exception _exception = null;
     private ActionEvent event;
 
+    @RootContext
+    MainActivity activity;
+
     @Bean
     BusHandler busHandler;
 
     @Background
-    public void load_execute( File target )
+    public void load_execute( String fileName )
     {
         try
         {
+            File target = new File(activity.getFilesDir(), fileName);
             event = new ActionEvent(ActionEvent.ActionType.LOAD, target  );
-            event.setContent( load(target) );
+            event.setContent( FileUtils.readFileToString(target) );
         }
         catch (Exception e)
         {
@@ -42,12 +48,13 @@ public class FileTask
     }
 
     @Background
-    public void delete_execute( File target )
+    public void delete_execute( String fileName )
     {
         try
         {
+            File target = new File(activity.getFilesDir(), fileName);
             event = new ActionEvent(ActionEvent.ActionType.DELETE, target  );
-            remove(target);
+            FileUtils.forceDelete( target );
         }
         catch (Exception e)
         {
@@ -61,13 +68,14 @@ public class FileTask
 
 
     @Background
-    public void save_execute( String text, File target )
+    public void save_execute( String text, String fileName )
     {
         try
         {
+            File target = new File(activity.getFilesDir(), fileName);
             event = new ActionEvent(ActionEvent.ActionType.SAVE, target  );
             event.setContent( text );
-            save(text, target);
+            FileUtils.writeStringToFile(target, text);
         }
         catch (Exception e)
         {
@@ -90,32 +98,5 @@ public class FileTask
         {
             busHandler.requestException(_exception);
         }
-    }
-
-
-    private void save(String text, File target) throws IOException
-    {
-        FileUtils.writeStringToFile(target, text);
-    }
-
-    private String load(File target) throws IOException
-    {
-        String result = "";
-
-        try
-        {
-            result = FileUtils.readFileToString( target );
-        }
-        catch (java.io.FileNotFoundException e)
-        {
-            // that's OK, we probably haven't created it yet
-        }
-
-        return (result);
-    }
-
-    private void remove( File target ) throws IOException
-    {
-        FileUtils.forceDelete( target );
     }
 }

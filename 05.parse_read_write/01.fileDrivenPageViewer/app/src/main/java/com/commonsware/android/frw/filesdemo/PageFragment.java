@@ -45,6 +45,8 @@ public class PageFragment extends Fragment {
     Page _page;
     PageLayoutBinding pageLayoutBinding;
 
+    Boolean loaded = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -78,7 +80,7 @@ public class PageFragment extends Fragment {
 
             //lets go and load the rest of the application..
             busHandler.register(this);
-            fileTask.load_execute(new File(getActivity().getFilesDir(), _page.getFileName()));
+            fileTask.load_execute( _page.getFileName() );
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,12 +94,17 @@ public class PageFragment extends Fragment {
             if (event.getAction() == ActionEvent.ActionType.LOAD) {
                 try {
 
-                    if (event.getContent() != null && !event.getContent().isEmpty()) {
-                        _page = JSON.std.beanFrom(Page.class, event.getContent());
-                        pageLayoutBinding.setPage(_page);
+                    if (event.getContent() != null ) {
+                        Page _temp = JSON.std.beanFrom(Page.class, event.getContent());
+                        _page.setContent( _temp.getContent() );
+                        _page.setTitle( _temp.getTitle() );
+                        _page.setDateCreated( _temp.getDateCreated() );
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+                finally{
+                    pageLayoutBinding.setPage(_page);
                 }
             } else if (event.getAction() == ActionEvent.ActionType.DELETE) {
                 busHandler.requestEvent(new ActionEvent(ActionEvent.ActionType.DELETE_CONFIRMED, event.getFile()));
@@ -122,13 +129,9 @@ public class PageFragment extends Fragment {
             if (isVisibleToUser) {
                 if (_page != null)
                     _page.setVisible(true);
-
-                //busHandler.register(this);
             } else {
                 if (_page != null)
                     _page.setVisible(false);
-
-                //busHandler.unregister(this);
             }
         }
     }
@@ -157,16 +160,18 @@ public class PageFragment extends Fragment {
 
     private void saveHandler() {
         try {
-            File file = new File(getActivity().getFilesDir(), _page.getFileName());
-            fileTask.save_execute(Page.getJSONPage(_page), file);
+            fileTask.save_execute(Page.getJSONPage(_page), _page.getFileName());
         } catch (Exception e) {
             Logging.print("saving pages.json has an exception" + e.getMessage());
         }
     }
 
     private void deleteHandler() {
-        File file = new File(getActivity().getFilesDir(), _page.getFileName());
-        fileTask.delete_execute(file);
+
+        if( _page != null && _page.getVisible() )
+        {
+            fileTask.delete_execute(_page.getFileName());
+        }
     }
 
     public Page getPage() {
