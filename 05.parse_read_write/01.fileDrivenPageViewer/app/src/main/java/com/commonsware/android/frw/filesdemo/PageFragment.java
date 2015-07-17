@@ -1,5 +1,6 @@
 package com.commonsware.android.frw.filesdemo;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -51,8 +52,8 @@ public class PageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.page_layout, container, false);
-
         pageLayoutBinding = PageLayoutBinding.bind(view);
+
         return view;
     }
 
@@ -178,6 +179,11 @@ public class PageFragment extends Fragment {
         return _page;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        setRetainInstance(true);
+    }
 
     @TextChange
     void titleTextChanged(TextView titleText) {

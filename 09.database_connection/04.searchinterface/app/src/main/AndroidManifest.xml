@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="info.juanmendez.android.searchinterface" >
+
+    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="22"/>
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <activity android:name=".SearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!--give permission to activity to do search-->
+            <meta-data android:name="android.app.default_searchable" android:value=".SearchActivity"/>
+        </activity>
+
+        <activity
+            android:name=".AlternateSearchActivity"
+            android:label="Alternate Search Activity" >
+            <!--give permission to activity to do search-->
+            <meta-data android:name="android.app.default_searchable" android:value=".SearchActivity"/>
+        </activity>
+    </application>
+
+</manifest>

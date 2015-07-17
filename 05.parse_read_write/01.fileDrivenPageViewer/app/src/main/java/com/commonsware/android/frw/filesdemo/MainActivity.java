@@ -66,9 +66,7 @@ public class MainActivity extends AppCompatActivity {
             getFragmentManager().beginTransaction().add(fragmentModel, "fragment_model").commit();
         }
 
-        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            StrictMode.setThreadPolicy(buildPolicy());
-        }
+        buildPolicy();
 
         busHandler.register(this);
 
@@ -87,9 +85,28 @@ public class MainActivity extends AppCompatActivity {
             fileTask.load_execute("all_pages.json");
     }
 
-    private StrictMode.ThreadPolicy buildPolicy() {
-        return (new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog()
-                .build());
+    private void buildPolicy() {
+
+        /**
+         *
+         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+         StrictMode.setThreadPolicy(buildPolicy());
+
+         return (new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog()
+         .build());
+         }(
+         */
+
+        StrictMode.ThreadPolicy.Builder builder = new StrictMode.ThreadPolicy.Builder().detectNetwork();
+
+        if( BuildConfig.DEBUG ){
+            builder.penaltyDeath();
+        }
+        else{
+            builder.penaltyDeath();
+        }
+
+        StrictMode.setThreadPolicy( builder.build()  );
     }
 
     @Subscribe

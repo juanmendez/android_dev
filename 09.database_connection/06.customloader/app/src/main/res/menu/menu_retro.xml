@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".RetroActivity">
+    <item android:id="@+id/restart_loader" android:title="@string/restart"
+        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item android:id="@+id/cancel_loader" android:title="@string/cancel"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>

@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <item android:id="@+id/action_search" android:title="menu search" android:icon="@drawable/abc_textfield_search_activated_mtrl_alpha"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+    <item android:id="@+id/action_dialog" android:title="search by dialog"
+        android:orderInCategory="100" app:showAsAction="never" android:icon="@drawable/abc_switch_track_mtrl_alpha" />
+</menu>
