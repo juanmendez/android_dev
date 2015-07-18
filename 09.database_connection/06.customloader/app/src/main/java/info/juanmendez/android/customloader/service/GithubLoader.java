@@ -29,6 +29,7 @@ public class GithubLoader extends AsyncTaskLoader<ArrayList<Repo>>
     ArrayList<Repo> oldData = new ArrayList<Repo>();
     Bus bus;
     GithubService service;
+    String query = "android";
 
     public GithubLoader(Context context, Bus _bus) {
         super(context);
@@ -56,11 +57,11 @@ public class GithubLoader extends AsyncTaskLoader<ArrayList<Repo>>
     public ArrayList<Repo> loadInBackground() {
 
         try{
-            Thread.sleep(2000); //this is intentional, to see reaction when canceling, or reloading.
+            //Thread.sleep(2000); this is intentional, to see reaction when canceling, or reloading.
 
             //what a clean way to pass url params through retrofit
             Map<String, String> params = new HashMap<String, String>();
-            params.put( "q", "android");
+            params.put( "q", query);
             params.put( "sort", "stars" );
             params.put( "order", "desc" );
             return service.searchRepo( params ).getItems();
@@ -88,6 +89,12 @@ public class GithubLoader extends AsyncTaskLoader<ArrayList<Repo>>
     @Subscribe
     public void gitActionHandler( GithubAction action ){
         if( action.getAction().equals(GithubAction.GITHUB_RELOAD) ){
+
+            if( !action.getQuery().isEmpty() )
+            {
+                query = action.getQuery();
+            }
+
             onContentChanged();
         }
         else

@@ -1,0 +1,15 @@
+<!-- defines the metadata for your earthquake search results provider 
+http://developer.android.com/guide/topics/search/searchable-config.html
+android docs: 
+In order to implement search with assistance from the Android system 
+(to deliver search queries to an activity and provide search suggestions), your application 
+must provide a search configuration in the form of an XML file.
+
+Interesting, label must be the app name, otherwise, this doesn't work!
+-->
+<searchable xmlns:android="http://schemas.android.com/apk/res/android"
+  android:label="@string/app_name"
+  android:searchSettingsDescription="search_description"
+  android:hint="hint"
+  android:voiceSearchMode="showVoiceSearchButton|launchRecognizer">
+</searchable>
