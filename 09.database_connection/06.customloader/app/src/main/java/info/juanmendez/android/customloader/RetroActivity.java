@@ -13,7 +13,10 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.squareup.otto.Produce;
 
@@ -29,6 +32,7 @@ public class RetroActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private GithubLoader loader;
     private GithubAction action = new GithubAction("");
+    private RepoAdapter adapter;
     private ListView listView;
 
     @Override
@@ -36,7 +40,51 @@ public class RetroActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retro);
         listView = (ListView) findViewById(R.id.listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Repo repo = ((App)getApplication()).getList().get(position);
+
+                if( repo != null ){
+                    Intent i = new Intent( RetroActivity.this, RepoActivity.class );
+                    i.putExtra("repoId", repo.getId());
+                    startActivity(i);
+                }
+                else
+                {
+                    Toast.makeText( RetroActivity.this, "Repo is not available", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        adapter = new RepoAdapter(this, new ArrayList<Repo>());
+        listView.setAdapter(adapter);
         this.getLoaderManager().initLoader(5, null, this);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        CharSequence title = savedInstanceState.getCharSequence( "title" );
+        if(  title != null ){
+
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setTitle( title );
+
+            action = new GithubAction(GithubAction.GITHUB_RELOAD );
+            action.setQuery( actionBar.getTitle().toString() );
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outBundle) {
+
+        ActionBar actionBar = getSupportActionBar();
+        CharSequence title = actionBar.getTitle();
+        outBundle.putCharSequence("title", title);
+
+        super.onRestoreInstanceState(outBundle);
     }
 
     @Override
@@ -83,7 +131,10 @@ public class RetroActivity extends AppCompatActivity implements LoaderCallbacks<
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        if( id == R.id.start_loader ){
+
+        }
+        else
         if (id == R.id.restart_loader) {
 
             createAction(GithubAction.GITHUB_RELOAD);
@@ -105,22 +156,21 @@ public class RetroActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     public Loader<ArrayList<Repo>> onCreateLoader(int id, Bundle args) {
 
-        loader = new GithubLoader(this, ((App) getApplication()).getBus() );
+        loader = new GithubLoader(this, (App) getApplication() );
         return loader;
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Repo>> loader, ArrayList<Repo> list) {
 
-        listView.setAdapter( new RepoAdapter(this, list) );
-
+        adapter.setRepos(list);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle( action.getQuery() );
+        actionBar.setTitle(action.getQuery());
     }
 
     @Override
     public void onLoaderReset(Loader<ArrayList<Repo>> loader) {
-        listView.setAdapter( new RepoAdapter(this, new ArrayList<Repo>() ));
+        adapter.setRepos( new ArrayList<Repo>());
     }
 
     private void createAction( String type ){

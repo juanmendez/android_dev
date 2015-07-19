@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import info.juanmendez.android.customloader.model.GithubSearch;
+import info.juanmendez.android.customloader.model.Owner;
 import info.juanmendez.android.customloader.model.Repo;
+import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import retrofit.http.QueryMap;
@@ -16,4 +18,7 @@ public interface GithubService {
 
     @GET("/search/repositories")
     GithubSearch searchRepo(@QueryMap Map<String, String> options);
+
+    @GET("/users/{user}")
+    void getOwner(@Path("user") String user, Callback<Owner> cb);
 }

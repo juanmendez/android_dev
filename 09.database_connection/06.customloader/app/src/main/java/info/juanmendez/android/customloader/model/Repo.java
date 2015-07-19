@@ -1278,4 +1278,8 @@ public class Repo {
         this.defaultBranch = defaultBranch;
     }
 
+    public boolean equals( int id ){
+        return this.getId() == id;
+    }
+
 }

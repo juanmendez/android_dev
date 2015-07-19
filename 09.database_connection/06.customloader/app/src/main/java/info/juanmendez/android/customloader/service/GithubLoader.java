@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import info.juanmendez.android.customloader.App;
 import info.juanmendez.android.customloader.model.GithubAction;
 import info.juanmendez.android.customloader.model.Repo;
 import retrofit.RestAdapter;
@@ -27,20 +28,19 @@ import retrofit.converter.GsonConverter;
 public class GithubLoader extends AsyncTaskLoader<ArrayList<Repo>>
 {
     ArrayList<Repo> oldData = new ArrayList<Repo>();
-    Bus bus;
+    App app;
     GithubService service;
     String query = "android";
 
-    public GithubLoader(Context context, Bus _bus) {
+    public GithubLoader(Context context, App app) {
         super(context);
-        bus = _bus;
-        service = getGithubService();
+        this.app = app;
+        service = app.getGithubService();
     }
 
     @Override
     protected void onStartLoading() {
         super.onStartLoading();
-        bus.register(this);
 
         if( !oldData.isEmpty() )
         {
@@ -48,23 +48,25 @@ public class GithubLoader extends AsyncTaskLoader<ArrayList<Repo>>
         }
         else
         {
+            app.getBus().register(this);
             forceLoad();
         }
-
     }
 
     @Override
     public ArrayList<Repo> loadInBackground() {
 
         try{
-            //Thread.sleep(2000); this is intentional, to see reaction when canceling, or reloading.
+            Thread.sleep(2000); //this is intentional, to see reaction when canceling, or reloading.
 
             //what a clean way to pass url params through retrofit
             Map<String, String> params = new HashMap<String, String>();
             params.put( "q", query);
             params.put( "sort", "stars" );
             params.put( "order", "desc" );
-            return service.searchRepo( params ).getItems();
+            app.setList( service.searchRepo( params ).getItems() );
+
+            return app.getList();
         }
         catch (Exception e )
         {
@@ -101,23 +103,5 @@ public class GithubLoader extends AsyncTaskLoader<ArrayList<Repo>>
         if( action.getAction().equals( GithubAction.GITHUB_CANCEL) ){
             cancelLoad();
         }
-    }
-
-    private GithubService getGithubService(){
-
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES )
-                .registerTypeAdapter( Date.class, new DateTypeAdapter())
-                .create();
-
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint( "https://api.github.com")
-                .setErrorHandler( new MyErrorHandler())
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setConverter( new GsonConverter(gson))
-                .build();
-        GithubService service = restAdapter.create(GithubService.class);
-
-        return service;
     }
 }

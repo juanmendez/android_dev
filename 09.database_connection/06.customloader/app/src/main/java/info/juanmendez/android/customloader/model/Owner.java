@@ -1,9 +1,11 @@
 package info.juanmendez.android.customloader.model;
 
+import java.util.Date;
+
 public class Owner {
 
     private String login = "";
-    private int id = 0;
+    private Integer id = 0;
     private String avatarUrl = "";
     private String gravatarId = "";
     private String url = "";
@@ -18,7 +20,19 @@ public class Owner {
     private String eventsUrl = "";
     private String receivedEventsUrl = "";
     private String type = "";
-    private boolean siteAdmin = false;
+    private Boolean siteAdmin = false;
+    private String name = "";
+    private String company = "";
+    private String blog = "";
+    private String location = "";
+    private String email = "";
+    private Boolean hireable = false;
+    private Integer publicRepos = 0;
+    private Integer publicGists = 0;
+    private Integer followers = 0;
+    private Integer following = 0;
+    private Date createdAt = new Date();
+    private Date updatedAt = new Date();
 
     /**
      *
@@ -43,7 +57,7 @@ public class Owner {
      * @return
      * The id
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -52,7 +66,7 @@ public class Owner {
      * @param id
      * The id
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -313,7 +327,7 @@ public class Owner {
      * @return
      * The siteAdmin
      */
-    public boolean isSiteAdmin() {
+    public Boolean getSiteAdmin() {
         return siteAdmin;
     }
 
@@ -322,8 +336,224 @@ public class Owner {
      * @param siteAdmin
      * The site_admin
      */
-    public void setSiteAdmin(boolean siteAdmin) {
+    public void setSiteAdmin(Boolean siteAdmin) {
         this.siteAdmin = siteAdmin;
+    }
+
+    /**
+     *
+     * @return
+     * The name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     *
+     * @param name
+     * The name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     *
+     * @return
+     * The company
+     */
+    public String getCompany() {
+        return company;
+    }
+
+    /**
+     *
+     * @param company
+     * The company
+     */
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    /**
+     *
+     * @return
+     * The blog
+     */
+    public String getBlog() {
+        return blog;
+    }
+
+    /**
+     *
+     * @param blog
+     * The blog
+     */
+    public void setBlog(String blog) {
+        this.blog = blog;
+    }
+
+    /**
+     *
+     * @return
+     * The location
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     *
+     * @param location
+     * The location
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    /**
+     *
+     * @return
+     * The email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     *
+     * @param email
+     * The email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     *
+     * @return
+     * The hireable
+     */
+    public Boolean getHireable() {
+        return hireable;
+    }
+
+    /**
+     *
+     * @param hireable
+     * The hireable
+     */
+    public void setHireable(Boolean hireable) {
+        this.hireable = hireable;
+    }
+
+    /**
+     *
+     * @return
+     * The publicRepos
+     */
+    public Integer getPublicRepos() {
+        return publicRepos;
+    }
+
+    /**
+     *
+     * @param publicRepos
+     * The public_repos
+     */
+    public void setPublicRepos(Integer publicRepos) {
+        this.publicRepos = publicRepos;
+    }
+
+    /**
+     *
+     * @return
+     * The publicGists
+     */
+    public Integer getPublicGists() {
+        return publicGists;
+    }
+
+    /**
+     *
+     * @param publicGists
+     * The public_gists
+     */
+    public void setPublicGists(Integer publicGists) {
+        this.publicGists = publicGists;
+    }
+
+    /**
+     *
+     * @return
+     * The followers
+     */
+    public Integer getFollowers() {
+        return followers;
+    }
+
+    /**
+     *
+     * @param followers
+     * The followers
+     */
+    public void setFollowers(Integer followers) {
+        this.followers = followers;
+    }
+
+    /**
+     *
+     * @return
+     * The following
+     */
+    public Integer getFollowing() {
+        return following;
+    }
+
+    /**
+     *
+     * @param following
+     * The following
+     */
+    public void setFollowing(Integer following) {
+        this.following = following;
+    }
+
+    /**
+     *
+     * @return
+     * The createdAt
+     */
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    /**
+     *
+     * @param createdAt
+     * The created_at
+     */
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    /**
+     *
+     * @return
+     * The updatedAt
+     */
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     *
+     * @param updatedAt
+     * The updated_at
+     */
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

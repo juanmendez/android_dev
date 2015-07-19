@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import info.juanmendez.android.customloader.RepoView;
@@ -15,9 +16,11 @@ import info.juanmendez.android.customloader.model.Repo;
  */
 public class RepoAdapter extends ArrayAdapter<Repo>
 {
+    private List<Repo> repos;
 
-    public RepoAdapter(Context context, List<Repo> repos) {
-        super(context, 0, repos);
+    public RepoAdapter(Context context, List<Repo> list) {
+        super(context, 0, list);
+        repos =  list;
     }
 
     @Override
@@ -29,7 +32,14 @@ public class RepoAdapter extends ArrayAdapter<Repo>
             row = RepoView.inflate( parent );
         }
 
-        row.setItem( getItem(position));
+        row.setItem(getItem(position));
         return row;
     }
+
+    public void setRepos(List<Repo> repos) {
+        this.repos.clear();
+        this.repos.addAll(repos);
+        this.notifyDataSetChanged();
+    }
+
 }
