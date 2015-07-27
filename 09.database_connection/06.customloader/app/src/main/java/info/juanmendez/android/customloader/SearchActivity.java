@@ -4,7 +4,6 @@ package info.juanmendez.android.customloader;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -28,7 +27,7 @@ import info.juanmendez.android.customloader.service.GithubLoader;
 import info.juanmendez.android.customloader.service.Logging;
 import info.juanmendez.android.customloader.service.RepoAdapter;
 
-public class RetroActivity extends AppCompatActivity implements LoaderCallbacks<ArrayList<Repo>> {
+public class SearchActivity extends AppCompatActivity implements LoaderCallbacks<ArrayList<Repo>> {
 
     private GithubLoader loader;
     private GithubAction action = new GithubAction("");
@@ -38,7 +37,7 @@ public class RetroActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_retro);
+        setContentView(R.layout.activity_search);
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -46,13 +45,13 @@ public class RetroActivity extends AppCompatActivity implements LoaderCallbacks<
                 Repo repo = ((App)getApplication()).getList().get(position);
 
                 if( repo != null ){
-                    Intent i = new Intent( RetroActivity.this, RepoActivity.class );
+                    Intent i = new Intent( SearchActivity.this, RepoActivity.class );
                     i.putExtra("repoId", repo.getId());
                     startActivity(i);
                 }
                 else
                 {
-                    Toast.makeText( RetroActivity.this, "Repo is not available", Toast.LENGTH_LONG).show();
+                    Toast.makeText( SearchActivity.this, "Repo is not available", Toast.LENGTH_LONG).show();
                 }
             }
         });

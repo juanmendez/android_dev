@@ -24,6 +24,7 @@ import retrofit.converter.GsonConverter;
 public class App extends Application
 {
     private final Bus bus = new Bus(ThreadEnforcer.ANY);
+    private ArrayList<Repo> list = new ArrayList<Repo>();
 
     public void setList(ArrayList<Repo> list) {
         this.list = list;
@@ -32,7 +33,6 @@ public class App extends Application
     public ArrayList<Repo> getList() {
         return list;
     }
-
 
     public Repo getRepo( int id ){
 
@@ -44,8 +44,6 @@ public class App extends Application
 
         return null;
     }
-
-    private ArrayList<Repo> list = new ArrayList<Repo>();
 
     @Override
     public void onCreate() {

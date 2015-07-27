@@ -3,6 +3,7 @@ package info.juanmendez.android.customloader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,6 +26,7 @@ public class RepoActivity extends AppCompatActivity
 {
     TextView ownerTextView;
     ImageButton ownerImageButton;
+    WebView webView;
     Repo repo;
 
     @Override
@@ -35,6 +37,7 @@ public class RepoActivity extends AppCompatActivity
         ownerTextView = (TextView) findViewById(R.id.ownerNameTextView);
         ownerImageButton = (ImageButton) findViewById(R.id.ownerImageButton );
         ownerImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        webView = (WebView) findViewById(R.id.webview);
 
         int repoid = getIntent().getIntExtra("repoId", -1);
 
@@ -65,6 +68,7 @@ public class RepoActivity extends AppCompatActivity
 
             Picasso.with(this).load( owner.getAvatarUrl()).tag( this ).into(ownerImageButton);
             ownerTextView.setText( owner.getName());
+            webView.loadUrl( repo.getHtmlUrl() );
         }
     }
 

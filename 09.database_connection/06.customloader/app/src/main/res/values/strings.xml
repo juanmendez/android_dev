@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Custom Loader</string>
+    <string name="app_name">Retrofit Custom Loader</string>
     <string name="restart">Restart Loader</string>
     <string name="cancel">Cancel Loader</string>
 </resources>
