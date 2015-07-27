@@ -5,31 +5,25 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Juan on 7/20/2015.
  */
-public class DownloadHelper extends SQLiteOpenHelper
+public class SQLMagazine extends SQLiteOpenHelper
 {
-    public static final String DB = "db_pages";
-    public static final String TABLE = "downloads";
+    public static final String TABLE = "magazines";
 
     public static final String ID = "id";
     public static final String VERSION = "name";
     public static final String LOCATION = "location";
     public static final String DATETIME = "datetime";
 
-    public static final DateFormat SQLDATEFORMAT;
-
-    static{
-        SQLDATEFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    }
-
-
-    public DownloadHelper( Context context )
+    public SQLMagazine(Context context)
     {
-        super(context, null, null, 1);
+        super(context, null, null, SQLGlobals.version );
     }
 
     @Override

@@ -23,6 +23,7 @@ import retrofit.client.Response;
 public class MainActivity extends AppCompatActivity {
 
     WebView webView;
+    DownloadReceiver downloadReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +32,16 @@ public class MainActivity extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
-        DownloadReceiver downloadReceiver = new DownloadReceiver( new Handler() );
+
+
+        downloadReceiver = new DownloadReceiver( new Handler() );
 
         downloadReceiver.setCallback(new DownloadReceiver.Callback() {
             @Override
             public void onReceiveResult(int resultCode, Bundle resultData) {
                 if (resultCode == Activity.RESULT_OK) {
+
+                    Logging.print( "magazine version " + resultData.getString( "mag_id", "0"));
                     webView.loadUrl("file://" + resultData.getString("directory") + "/index.html");
                 }
             }
@@ -44,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent i = new Intent( this, DownloadService.class );
         i.putExtra("receiver", downloadReceiver);
-        i.putExtra( "zipUrl", "http://ketchup/development/android/magazine/mag_0.1/www.zip" );
-        i.putExtra( "version", 0.1f );
+        i.putExtra( "zipUrl", (BuildConfig.DEBUG ? "http://192.168.1.234" : "http://ketchup") + "/development/android/magazine/mag_0.1/www.zip" );
+        i.putExtra("version", 0.1f);
         startService( i );
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

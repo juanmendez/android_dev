@@ -14,12 +14,12 @@ import android.text.TextUtils;
  */
 public class PageCrud implements CrudProvider
 {
-    PageHelper helper;
+    SQLPage helper;
     Context context;
 
     public PageCrud( Context context ){
         this.context = context;
-        this.helper = new PageHelper( context );
+        this.helper = new SQLPage( context );
     }
 
     @Override
@@ -27,12 +27,12 @@ public class PageCrud implements CrudProvider
 
         SQLiteDatabase db = helper.getReadableDatabase();
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-        builder.setTables( PageHelper.TABLE );
+        builder.setTables( SQLPage.TABLE );
 
-        switch( PageBank.uriMatcher.match(uri)){
+        switch( MagazineProvider.uriMatcher.match(uri)){
 
-            case PageBank.SINGLE_PAGE:
-                builder.appendWhere( PageHelper.ID + "=" + uri.getPathSegments().get(1) );
+            case MagazineProvider.SINGLE_PAGE:
+                builder.appendWhere( SQLPage.ID + "=" + uri.getPathSegments().get(1) );
                 break;
         }
 
@@ -44,7 +44,7 @@ public class PageCrud implements CrudProvider
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        long id = db.insert( PageHelper.TABLE, null, values );
+        long id = db.insert( SQLPage.TABLE, null, values );
 
         if( id >= 0 ){
 
@@ -61,23 +61,23 @@ public class PageCrud implements CrudProvider
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = helper.getWritableDatabase();
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-        builder.setTables( PageHelper.TABLE );
+        builder.setTables( SQLPage.TABLE );
 
         Boolean all = false;
 
-        switch ( PageBank.uriMatcher.match(uri))
+        switch ( MagazineProvider.uriMatcher.match(uri))
         {
-            case PageBank.SINGLE_PAGE:
-                String temp = PageHelper.ID + "=" + uri.getPathSegments().get(1);
+            case MagazineProvider.SINGLE_PAGE:
+                String temp = SQLPage.ID + "=" + uri.getPathSegments().get(1);
                 selection = temp + ( !TextUtils.isEmpty(selection) ? " AND (" + selection + ")" : "");
                 break;
-            case PageBank.ALL_PAGES:
+            case MagazineProvider.ALL_PAGES:
                 all = true;
                 break;
         }
 
         if( all ){
-            db.execSQL( "truncate " + PageHelper.TABLE );
+            db.execSQL( "truncate " + SQLPage.TABLE );
             return -1;
         }
 
@@ -85,7 +85,7 @@ public class PageCrud implements CrudProvider
         if( selection == null )
             selection = "1";
 
-        int deleteCount = db.delete( PageHelper.TABLE, selection, selectionArgs );
+        int deleteCount = db.delete( SQLPage.TABLE, selection, selectionArgs );
 
         //notify from content resolver..
         context.getContentResolver().notifyChange( uri, null);
@@ -97,15 +97,15 @@ public class PageCrud implements CrudProvider
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        switch ( PageBank.uriMatcher.match(uri))
+        switch ( MagazineProvider.uriMatcher.match(uri))
         {
-            case PageBank.SINGLE_PAGE:
-                String temp = PageHelper.ID + "=" + uri.getPathSegments().get(1);
+            case MagazineProvider.SINGLE_PAGE:
+                String temp = SQLPage.ID + "=" + uri.getPathSegments().get(1);
                 selection = temp + ( !TextUtils.isEmpty(selection) ? " AND (" + selection + ")" : "");
                 break;
         }
 
-        int updateCount = db.update(PageHelper.TABLE, values, selection, selectionArgs);
+        int updateCount = db.update(SQLPage.TABLE, values, selection, selectionArgs);
 
         //notify from content resolver..
         context.getContentResolver().notifyChange( uri, null);

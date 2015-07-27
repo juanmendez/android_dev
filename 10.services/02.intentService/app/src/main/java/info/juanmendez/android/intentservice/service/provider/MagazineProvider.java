@@ -9,18 +9,18 @@ import android.net.Uri;
 /**
  * Created by Juan on 7/20/2015.
  */
-public class PageBank extends ContentProvider {
+public class MagazineProvider extends ContentProvider {
 
     static final int ALL_PAGES = 1;
     static final int SINGLE_PAGE = 2;
 
-    static final int ALL_DOWNLOADS = 3;
-    static final int SINGLE_DOWNLOAD = 4;
-    static final int DOWNLOADS_LIMIT = 5;
+    static final int ALL_MAGAZINES = 3;
+    static final int SINGLE_MAGAZINE = 4;
+    static final int MAGAZINE_LIMIT = 5;
 
     private PageCrud pageCrud;
-    private DownloadCrud downloadCrud;
-    public static final String AUTHORITY = "info.juanmendez.android.intentservice.service.provider.PageBank";
+    private MagazineCrud magazineCrud;
+    public static final String AUTHORITY = "info.juanmendez.android.intentservice.service.provider.MagazineProvider";
 
     public static final UriMatcher uriMatcher;
     static{
@@ -28,15 +28,15 @@ public class PageBank extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, "pages", ALL_PAGES);
         uriMatcher.addURI(AUTHORITY, "pages/#", SINGLE_PAGE);
 
-        uriMatcher.addURI(AUTHORITY, "downloads", ALL_DOWNLOADS);
-        uriMatcher.addURI(AUTHORITY, "downloads/#", SINGLE_DOWNLOAD);
-        uriMatcher.addURI(AUTHORITY, "downloads/limit/#", DOWNLOADS_LIMIT);
+        uriMatcher.addURI(AUTHORITY, "magazines", ALL_MAGAZINES);
+        uriMatcher.addURI(AUTHORITY, "magazines/#", SINGLE_MAGAZINE);
+        uriMatcher.addURI(AUTHORITY, "magazines/limit/#", MAGAZINE_LIMIT);
     }
 
     @Override
     public boolean onCreate() {
         pageCrud = new PageCrud( getContext() );
-        downloadCrud = new DownloadCrud( getContext() );
+        magazineCrud = new MagazineCrud( getContext() );
         return true;
     }
 
@@ -48,11 +48,11 @@ public class PageBank extends ContentProvider {
                 return "vnd.android.cursor.dir/vnd.juanmendez.pages";
             case SINGLE_PAGE:
                 return "vnd.android.cursor.item/vnd.juanmendez.pages";
-            case ALL_DOWNLOADS:
-                return "vnd.android.cursor.dir/vnd.juanmendez.downloads";
-            case SINGLE_DOWNLOAD:
-            case DOWNLOADS_LIMIT:
-                return "vnd.android.cursor.item/vnd.juanmendez.downloads";
+            case ALL_MAGAZINES:
+                return "vnd.android.cursor.dir/vnd.juanmendez.magazines";
+            case SINGLE_MAGAZINE:
+            case MAGAZINE_LIMIT:
+                return "vnd.android.cursor.item/vnd.juanmendez.magazines";
             default:
                 throw new IllegalArgumentException( "Unsupported URI " + uri );
         }
@@ -67,8 +67,8 @@ public class PageBank extends ContentProvider {
                 case "pages":
                     return pageCrud.query( uri, projection, selection, selectionArgs, sortOrder );
 
-                case "downloads":
-                    return downloadCrud.query( uri, projection, selection, selectionArgs, sortOrder );
+                case "magazines":
+                    return magazineCrud.query( uri, projection, selection, selectionArgs, sortOrder );
             }
 
         }
@@ -84,8 +84,8 @@ public class PageBank extends ContentProvider {
                 case "pages":
                     return pageCrud.insert( uri, values );
 
-                case "downloads":
-                    return downloadCrud.insert( uri, values );
+                case "magazines":
+                    return magazineCrud.insert( uri, values );
             }
         }
 
@@ -101,8 +101,8 @@ public class PageBank extends ContentProvider {
                 case "pages":
                     return pageCrud.delete(uri, selection, selectionArgs);
 
-                case "downloads":
-                    return downloadCrud.delete(uri, selection, selectionArgs);
+                case "magazines":
+                    return magazineCrud.delete(uri, selection, selectionArgs);
             }
         }
 
@@ -118,8 +118,8 @@ public class PageBank extends ContentProvider {
                 case "pages":
                     return pageCrud.update( uri, values, selection, selectionArgs );
 
-                case "downloads":
-                    return downloadCrud.update( uri, values, selection, selectionArgs );
+                case "magazines":
+                    return magazineCrud.update( uri, values, selection, selectionArgs );
             }
         }
 

@@ -7,25 +7,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Juan on 7/20/2015.
  */
-public class PageHelper extends SQLiteOpenHelper
+public class SQLPage extends SQLiteOpenHelper
 {
-    public static final String DB = "db_pages";
     public static final String TABLE = "pages";
-
     public static final String ID = "id";
     public static final String NAME = "name";
-    public static final String LOCATION = "location";
+    public static final String MAG_ID = "mag_id";
 
 
-    public PageHelper( Context context )
+    public SQLPage(Context context)
     {
-        super(context, null, null, 1);
+        super(context, null, null, SQLGlobals.version );
     }
 
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL( "create table "+TABLE+" ( "+ID+" integer primary key autoincrement, "+ NAME +" text not null, "+ LOCATION + " text not null )");
+        db.execSQL( "create table "+TABLE+" ( "+ID+" integer primary key autoincrement, "+ NAME +" text not null, "+ MAG_ID + " integer not null )");
     }
 
     @Override

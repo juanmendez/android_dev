@@ -2,8 +2,11 @@ package info.juanmendez.android.intentservice.service.downloading;
 
 import android.app.Activity;
 import android.app.IntentService;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 
@@ -16,12 +19,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import javax.xml.transform.Result;
+
+import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
+import info.juanmendez.android.intentservice.service.provider.SQLGlobals;
+import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
+import info.juanmendez.android.intentservice.service.provider.SQLPage;
 
 /**
  * The DownloadService is in charge of downloading a zip and extracting
@@ -50,7 +61,7 @@ public class DownloadService extends IntentService
 
         if( zipURL != null && version > 0 ){
 
-            File downloads = new File( getFilesDir(), "downloads" );
+            File downloads = new File( getFilesDir(), "magazines" );
 
             downloads.mkdir();
             File target = new File( downloads, "target.zip" );
@@ -63,34 +74,58 @@ public class DownloadService extends IntentService
             }
 
             if( download( target, url )){
-                File unzipDir = new File( getFilesDir(), "download_" + version);
+                File unzipDir = new File( getFilesDir(), "version_" + version);
 
                 if( unzipDir.exists() )
                     unzipDir.delete();
 
                 unzipDir.mkdir();
 
-                if( unzip( target, unzipDir ) ){
-                    result = Activity.RESULT_OK;
-                    bundle.putString("message", "zip was downloaded and decompressed!");
-                    bundle.putString("directory", unzipDir.getAbsolutePath());
+                List<String> files = unzip( target, unzipDir );
+
+                if( files.size() > 0 ){
+
+                    Uri magazineURI = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/magazines" );
+                    Uri pagesURI = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/pages" );
+
+                    ContentResolver cr = getContentResolver();
+                    ContentValues c = new ContentValues();
+                    c.put(SQLMagazine.VERSION, version);
+                    c.put( SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()) );
+                    c.put(SQLMagazine.LOCATION, "download_" + version );
+                    Uri lastInsert = cr.insert(magazineURI, c);
+                    int lastMagazineID = Integer.parseInt(lastInsert.getLastPathSegment());
+
+                    if( lastMagazineID >= 0 ){
+                        for( String file: files ){
+
+                            c = new ContentValues();
+                            c.put(SQLPage.MAG_ID, lastMagazineID );
+                            c.put( SQLPage.NAME, file );
+
+                            cr.insert( pagesURI, c );
+                        }
+
+                        result = Activity.RESULT_OK;
+                        bundle.putString("message", "zip was downloaded and decompressed!");
+                        bundle.putInt( "mag_id", lastMagazineID );
+                        bundle.putString("directory", unzipDir.getAbsolutePath());
+                    }
+
+                    bundle.putString("message", "couldn't store first magazine " + lastInsert.getPath());
 
                 }else{
-                    result = Activity.RESULT_CANCELED;
+
                     bundle.putString("message", "couldn't unzip");
                 }
 
             }else{
-                result = Activity.RESULT_CANCELED;
+
                 bundle.putString("message", "couldn't download");
             }
         }
 
         rec.send(result, bundle);
-    }
-
-    public void forceHandleIntent( Intent intent ){
-        onHandleIntent( intent );
     }
 
     private Boolean download( File target, URL url ){
@@ -124,23 +159,25 @@ public class DownloadService extends IntentService
         return false;
     }
 
-    private Boolean unzip( File target, File unzipDir ){
+    private List<String> unzip( File zip, File directory ){
 
         FileOutputStream fos = null;
         InputStream is = null;
         File entryDestination = null;
         ZipFile zipFile = null;
 
+        List<String> files = new ArrayList<String>();
+
         //reading the zipEntry is appending the zip file name. We want to ignore that level.
         String pattern = "\\w+\\/(.*)";
         try{
-            zipFile = new ZipFile( target );
+            zipFile = new ZipFile( zip );
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
             while( entries.hasMoreElements()){
                 ZipEntry entry = entries.nextElement();
 
-                entryDestination = new File( unzipDir, entry.getName().replaceAll( pattern, "$1") );
+                entryDestination = new File( directory, entry.getName().replaceAll( pattern, "$1") );
 
                 if( entry.isDirectory() ){
                     entryDestination.mkdir();
@@ -154,7 +191,17 @@ public class DownloadService extends IntentService
                 }
             }
             zipFile.close();
-            return true;
+
+            File[] listOfFiles = directory.listFiles();
+
+
+            for( File file: listOfFiles ){
+
+                if( !file.isDirectory()){
+                    files.add( file.getName() );
+                }
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (ZipException e) {
@@ -163,6 +210,6 @@ public class DownloadService extends IntentService
             e.printStackTrace();
         }
 
-        return false;
+        return files;
     }
 }

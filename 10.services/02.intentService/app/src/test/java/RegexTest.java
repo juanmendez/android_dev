@@ -20,7 +20,7 @@ public class RegexTest {
     @Test
     public void testRegex(){
         String fileName = "zippy/hello.html";
-        String pattern = "\\w+\\/(.*)";
+        String pattern = "zippy\\/(.*)";
 
        Log.print( fileName.replaceAll( pattern, "$1") );
     }

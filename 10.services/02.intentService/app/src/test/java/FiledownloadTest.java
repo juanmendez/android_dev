@@ -12,6 +12,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowLog;
 import org.robolectric.util.ActivityController;
 
 import java.io.File;
@@ -38,6 +39,10 @@ import info.juanmendez.android.intentservice.service.downloading.DownloadService
 @Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml" )
 public class FiledownloadTest {
 
+    static{
+        ShadowLog.stream = System.out;
+    }
+
     private MainActivity activity;
     private ActivityController controller;
 
@@ -45,6 +50,8 @@ public class FiledownloadTest {
     public void buildActivity(){
         controller = Robolectric.buildActivity( MainActivity.class ).create().start().resume().visible();
         activity = (MainActivity) controller.get();
+
+        System.out.println( "hello world");
     }
 
     /**
@@ -63,11 +70,19 @@ public class FiledownloadTest {
             }
         });
 
-        Intent i = new Intent( activity, DownloadService.class );
+        Intent i = new Intent( RuntimeEnvironment.application, DownloadService.class );
         i.putExtra( "receiver", downloadReceiver );
 
-        DownloadService service = new DownloadService();
-        service.forceHandleIntent( i );
+        DownloadServiceMock service = new DownloadServiceMock();
+        service.onHandleIntent( i );
+    }
+
+    public class DownloadServiceMock extends DownloadService{
+
+        @Override
+        public void onHandleIntent( Intent intent ){
+            super.onHandleIntent(intent);
+        }
     }
 
     //@Test

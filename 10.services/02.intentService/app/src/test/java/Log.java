@@ -3,8 +3,9 @@ import android.database.Cursor;
 import java.text.ParseException;
 import java.util.List;
 
-import info.juanmendez.android.intentservice.service.provider.DownloadHelper;
-import info.juanmendez.android.intentservice.service.provider.PageHelper;
+import info.juanmendez.android.intentservice.service.provider.SQLGlobals;
+import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
+import info.juanmendez.android.intentservice.service.provider.SQLPage;
 
 /**
  * Created by Juan on 7/2/2015.
@@ -16,10 +17,10 @@ public class Log
         while( result.moveToNext() )
         {
             try {
-                if( type == "download" )
-                    print( "id: " + result.getInt(result.getColumnIndexOrThrow( DownloadHelper.ID )) + ", version: " + result.getFloat(result.getColumnIndexOrThrow(DownloadHelper.VERSION)) + ", date " +  DownloadHelper.SQLDATEFORMAT.parse( result.getString(result.getColumnIndexOrThrow(DownloadHelper.DATETIME))).toString() );
-                if( type == "page" )
-                    print( "id: " + result.getInt(result.getColumnIndexOrThrow( PageHelper.ID )) + " " + result.getString( result.getColumnIndexOrThrow(PageHelper.LOCATION)) );
+                if( type == "magazines" )
+                    print( "id: " + result.getInt(result.getColumnIndexOrThrow( SQLMagazine.ID )) + ", version: " + result.getFloat(result.getColumnIndexOrThrow(SQLMagazine.VERSION)) + ", date " +  SQLGlobals.parseDate(result.getString(result.getColumnIndexOrThrow(SQLMagazine.DATETIME))) );
+                if( type == "pages" )
+                    print( "id: " + result.getInt(result.getColumnIndexOrThrow( SQLPage.ID )) + " " + result.getString(result.getColumnIndexOrThrow(SQLPage.MAG_ID)) + " " + result.getString( result.getColumnIndexOrThrow(SQLPage.NAME)));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

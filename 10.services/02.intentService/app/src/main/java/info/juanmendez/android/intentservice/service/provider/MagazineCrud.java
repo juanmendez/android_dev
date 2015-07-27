@@ -8,19 +8,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 /**
  * Created by Juan on 7/20/2015.
  */
-public class DownloadCrud implements CrudProvider {
+public class MagazineCrud implements CrudProvider {
 
-    DownloadHelper helper;
+    SQLMagazine helper;
     Context context;
 
-    public DownloadCrud( Context context ){
+    public MagazineCrud(Context context){
         this.context = context;
-        this.helper = new DownloadHelper( context );
+        this.helper = new SQLMagazine( context );
     }
 
     @Override
@@ -28,16 +27,16 @@ public class DownloadCrud implements CrudProvider {
 
         SQLiteDatabase db = helper.getReadableDatabase();
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-        builder.setTables( DownloadHelper.TABLE );
+        builder.setTables( SQLMagazine.TABLE );
         String limit = null;
 
-        switch( PageBank.uriMatcher.match(uri)){
+        switch( MagazineProvider.uriMatcher.match(uri)){
 
-            case PageBank.SINGLE_DOWNLOAD:
-                builder.appendWhere( DownloadHelper.ID + "=" + uri.getPathSegments().get(1) );
+            case MagazineProvider.SINGLE_MAGAZINE:
+                builder.appendWhere( SQLMagazine.ID + "=" + uri.getPathSegments().get(1) );
                 break;
 
-            case PageBank.DOWNLOADS_LIMIT:
+            case MagazineProvider.MAGAZINE_LIMIT:
                 limit = uri.getPathSegments().get(2);
             break;
         }
@@ -50,7 +49,7 @@ public class DownloadCrud implements CrudProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        long id = db.insert( DownloadHelper.TABLE, null, values );
+        long id = db.insert( SQLMagazine.TABLE, null, values );
 
         if( id >= 0 ){
 
@@ -67,22 +66,22 @@ public class DownloadCrud implements CrudProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = helper.getWritableDatabase();
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-        builder.setTables( DownloadHelper.TABLE );
+        builder.setTables( SQLMagazine.TABLE );
 
         Boolean all = false;
-        switch ( PageBank.uriMatcher.match(uri))
+        switch ( MagazineProvider.uriMatcher.match(uri))
         {
-            case PageBank.SINGLE_DOWNLOAD:
-                String temp = DownloadHelper.ID + "=" + uri.getPathSegments().get(1);
+            case MagazineProvider.SINGLE_MAGAZINE:
+                String temp = SQLMagazine.ID + "=" + uri.getPathSegments().get(1);
                 selection = temp + ( !TextUtils.isEmpty(selection) ? " AND (" + selection + ")" : "");
                 break;
-            case PageBank.ALL_DOWNLOADS:
+            case MagazineProvider.ALL_MAGAZINES:
                 all = true;
                 break;
         }
 
         if( all ){
-            db.execSQL( "DELETE FROM " + DownloadHelper.TABLE );
+            db.execSQL( "DELETE FROM " + SQLMagazine.TABLE );
             db.execSQL( "VACUUM");
 
             //notify from content resolver..
@@ -94,7 +93,7 @@ public class DownloadCrud implements CrudProvider {
         if( selection == null )
             selection = "1";
 
-        int deleteCount = db.delete( DownloadHelper.TABLE, selection, selectionArgs );
+        int deleteCount = db.delete( SQLMagazine.TABLE, selection, selectionArgs );
 
         //notify from content resolver..
         context.getContentResolver().notifyChange( uri, null);
@@ -106,15 +105,15 @@ public class DownloadCrud implements CrudProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        switch ( PageBank.uriMatcher.match(uri))
+        switch ( MagazineProvider.uriMatcher.match(uri))
         {
-            case PageBank.SINGLE_DOWNLOAD:
-                String temp = DownloadHelper.ID + "=" + uri.getPathSegments().get(1);
+            case MagazineProvider.SINGLE_MAGAZINE:
+                String temp = SQLMagazine.ID + "=" + uri.getPathSegments().get(1);
                 selection = temp + ( !TextUtils.isEmpty(selection) ? " AND (" + selection + ")" : "");
                 break;
         }
 
-        int updateCount = db.update(DownloadHelper.TABLE, values, selection, selectionArgs);
+        int updateCount = db.update(SQLMagazine.TABLE, values, selection, selectionArgs);
 
         //notify from content resolver..
         context.getContentResolver().notifyChange( uri, null);

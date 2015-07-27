@@ -2,7 +2,6 @@ package info.juanmendez.android.intentservice.helper;
 
 import android.util.Log;
 
-
 public class Logging
 {
     public static final String TAG = "IntentService";

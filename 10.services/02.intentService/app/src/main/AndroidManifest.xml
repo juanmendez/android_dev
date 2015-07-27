@@ -20,8 +20,8 @@
         </activity>
 
         <provider
-            android:authorities="info.juanmendez.android.intentservice.service.provider.PageBank"
-            android:name=".service.provider.PageBank"/>
+            android:authorities="info.juanmendez.android.intentservice.service.provider.MagazineProvider"
+            android:name=".service.provider.MagazineProvider"/>
 
         <service android:name=".service.downloading.DownloadService" android:exported="false"/>
     </application>
