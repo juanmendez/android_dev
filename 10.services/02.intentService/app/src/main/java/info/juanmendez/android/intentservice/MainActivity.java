@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent i = new Intent( this, DownloadService.class );
         i.putExtra("receiver", downloadReceiver);
-        i.putExtra( "zipUrl", (BuildConfig.DEBUG ? "http://192.168.1.234" : "http://ketchup") + "/development/android/magazine/mag_0.1/www.zip" );
+        i.putExtra( "zipUrl", (BuildConfig.DEBUG ? "http://YOUR_OWN_IP" : "http://ketchup") + "/development/android/magazine/mag_0.1/www.zip" );
         i.putExtra("version", 0.1f);
         startService( i );
     }
