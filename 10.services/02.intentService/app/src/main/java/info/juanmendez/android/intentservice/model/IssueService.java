@@ -17,7 +17,7 @@ import retrofit.converter.GsonConverter;
 /**
  * Created by Juan on 7/22/2015.
  */
-public class VersionService
+public class IssueService
 {
     public static String localhost(){
         return "http://192.168.45.1";

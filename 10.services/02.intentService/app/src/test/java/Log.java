@@ -18,7 +18,7 @@ public class Log
         {
             try {
                 if( type == "magazines" )
-                    print( "id: " + result.getInt(result.getColumnIndexOrThrow( SQLMagazine.ID )) + ", version: " + result.getFloat(result.getColumnIndexOrThrow(SQLMagazine.VERSION)) + ", date " +  SQLGlobals.parseDate(result.getString(result.getColumnIndexOrThrow(SQLMagazine.DATETIME))) );
+                    print( "id: " + result.getInt(result.getColumnIndexOrThrow( SQLMagazine.ID )) + ", version: " + result.getFloat(result.getColumnIndexOrThrow(SQLMagazine.VOLUME)) + ", date " +  SQLGlobals.parseDate(result.getString(result.getColumnIndexOrThrow(SQLMagazine.DATETIME))) );
                 if( type == "pages" )
                     print( "id: " + result.getInt(result.getColumnIndexOrThrow( SQLPage.ID )) + " " + result.getString(result.getColumnIndexOrThrow(SQLPage.MAG_ID)) + " " + result.getString( result.getColumnIndexOrThrow(SQLPage.NAME)));
             } catch (ParseException e) {

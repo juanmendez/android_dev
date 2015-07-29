@@ -4,12 +4,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.model.Version;
-import info.juanmendez.android.intentservice.model.VersionService;
+import info.juanmendez.android.intentservice.model.Issue;
+import info.juanmendez.android.intentservice.model.IssueService;
 import info.juanmendez.android.intentservice.service.versioning.RetroService;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by Juan on 7/22/2015.
@@ -17,20 +14,20 @@ import retrofit.client.Response;
 
 @RunWith(RobolectricTestRunner.class)
 @Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml", emulateSdk = 21 )
-public class VersionTest {
+public class IssueTest {
 
     /**
      *
      */
     @Test
-    public void testVersion(){
-        RetroService service = VersionService.getService();
+    public void testVolume(){
+        RetroService service = IssueService.getService();
 
-        Version v =service.getLatestVersion();
+        Issue v =service.getLatestIssue();
 
         if( v != null )
         {
-            Log.print( "version " + v.getVersion() + ", " + v.getLocation() );
+            Log.print( "issue " + v.getVolume() + ", " + v.getLocation() );
         }
     }
 }

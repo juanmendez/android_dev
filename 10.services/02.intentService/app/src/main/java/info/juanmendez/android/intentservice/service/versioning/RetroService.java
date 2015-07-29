@@ -1,6 +1,6 @@
 package info.juanmendez.android.intentservice.service.versioning;
 
-import info.juanmendez.android.intentservice.model.Version;
+import info.juanmendez.android.intentservice.model.Issue;
 import retrofit.http.GET;
 import retrofit.Callback;
 
@@ -10,9 +10,9 @@ import retrofit.Callback;
 public interface RetroService
 {
     @GET("/development/android/latest.json")
-    void getLatestVersion( Callback<Version> cb );
+    void getLatestIssue(Callback<Issue> cb);
 
 
     @GET("/development/android/latest.json")
-    Version getLatestVersion();
+    Issue getLatestIssue();
 }

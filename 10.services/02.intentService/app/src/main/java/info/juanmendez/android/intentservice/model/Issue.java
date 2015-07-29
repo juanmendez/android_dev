@@ -1,29 +1,26 @@
 package info.juanmendez.android.intentservice.model;
 
-import java.util.HashMap;
-import java.util.Map;
+public class Issue {
 
-public class Version {
-
-    private String version;
+    private String volume;
     private String location;
 
     /**
      *
      * @return
-     * The version
+     * The volume
      */
-    public String getVersion() {
-        return version;
+    public String getVolume() {
+        return volume;
     }
 
     /**
      *
-     * @param version
-     * The version
+     * @param volume
+     * The volume
      */
-    public void setVersion(String version) {
-        this.version = version;
+    public void setVolume(String volume) {
+        this.volume = volume;
     }
 
     /**

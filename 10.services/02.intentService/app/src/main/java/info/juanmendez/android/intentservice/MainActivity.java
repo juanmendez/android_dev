@@ -5,20 +5,13 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
 import info.juanmendez.android.intentservice.helper.Logging;
-import info.juanmendez.android.intentservice.model.Version;
-import info.juanmendez.android.intentservice.model.VersionService;
 import info.juanmendez.android.intentservice.service.downloading.DownloadReceiver;
 import info.juanmendez.android.intentservice.service.downloading.DownloadService;
-import info.juanmendez.android.intentservice.service.versioning.RetroService;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
+        getLatestMagazine();
+    }
 
-
+    private void getLatestMagazine(){
         downloadReceiver = new DownloadReceiver( new Handler() );
 
         downloadReceiver.setCallback(new DownloadReceiver.Callback() {
@@ -49,11 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent i = new Intent( this, DownloadService.class );
         i.putExtra("receiver", downloadReceiver);
-        i.putExtra( "zipUrl", (BuildConfig.DEBUG ? "http://YOUR_OWN_IP" : "http://ketchup") + "/development/android/magazine/mag_0.1/www.zip" );
+        i.putExtra( "zipUrl", (BuildConfig.DEBUG ? "http://192.168.45.1" : "http://ketchup") + "/development/android/magazine/mag_0.1/www.zip" );
         i.putExtra("version", 0.1f);
         startService( i );
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

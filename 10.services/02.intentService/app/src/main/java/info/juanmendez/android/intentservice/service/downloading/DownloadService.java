@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.IntentService;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,8 +25,6 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-
-import javax.xml.transform.Result;
 
 import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
 import info.juanmendez.android.intentservice.service.provider.SQLGlobals;
@@ -62,7 +59,6 @@ public class DownloadService extends IntentService
         if( zipURL != null && version > 0 ){
 
             File downloads = new File( getFilesDir(), "magazines" );
-
             downloads.mkdir();
             File target = new File( downloads, "target.zip" );
             URL url = null;
@@ -85,34 +81,18 @@ public class DownloadService extends IntentService
 
                 if( files.size() > 0 ){
 
-                    Uri magazineURI = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/magazines" );
-                    Uri pagesURI = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/pages" );
-
-                    ContentResolver cr = getContentResolver();
-                    ContentValues c = new ContentValues();
-                    c.put(SQLMagazine.VERSION, version);
-                    c.put( SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()) );
-                    c.put(SQLMagazine.LOCATION, "download_" + version );
-                    Uri lastInsert = cr.insert(magazineURI, c);
-                    int lastMagazineID = Integer.parseInt(lastInsert.getLastPathSegment());
+                    int lastMagazineID = storeMagazine( version );
 
                     if( lastMagazineID >= 0 ){
-                        for( String file: files ){
 
-                            c = new ContentValues();
-                            c.put(SQLPage.MAG_ID, lastMagazineID );
-                            c.put( SQLPage.NAME, file );
-
-                            cr.insert( pagesURI, c );
-                        }
-
+                        storePages(files, lastMagazineID);
                         result = Activity.RESULT_OK;
                         bundle.putString("message", "zip was downloaded and decompressed!");
                         bundle.putInt( "mag_id", lastMagazineID );
                         bundle.putString("directory", unzipDir.getAbsolutePath());
                     }
 
-                    bundle.putString("message", "couldn't store first magazine " + lastInsert.getPath());
+                    bundle.putString("message", "couldn't store first magazine " + version );
 
                 }else{
 
@@ -211,5 +191,30 @@ public class DownloadService extends IntentService
         }
 
         return files;
+    }
+
+    private int storeMagazine( float version){
+        Uri magazineURI = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/magazines" );
+
+        ContentResolver cr = getContentResolver();
+        ContentValues c = new ContentValues();
+        c.put(SQLMagazine.VOLUME, version);
+        c.put( SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()) );
+        c.put(SQLMagazine.LOCATION, "download_" + version );
+        Uri lastInsert = cr.insert(magazineURI, c);
+        return Integer.parseInt(lastInsert.getLastPathSegment());
+    }
+
+    private void storePages( List<String> files, int lastMagazineID ){
+        Uri pagesURI = Uri.parse("content://" + MagazineProvider.AUTHORITY + "/pages");
+        ContentResolver cr = getContentResolver();
+        ContentValues c;
+        for( String file: files ){
+
+            c = new ContentValues();
+            c.put(SQLPage.MAG_ID, lastMagazineID );
+            c.put( SQLPage.NAME, file );
+            cr.insert( pagesURI, c );
+        }
     }
 }

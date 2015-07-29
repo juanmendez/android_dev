@@ -47,42 +47,42 @@ public class ContentProviderTest
         ShadowContentResolver.registerProvider(MagazineProvider.AUTHORITY, provider);
     }
 
-    //@Test
+    @Test
     public  void testContentProvider()
     {
         Uri uri = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/magazines" );
         Uri result;
 
         ContentValues row = new ContentValues();
-        row.put(SQLMagazine.VERSION, "2.22");
+        row.put(SQLMagazine.VOLUME, "2.22");
         row.put(SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()));
         row.put(SQLMagazine.LOCATION, "/wherever/1.zip");
         result = resolver.insert(uri, row);
 
         row = new ContentValues();
-        row.put(SQLMagazine.VERSION, "2.23");
+        row.put(SQLMagazine.VOLUME, "2.23");
         row.put(SQLMagazine.DATETIME, "2015-01-01 00:00:00");
         row.put(SQLMagazine.LOCATION, "/wherever/2.zip");
         result = resolver.insert(uri, row);
 
         uri = Uri.parse("content://" + MagazineProvider.AUTHORITY + "/magazines/limit/" + 1 );
         Cursor query = resolver.query(uri,
-                new String[]{SQLMagazine.ID, SQLMagazine.VERSION, SQLMagazine.DATETIME, SQLMagazine.LOCATION},
+                new String[]{SQLMagazine.ID, SQLMagazine.VOLUME, SQLMagazine.DATETIME, SQLMagazine.LOCATION},
                 null,
                 null,
-                SQLMagazine.DATETIME + " desc" );
+                SQLMagazine.VOLUME + " desc" );
 
         Log.print("magazines", query);
     }
 
-    @Test
+    //@Test
     public void testMagazineAndPages(){
         Uri magazineURI = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/magazines" );
         Uri pagesURI = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/pages" );
         Uri result;
 
         ContentValues row = new ContentValues();
-        row.put(SQLMagazine.VERSION, "2.22");
+        row.put(SQLMagazine.VOLUME, "2.22");
         row.put(SQLMagazine.LOCATION, "/wherever/1.zip");
         row.put(SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()));
         result = resolver.insert(magazineURI, row);
@@ -92,10 +92,12 @@ public class ContentProviderTest
         if( lastMagazineID >= 0 ){
 
             Cursor query = shadowResolver.query(magazineURI,
-                    new String[]{SQLMagazine.ID, SQLMagazine.VERSION, SQLMagazine.DATETIME, SQLMagazine.LOCATION},
+                    new String[]{SQLMagazine.ID, SQLMagazine.VOLUME, SQLMagazine.DATETIME, SQLMagazine.LOCATION},
                     null,
                     null,
                     null );
+
+            Log.print( "magazines", query );
 
             ArrayList<String> files = new ArrayList<String>(){{
                 add("page1.html");
@@ -121,9 +123,6 @@ public class ContentProviderTest
                     null,
                     null,
                     null );
-
-            Log.print( "pages", query );
-
         }
 
     }

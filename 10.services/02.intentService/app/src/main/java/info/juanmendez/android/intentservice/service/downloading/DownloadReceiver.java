@@ -6,6 +6,11 @@ import android.os.ResultReceiver;
 
 /**
  * Created by Juan on 7/24/2015.
+ *
+ * The intent to invoke service wraps an instance of this class. That same service is able to get the
+ * object from the intent received, and is able to call send method which is handled by onReceiveResult.
+ *
+ * Having a reference of our callback, we can call a specific method.
  */
 public class DownloadReceiver extends ResultReceiver
 {
