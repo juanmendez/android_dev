@@ -54,23 +54,23 @@ public class ContentProviderTest
         Uri result;
 
         ContentValues row = new ContentValues();
-        row.put(SQLMagazine.VOLUME, "2.22");
+        row.put(SQLMagazine.ISSUE, "2.22");
         row.put(SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()));
         row.put(SQLMagazine.LOCATION, "/wherever/1.zip");
         result = resolver.insert(uri, row);
 
         row = new ContentValues();
-        row.put(SQLMagazine.VOLUME, "2.23");
+        row.put(SQLMagazine.ISSUE, "2.23");
         row.put(SQLMagazine.DATETIME, "2015-01-01 00:00:00");
         row.put(SQLMagazine.LOCATION, "/wherever/2.zip");
         result = resolver.insert(uri, row);
 
         uri = Uri.parse("content://" + MagazineProvider.AUTHORITY + "/magazines/limit/" + 1 );
         Cursor query = resolver.query(uri,
-                new String[]{SQLMagazine.ID, SQLMagazine.VOLUME, SQLMagazine.DATETIME, SQLMagazine.LOCATION},
+                new String[]{SQLMagazine.ID, SQLMagazine.ISSUE, SQLMagazine.DATETIME, SQLMagazine.LOCATION},
                 null,
                 null,
-                SQLMagazine.VOLUME + " desc" );
+                SQLMagazine.ISSUE + " desc" );
 
         Log.print("magazines", query);
     }
@@ -82,7 +82,7 @@ public class ContentProviderTest
         Uri result;
 
         ContentValues row = new ContentValues();
-        row.put(SQLMagazine.VOLUME, "2.22");
+        row.put(SQLMagazine.ISSUE, "2.22");
         row.put(SQLMagazine.LOCATION, "/wherever/1.zip");
         row.put(SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()));
         result = resolver.insert(magazineURI, row);
@@ -92,7 +92,7 @@ public class ContentProviderTest
         if( lastMagazineID >= 0 ){
 
             Cursor query = shadowResolver.query(magazineURI,
-                    new String[]{SQLMagazine.ID, SQLMagazine.VOLUME, SQLMagazine.DATETIME, SQLMagazine.LOCATION},
+                    new String[]{SQLMagazine.ID, SQLMagazine.ISSUE, SQLMagazine.DATETIME, SQLMagazine.LOCATION},
                     null,
                     null,
                     null );

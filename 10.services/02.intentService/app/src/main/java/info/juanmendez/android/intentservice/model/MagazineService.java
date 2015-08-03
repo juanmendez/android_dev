@@ -7,6 +7,7 @@ import com.google.gson.internal.bind.DateTypeAdapter;
 
 import java.util.Date;
 
+import info.juanmendez.android.intentservice.service.versioning.RetrofitErrorHandler;
 import info.juanmendez.android.intentservice.service.versioning.RetroService;
 import retrofit.ErrorHandler;
 import retrofit.RestAdapter;
@@ -17,7 +18,7 @@ import retrofit.converter.GsonConverter;
 /**
  * Created by Juan on 7/22/2015.
  */
-public class IssueService
+public class MagazineService
 {
     public static String localhost(){
         return "http://192.168.45.1";
@@ -31,7 +32,7 @@ public class IssueService
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint( localhost() )
-                .setErrorHandler( new MyErrorHandler())
+                .setErrorHandler( new RetrofitErrorHandler())
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setConverter(new GsonConverter(gson))
                 .build();

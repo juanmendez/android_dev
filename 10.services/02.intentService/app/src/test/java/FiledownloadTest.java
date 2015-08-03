@@ -1,7 +1,5 @@
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
 
 import org.apache.commons.io.IOUtils;
 
@@ -28,7 +26,6 @@ import java.util.zip.ZipFile;
 
 import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.MainActivity;
-import info.juanmendez.android.intentservice.service.downloading.DownloadReceiver;
 import info.juanmendez.android.intentservice.service.downloading.DownloadService;
 
 /**
@@ -61,9 +58,10 @@ public class FiledownloadTest {
     @Test
     public void testDownloadService(){
 
-        DownloadReceiver downloadReceiver = new DownloadReceiver( new Handler() );
+        /*
+        UIReceiver downloadReceiver = new UIReceiver( new Handler() );
 
-        downloadReceiver.setCallback(new DownloadReceiver.Callback() {
+        downloadReceiver.setCallback(new UIReceiver.UiCallback() {
             @Override
             public void onReceiveResult(int resultCode, Bundle resultData) {
                 Log.print("Received.. " + Integer.toString(resultCode) + " " + resultData.getString("message", "hello"));
@@ -74,7 +72,7 @@ public class FiledownloadTest {
         i.putExtra( "receiver", downloadReceiver );
 
         DownloadServiceMock service = new DownloadServiceMock();
-        service.onHandleIntent( i );
+        service.onHandleIntent( i );*/
     }
 
     public class DownloadServiceMock extends DownloadService{

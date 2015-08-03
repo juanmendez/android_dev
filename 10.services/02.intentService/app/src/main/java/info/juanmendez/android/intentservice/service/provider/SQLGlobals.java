@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class SQLGlobals
 {
-    public static final int version = 3;
+    public static final int version = 2;
 
     private static final DateFormat SQLITE_DATEFORMAT;
 
@@ -25,5 +25,4 @@ public class SQLGlobals
     public static Date parseDate(String dateString) throws ParseException {
         return SQLITE_DATEFORMAT.parse( dateString );
     }
-
 }

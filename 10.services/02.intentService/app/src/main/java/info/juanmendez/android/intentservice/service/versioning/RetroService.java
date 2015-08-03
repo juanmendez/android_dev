@@ -1,6 +1,8 @@
 package info.juanmendez.android.intentservice.service.versioning;
 
-import info.juanmendez.android.intentservice.model.Issue;
+import java.util.ArrayList;
+
+import info.juanmendez.android.intentservice.model.Magazine;
 import retrofit.http.GET;
 import retrofit.Callback;
 
@@ -10,9 +12,16 @@ import retrofit.Callback;
 public interface RetroService
 {
     @GET("/development/android/latest.json")
-    void getLatestIssue(Callback<Issue> cb);
+    void getLatestIssue(Callback<Magazine> cb);
 
 
     @GET("/development/android/latest.json")
-    Issue getLatestIssue();
+    Magazine getLatestIssue();
+
+
+    @GET("/development/android/list.json")
+    void getIssues(Callback<ArrayList<Magazine>> cb);
+
+    @GET("/development/android/list.json")
+    ArrayList<Magazine> getIssues();
 }

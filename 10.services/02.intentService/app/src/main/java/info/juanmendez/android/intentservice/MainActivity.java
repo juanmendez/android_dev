@@ -1,22 +1,22 @@
 package info.juanmendez.android.intentservice;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-import info.juanmendez.android.intentservice.helper.Logging;
-import info.juanmendez.android.intentservice.service.downloading.DownloadReceiver;
-import info.juanmendez.android.intentservice.service.downloading.DownloadService;
+import javax.inject.Inject;
+
+import info.juanmendez.android.intentservice.helper.DownloadProxy;
+import info.juanmendez.android.intentservice.model.Magazine;
 
 public class MainActivity extends AppCompatActivity {
 
     WebView webView;
-    DownloadReceiver downloadReceiver;
+
+    @Inject
+    DownloadProxy receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,28 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
+        ((MagazineApp) getApplication()).inject(this);
+
         getLatestMagazine();
     }
 
     private void getLatestMagazine(){
-        downloadReceiver = new DownloadReceiver( new Handler() );
-
-        downloadReceiver.setCallback(new DownloadReceiver.Callback() {
+        receiver.startService(this, new DownloadProxy.UiCallback() {
             @Override
-            public void onReceiveResult(int resultCode, Bundle resultData) {
-                if (resultCode == Activity.RESULT_OK) {
-
-                    Logging.print( "magazine version " + resultData.getString( "mag_id", "0"));
-                    webView.loadUrl("file://" + resultData.getString("directory") + "/index.html");
-                }
+            public void onReceiveResult(int resultCode, Magazine magazine) {
+                if( magazine != null )
+                    webView.loadUrl( magazine.getLocation() + "/index.html");
             }
         });
-
-        Intent i = new Intent( this, DownloadService.class );
-        i.putExtra("receiver", downloadReceiver);
-        i.putExtra( "zipUrl", (BuildConfig.DEBUG ? "http://192.168.45.1" : "http://ketchup") + "/development/android/magazine/mag_0.1/www.zip" );
-        i.putExtra("version", 0.1f);
-        startService( i );
     }
 
     @Override

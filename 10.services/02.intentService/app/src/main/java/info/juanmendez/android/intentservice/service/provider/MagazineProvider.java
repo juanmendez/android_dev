@@ -70,7 +70,6 @@ public class MagazineProvider extends ContentProvider {
                 case "magazines":
                     return magazineCrud.query( uri, projection, selection, selectionArgs, sortOrder );
             }
-
         }
         return null;
     }
