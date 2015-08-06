@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 
+import javax.inject.Inject;
+
 import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.model.Magazine;
 import info.juanmendez.android.intentservice.service.downloading.DownloadService;
@@ -21,24 +23,28 @@ import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
 public class DownloadProxy extends ResultReceiver
 {
     private UiCallback callback;
+    Activity activity;
 
     public DownloadProxy(){
         super( new Handler());
     }
 
-    public void startService( Activity activity, UiCallback  callback){
+    @Inject
+    public DownloadProxy(Activity activity){
+        super( new Handler());
+        this.activity = activity;
+    }
+
+    public void startService( UiCallback  callback){
 
         this.callback = callback;
-
         Intent i = new Intent( activity, DownloadService.class );
         i.putExtra("receiver", this);
-        i.putExtra( "zipUrl", (BuildConfig.DEBUG ? "http://192.168.45.1" : "http://ketchup") + "/development/android/magazine/mag_0.1/www.zip" );
-        i.putExtra("version", 0.1f);
         activity.startService(i);
     }
 
     public interface UiCallback {
-        public void onReceiveResult( int resultCode, Magazine magazine );
+        public void onReceiveResult( int resultCode );
     }
 
     @Override
@@ -46,13 +52,6 @@ public class DownloadProxy extends ResultReceiver
 
         super.onReceiveResult(resultCode, resultData);
 
-        Magazine magazine = null;
-
-        if( resultCode == Activity.RESULT_OK )
-        {
-            magazine = MagazineParser.fromBundle( resultData );
-        }
-
-        callback.onReceiveResult( resultCode, magazine );
+        callback.onReceiveResult( resultCode );
     }
 }

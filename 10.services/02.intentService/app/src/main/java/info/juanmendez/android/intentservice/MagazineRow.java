@@ -14,9 +14,8 @@ import com.joanzapata.android.iconify.Iconify;
 import javax.inject.Inject;
 
 import info.juanmendez.android.intentservice.model.Magazine;
-import info.juanmendez.android.intentservice.model.MagazineAction;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
-import info.juanmendez.android.intentservice.service.downloading.DownloadDispatcher;
+import info.juanmendez.android.intentservice.service.downloading.MagazineDispatcher;
 
 /**
  * Created by Juan on 8/1/2015.
@@ -27,7 +26,7 @@ public class MagazineRow extends LinearLayout implements View.OnClickListener {
     Magazine magazine;
 
     @Inject
-    DownloadDispatcher dispatcher;
+    MagazineDispatcher dispatcher;
 
     public MagazineRow(Context context){
         this( context, null );
@@ -61,7 +60,7 @@ public class MagazineRow extends LinearLayout implements View.OnClickListener {
 
         imageButton.setOnClickListener(this);
 
-        issueTextView.setText( magazine.getTitle() );
+        issueTextView.setText( magazine.getFileLocation() );
     }
 
     public static MagazineRow inflate( ViewGroup parent ){
@@ -72,10 +71,10 @@ public class MagazineRow extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        magazine.setStatus( MagazineStatus.DOWNLOADED );
+        magazine.setStatus( MagazineStatus.PENDING );
         imageButton.setText(magazine.getStatus());
         Iconify.addIcons(imageButton);
 
-        dispatcher.setAction( new MagazineAction( magazine.getStatus() ) );
+        dispatcher.setMagazine(magazine);
     }
 }

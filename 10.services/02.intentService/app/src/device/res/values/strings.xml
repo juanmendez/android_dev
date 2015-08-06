@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Device Service</string>
+    <string name="localhost">http://localhost</string>
+</resources>

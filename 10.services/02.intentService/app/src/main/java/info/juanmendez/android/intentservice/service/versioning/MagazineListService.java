@@ -10,6 +10,9 @@ import android.os.ResultReceiver;
 
 import java.util.ArrayList;
 
+import info.juanmendez.android.intentservice.BuildConfig;
+import info.juanmendez.android.intentservice.MagazineApp;
+import info.juanmendez.android.intentservice.R;
 import info.juanmendez.android.intentservice.helper.Logging;
 import info.juanmendez.android.intentservice.helper.MagazineParser;
 import info.juanmendez.android.intentservice.model.Magazine;
@@ -28,10 +31,13 @@ public class MagazineListService extends IntentService
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Uri uri = Uri.parse("content://" + MagazineProvider.AUTHORITY + "/magazines");
+
+        MagazineApp app = ((MagazineApp) getApplication());
+
+        Uri uri = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider" + "/magazines");
         Uri result;
         ContentResolver resolver = getContentResolver();
-        RetroService service = MagazineService.getService();
+        RetroService service = MagazineService.getService( app.getLocalhost() );
         ResultReceiver rec = intent.getParcelableExtra("receiver");
 
         try{
@@ -47,7 +53,6 @@ public class MagazineListService extends IntentService
         }
         catch( Exception e ){
             e.printStackTrace();
-            Logging.print(e.getMessage());
             rec.send( Activity.RESULT_CANCELED, new Bundle());
         }
     }

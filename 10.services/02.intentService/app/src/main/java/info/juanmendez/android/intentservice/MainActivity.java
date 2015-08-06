@@ -8,14 +8,14 @@ import android.webkit.WebView;
 
 import javax.inject.Inject;
 
+import dagger.ObjectGraph;
 import info.juanmendez.android.intentservice.helper.DownloadProxy;
 import info.juanmendez.android.intentservice.model.Magazine;
+import info.juanmendez.android.intentservice.module.ActivityModule;
 
 public class MainActivity extends AppCompatActivity {
 
     WebView webView;
-
-    @Inject
     DownloadProxy receiver;
 
     @Override
@@ -23,19 +23,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MagazineApp app = (MagazineApp)getApplication();
+        ObjectGraph graph = app.getGraph().plus( new ActivityModule(this));
+        graph.inject(this);
+
         webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
-        ((MagazineApp) getApplication()).inject(this);
 
+        receiver = new DownloadProxy(this);
         getLatestMagazine();
     }
 
     private void getLatestMagazine(){
-        receiver.startService(this, new DownloadProxy.UiCallback() {
+        receiver.startService( new DownloadProxy.UiCallback() {
             @Override
-            public void onReceiveResult(int resultCode, Magazine magazine) {
-                if( magazine != null )
-                    webView.loadUrl( magazine.getLocation() + "/index.html");
+            public void onReceiveResult(int resultCode) {
+
             }
         });
     }

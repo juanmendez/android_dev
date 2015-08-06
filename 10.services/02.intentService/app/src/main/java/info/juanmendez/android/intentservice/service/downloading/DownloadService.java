@@ -26,7 +26,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import javax.inject.Inject;
+
+import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.MagazineApp;
+import info.juanmendez.android.intentservice.R;
+import info.juanmendez.android.intentservice.helper.MagazineParser;
+import info.juanmendez.android.intentservice.model.Magazine;
+import info.juanmendez.android.intentservice.model.MagazineStatus;
 import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
 import info.juanmendez.android.intentservice.service.provider.SQLGlobals;
 import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
@@ -40,6 +47,8 @@ import info.juanmendez.android.intentservice.service.provider.SQLPage;
  */
 public class DownloadService extends IntentService
 {
+    @Inject
+    Magazine lastMagazine;
 
     public DownloadService()
     {
@@ -49,29 +58,23 @@ public class DownloadService extends IntentService
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        String zipURL = intent.getStringExtra( "zipUrl");
-        float issue = intent.getFloatExtra( "version", 0 );
+        MagazineApp app = ((MagazineApp) getApplication());
+        app.inject(this);
 
         ResultReceiver rec = intent.getParcelableExtra( "receiver" );
         Bundle bundle = new Bundle();
         bundle.putString( "message", "nothing happened");
         int result = Activity.RESULT_CANCELED;
 
-        if( zipURL != null && issue > 0 ){
-
+        if( lastMagazine != null )
+        {
             File downloads = new File( getFilesDir(), "magazines" );
             downloads.mkdir();
             File target = new File( downloads, "target.zip" );
-            URL url = null;
 
-            try {
-                url = new URL( zipURL );
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
 
-            if( download( target, url )){
-                File unzipDir = new File( getFilesDir(), "version_" + issue);
+            if( download( target, MagazineParser.getMagazineURL( app.getLocalhost(), lastMagazine ))){
+                File unzipDir = new File( getFilesDir(), "version_" + lastMagazine.getIssue());
 
                 if( unzipDir.exists() )
                     unzipDir.delete();
@@ -82,19 +85,16 @@ public class DownloadService extends IntentService
 
                 if( files.size() > 0 ){
 
-                    int lastMagazineID = storeMagazine( issue );
+                    int lastMagazineID = storeMagazine();
 
                     if( lastMagazineID >= 0 ){
 
                         storePages(files, lastMagazineID);
                         result = Activity.RESULT_OK;
                         bundle.putString("message", "zip was downloaded and decompressed!");
-                        bundle.putInt(SQLMagazine.ID, lastMagazineID);
-                        bundle.putFloat( SQLMagazine.ISSUE, issue);
-                        bundle.putString( SQLMagazine.LOCATION, unzipDir.getAbsolutePath());
                     }
 
-                    bundle.putString("message", "couldn't store first magazine " + issue );
+                    bundle.putString("message", "couldn't store first magazine " + lastMagazine.getIssue() );
 
                 }else{
 
@@ -105,6 +105,7 @@ public class DownloadService extends IntentService
 
                 bundle.putString("message", "couldn't download");
             }
+
         }
 
         rec.send(result, bundle);
@@ -195,28 +196,40 @@ public class DownloadService extends IntentService
         return files;
     }
 
-    private int storeMagazine( float version){
-        Uri magazineURI = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/magazines" );
+    private int storeMagazine(){
+
+        Magazine cloneMagazine = MagazineParser.clone(lastMagazine);
+        cloneMagazine.setFileLocation( "download_" + lastMagazine.getIssue()  );
+        cloneMagazine.setStatus( MagazineStatus.DOWNLOADED );
+
+        MagazineApp app = ((MagazineApp) getApplication());
+        Uri magazineURI = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider"+ "/magazines/" + cloneMagazine.getId());
 
         ContentResolver cr = getContentResolver();
-        ContentValues c = new ContentValues();
-        c.put(SQLMagazine.ISSUE, version);
-        c.put( SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()) );
-        c.put(SQLMagazine.LOCATION, "download_" + version );
-        Uri lastInsert = cr.insert(magazineURI, c);
-        return Integer.parseInt(lastInsert.getLastPathSegment());
+        ContentValues c = MagazineParser.toContentValues( cloneMagazine );
+
+        int itemsModified = cr.update(magazineURI, c, null, null );
+
+        if( itemsModified > 0 )
+        {
+            MagazineParser.overwrite( cloneMagazine, lastMagazine );
+        }
+
+        return itemsModified;
     }
 
     private void storePages( List<String> files, int lastMagazineID ){
-        Uri pagesURI = Uri.parse("content://" + MagazineProvider.AUTHORITY + "/pages");
+
+        MagazineApp app = ((MagazineApp) getApplication());
+        Uri pagesURI = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider" + "/pages");
         ContentResolver cr = getContentResolver();
         ContentValues c;
         for( String file: files ){
 
             c = new ContentValues();
             c.put(SQLPage.MAG_ID, lastMagazineID );
-            c.put( SQLPage.NAME, file );
-            cr.insert( pagesURI, c );
+            c.put(SQLPage.NAME, file );
+            //cr.insert( pagesURI, c );
         }
     }
 }

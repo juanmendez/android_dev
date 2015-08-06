@@ -23,6 +23,15 @@ public class MagazineApp extends Application
 
     public void inject( Object object )
     {
-        graph.inject( object );
+        graph.inject(object);
+    }
+
+    public ObjectGraph getGraph() {
+        return graph;
+    }
+
+    public String getLocalhost()
+    {
+        return getResources().getString( R.string.localhost );
     }
 }

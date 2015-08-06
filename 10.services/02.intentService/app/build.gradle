@@ -19,6 +19,18 @@ android {
         }
     }
 
+    productFlavors{
+        emulator{
+            applicationId "info.juanmendez.android.emulator"
+            versionName "1.0-emulator"
+        }
+
+        device{
+            applicationId "info.juanmendez.android.device"
+            versionName "1.0-device"
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'

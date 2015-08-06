@@ -17,6 +17,7 @@ public class SQLMagazine extends SQLiteOpenHelper
     public static final String TITLE = "title";
     public static final String FILE_LOCATION = "file_location";
     public static final String DATETIME = "datetime";
+    public static final String STATUS = "status";
 
     public SQLMagazine(Context context)
     {
@@ -26,7 +27,7 @@ public class SQLMagazine extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL( "create table "+TABLE+" ( "+ID+" integer primary key autoincrement, "+ ISSUE +" FLOAT not null UNIQUE, "+ LOCATION + " text not null, " + FILE_LOCATION + " text, " + TITLE + " text, " + DATETIME +  " DATETIME not null )");
+        db.execSQL( "create table "+TABLE+" ( "+ID+" integer primary key autoincrement, "+ ISSUE +" FLOAT not null UNIQUE, "+ LOCATION + " text not null, " + FILE_LOCATION + " text, " + TITLE + " text, " + STATUS + " text, " + DATETIME +  " DATETIME not null )");
     }
 
     @Override

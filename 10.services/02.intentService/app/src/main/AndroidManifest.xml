@@ -23,7 +23,7 @@
         </activity>
 
         <provider
-            android:authorities="info.juanmendez.android.intentservice.service.provider.MagazineProvider"
+            android:authorities="${applicationId}.service.provider.MagazineProvider"
             android:name=".service.provider.MagazineProvider"/>
 
         <service android:name=".service.downloading.DownloadService" android:exported="false"/>

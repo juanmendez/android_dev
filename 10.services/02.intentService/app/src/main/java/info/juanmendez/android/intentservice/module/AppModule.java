@@ -13,11 +13,16 @@ import info.juanmendez.android.intentservice.ListMagazines;
 import info.juanmendez.android.intentservice.MagazineApp;
 import info.juanmendez.android.intentservice.MagazineRow;
 import info.juanmendez.android.intentservice.MainActivity;
+import info.juanmendez.android.intentservice.TestObject;
 import info.juanmendez.android.intentservice.helper.DownloadProxy;
-import info.juanmendez.android.intentservice.service.downloading.DownloadDispatcher;
+import info.juanmendez.android.intentservice.model.Magazine;
+import info.juanmendez.android.intentservice.service.downloading.MagazineDispatcher;
 import info.juanmendez.android.intentservice.service.downloading.DownloadService;
 
-@Module( injects= { MagazineApp.class, MainActivity.class, DownloadService.class, ListMagazines.class, MagazineRow.class}, complete = false, library = true)
+@Module( injects= { MagazineApp.class,
+        DownloadService.class,
+        MagazineRow.class,
+        TestObject.class}, library = true)
 public class AppModule {
 
     Application _app;
@@ -25,12 +30,6 @@ public class AppModule {
     public AppModule( Application app ){
         _app = app;
     }
-
-    @Provides
-    DownloadProxy receiver(){
-        return new DownloadProxy();
-    }
-
 
     @Provides
     @Singleton
@@ -41,8 +40,12 @@ public class AppModule {
 
     @Provides
     @Singleton
-    DownloadDispatcher getDispatcher(Bus bus){
-        return new DownloadDispatcher(bus);
+    MagazineDispatcher getDispatcher(Bus bus){
+        return new MagazineDispatcher(bus);
     }
 
+    @Provides
+    Magazine getCurrentMagazine( MagazineDispatcher dispatcher){
+        return dispatcher.getMagazine();
+    }
 }

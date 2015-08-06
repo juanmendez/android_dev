@@ -8,4 +8,5 @@
     <string name="error_no_response">Error No Response</string>
     <string name="error_network_http_error">Error Network Http Error</string>
     <string name="error_unknown">Error Unknown</string>
+    <string name="localhost">http://localhost</string>
 </resources>

@@ -1,12 +1,9 @@
 package info.juanmendez.android.intentservice;
 
 import android.app.Activity;
-import android.app.ExpandableListActivity;
-import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,16 +13,17 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.ObjectGraph;
+import info.juanmendez.android.intentservice.helper.DownloadProxy;
 import info.juanmendez.android.intentservice.helper.Logging;
 import info.juanmendez.android.intentservice.helper.MagazineListProxy;
 import info.juanmendez.android.intentservice.model.Magazine;
-import info.juanmendez.android.intentservice.model.MagazineAction;
 import info.juanmendez.android.intentservice.model.MagazineAdapter;
+import info.juanmendez.android.intentservice.model.MagazineStatus;
+import info.juanmendez.android.intentservice.module.ActivityModule;
 import info.juanmendez.android.intentservice.service.provider.MagazineLoader;
 
 /**
@@ -35,14 +33,22 @@ public class ListMagazines extends AppCompatActivity  implements LoaderManager.L
     ListView list;
     MagazineLoader loader;
     MagazineAdapter adapter;
+    MagazineApp app;
 
     @Inject
-    Bus bus;
+    protected Bus bus;
+
+    @Inject
+    protected DownloadProxy receiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        app = (MagazineApp)getApplication();
+        ObjectGraph graph = app.getGraph().plus( new ActivityModule(this));
+        graph.inject( this );
 
         prepListView();
         prepLoader();
@@ -87,10 +93,8 @@ public class ListMagazines extends AppCompatActivity  implements LoaderManager.L
     }
 
     private void prepDagger(Boolean start){
-        MagazineApp app = (MagazineApp)getApplication();
 
         if( start ){
-            app.inject( this );
             bus.register(this);
         }
         else{
@@ -100,8 +104,9 @@ public class ListMagazines extends AppCompatActivity  implements LoaderManager.L
 
     @Override
     public Loader<ArrayList<Magazine>> onCreateLoader(int id, Bundle args) {
-        loader = new MagazineLoader(this);
-        return loader;
+
+        loader = new MagazineLoader(this );
+          return loader;
     }
 
     @Override
@@ -120,7 +125,18 @@ public class ListMagazines extends AppCompatActivity  implements LoaderManager.L
     }
 
     @Subscribe
-    public void magazineActionUpdate( MagazineAction action ){
-        Logging.print( "new action " + action.getAction() );
+    public void magazineActionUpdate( Magazine magazine ){
+
+
+        switch( magazine.getStatus() ){
+            case MagazineStatus.PENDING:
+                receiver.startService( new DownloadProxy.UiCallback() {
+                    @Override
+                    public void onReceiveResult(int resultCode) {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            break;
+        }
     }
 }

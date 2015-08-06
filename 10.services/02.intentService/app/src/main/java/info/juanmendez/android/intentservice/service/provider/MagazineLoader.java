@@ -10,6 +10,7 @@ import java.net.URI;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.helper.MagazineParser;
 import info.juanmendez.android.intentservice.model.Magazine;
 
@@ -21,7 +22,7 @@ public class MagazineLoader extends AsyncTaskLoader<ArrayList<Magazine>> {
     ArrayList<Magazine> magazines = new ArrayList<Magazine>();
     ContentResolver resolver;
 
-    public MagazineLoader( Context context ){
+    public MagazineLoader( Context context){
         super( context );
 
         resolver = context.getContentResolver();
@@ -45,16 +46,18 @@ public class MagazineLoader extends AsyncTaskLoader<ArrayList<Magazine>> {
 
         magazines.clear();
         Magazine magazine;
-        Uri uri = Uri.parse("content://" + MagazineProvider.AUTHORITY + "/magazines/");
+        Uri uri = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider/magazines/");
         Cursor query = resolver.query(uri,
-                new String[]{SQLMagazine.ID, SQLMagazine.ISSUE, SQLMagazine.DATETIME, SQLMagazine.LOCATION, SQLMagazine.FILE_LOCATION, SQLMagazine.TITLE },
+                new String[]{SQLMagazine.ID, SQLMagazine.ISSUE, SQLMagazine.DATETIME, SQLMagazine.LOCATION, SQLMagazine.FILE_LOCATION, SQLMagazine.TITLE, SQLMagazine.STATUS},
                 null,
                 null,
                 SQLMagazine.ISSUE + " desc");
 
-        while( query.moveToNext() )
-        {
-            magazines.add(MagazineParser.fromCursor( query ));
+        if( query != null ){
+            while( query.moveToNext() )
+            {
+                magazines.add(MagazineParser.fromCursor( query ));
+            }
         }
 
         return magazines;

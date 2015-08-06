@@ -49,7 +49,7 @@ public class MagazineCrud implements CrudProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        long id = db.insert( SQLMagazine.TABLE, null, values );
+        long id = db.insert(SQLMagazine.TABLE, null, values);
 
         if( id >= 0 ){
 
@@ -110,13 +110,14 @@ public class MagazineCrud implements CrudProvider {
             case MagazineProvider.SINGLE_MAGAZINE:
                 String temp = SQLMagazine.ID + "=" + uri.getPathSegments().get(1);
                 selection = temp + ( !TextUtils.isEmpty(selection) ? " AND (" + selection + ")" : "");
-                break;
+
+                int updateCount = db.update(SQLMagazine.TABLE, values, selection, selectionArgs );
+
+                //notify from content resolver..
+                context.getContentResolver().notifyChange( uri, null);
+                return updateCount;
         }
 
-        int updateCount = db.update(SQLMagazine.TABLE, values, selection, selectionArgs);
-
-        //notify from content resolver..
-        context.getContentResolver().notifyChange( uri, null);
-        return updateCount;
+        return 0;
     }
 }

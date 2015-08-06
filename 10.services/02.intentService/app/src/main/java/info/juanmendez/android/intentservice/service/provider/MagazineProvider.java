@@ -6,6 +6,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
+import info.juanmendez.android.intentservice.BuildConfig;
+
 /**
  * Created by Juan on 7/20/2015.
  */
@@ -20,7 +22,7 @@ public class MagazineProvider extends ContentProvider {
 
     private PageCrud pageCrud;
     private MagazineCrud magazineCrud;
-    public static final String AUTHORITY = "info.juanmendez.android.intentservice.service.provider.MagazineProvider";
+    public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider";
 
     public static final UriMatcher uriMatcher;
     static{
@@ -35,6 +37,7 @@ public class MagazineProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
+
         pageCrud = new PageCrud( getContext() );
         magazineCrud = new MagazineCrud( getContext() );
         return true;
