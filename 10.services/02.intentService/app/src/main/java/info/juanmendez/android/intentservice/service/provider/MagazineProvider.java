@@ -13,12 +13,12 @@ import info.juanmendez.android.intentservice.BuildConfig;
  */
 public class MagazineProvider extends ContentProvider {
 
-    static final int ALL_PAGES = 1;
-    static final int SINGLE_PAGE = 2;
+    public static final int ALL_PAGES = 1;
+    public static final int SINGLE_PAGE = 2;
 
-    static final int ALL_MAGAZINES = 3;
-    static final int SINGLE_MAGAZINE = 4;
-    static final int MAGAZINE_LIMIT = 5;
+    public static final int ALL_MAGAZINES = 3;
+    public static final int SINGLE_MAGAZINE = 4;
+    public static final int MAGAZINE_LIMIT = 5;
 
     private PageCrud pageCrud;
     private MagazineCrud magazineCrud;

@@ -5,6 +5,8 @@ import android.app.Application;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
+import java.util.ArrayList;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -16,6 +18,7 @@ import info.juanmendez.android.intentservice.MainActivity;
 import info.juanmendez.android.intentservice.TestObject;
 import info.juanmendez.android.intentservice.helper.DownloadProxy;
 import info.juanmendez.android.intentservice.model.Magazine;
+import info.juanmendez.android.intentservice.model.Page;
 import info.juanmendez.android.intentservice.service.downloading.MagazineDispatcher;
 import info.juanmendez.android.intentservice.service.downloading.DownloadService;
 
@@ -47,5 +50,11 @@ public class AppModule {
     @Provides
     Magazine getCurrentMagazine( MagazineDispatcher dispatcher){
         return dispatcher.getMagazine();
+    }
+
+    @Provides
+    @Singleton
+    ArrayList<Page> providesPages(){
+        return new ArrayList<Page>();
     }
 }

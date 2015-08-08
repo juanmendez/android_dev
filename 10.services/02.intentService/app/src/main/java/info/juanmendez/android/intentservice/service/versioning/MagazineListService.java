@@ -12,12 +12,9 @@ import java.util.ArrayList;
 
 import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.MagazineApp;
-import info.juanmendez.android.intentservice.R;
-import info.juanmendez.android.intentservice.helper.Logging;
-import info.juanmendez.android.intentservice.helper.MagazineParser;
+import info.juanmendez.android.intentservice.helper.MagazineUtil;
 import info.juanmendez.android.intentservice.model.Magazine;
 import info.juanmendez.android.intentservice.model.MagazineService;
-import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
 
 /**
  * Created by Juan on 8/2/2015.
@@ -35,7 +32,6 @@ public class MagazineListService extends IntentService
         MagazineApp app = ((MagazineApp) getApplication());
 
         Uri uri = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider" + "/magazines");
-        Uri result;
         ContentResolver resolver = getContentResolver();
         RetroService service = MagazineService.getService( app.getLocalhost() );
         ResultReceiver rec = intent.getParcelableExtra("receiver");
@@ -45,7 +41,7 @@ public class MagazineListService extends IntentService
 
             for( Magazine m: magazines ){
 
-                result = resolver.insert( uri, MagazineParser.toContentValues(m));
+                resolver.insert( uri, MagazineUtil.toContentValues(m));
             }
 
             rec.send(Activity.RESULT_OK, new Bundle());

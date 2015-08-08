@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -30,14 +29,12 @@ import javax.inject.Inject;
 
 import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.MagazineApp;
-import info.juanmendez.android.intentservice.R;
-import info.juanmendez.android.intentservice.helper.MagazineParser;
+import info.juanmendez.android.intentservice.helper.MagazineUtil;
+import info.juanmendez.android.intentservice.helper.PageUtil;
 import info.juanmendez.android.intentservice.model.Magazine;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
+import info.juanmendez.android.intentservice.model.Page;
 import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
-import info.juanmendez.android.intentservice.service.provider.SQLGlobals;
-import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
-import info.juanmendez.android.intentservice.service.provider.SQLPage;
 
 /**
  * The DownloadService is in charge of downloading a zip and extracting
@@ -73,7 +70,7 @@ public class DownloadService extends IntentService
             File target = new File( downloads, "target.zip" );
 
 
-            if( download( target, MagazineParser.getMagazineURL( app.getLocalhost(), lastMagazine ))){
+            if( download( target, MagazineUtil.getMagazineURL(app.getLocalhost(), lastMagazine))){
                 File unzipDir = new File( getFilesDir(), "version_" + lastMagazine.getIssue());
 
                 if( unzipDir.exists() )
@@ -81,15 +78,19 @@ public class DownloadService extends IntentService
 
                 unzipDir.mkdir();
 
-                List<String> files = unzip( target, unzipDir );
+                List<Page> pages = unzip( target, unzipDir );
 
-                if( files.size() > 0 ){
+                if( pages.size() > 0 ){
 
-                    int lastMagazineID = storeMagazine();
+                    int itemsModified = storeMagazine();
 
-                    if( lastMagazineID >= 0 ){
+                    if( itemsModified >= 0 ){
 
-                        storePages(files, lastMagazineID);
+                        storePages( pages );
+
+                        //try to store the page twice!!
+                        storePages( pages );
+
                         result = Activity.RESULT_OK;
                         bundle.putString("message", "zip was downloaded and decompressed!");
                     }
@@ -142,14 +143,14 @@ public class DownloadService extends IntentService
         return false;
     }
 
-    private List<String> unzip( File zip, File directory ){
+    private List<Page> unzip( File zip, File directory ){
 
         FileOutputStream fos = null;
         InputStream is = null;
         File entryDestination = null;
         ZipFile zipFile = null;
 
-        List<String> files = new ArrayList<String>();
+        List<Page> pages = new ArrayList<Page>();
 
         //reading the zipEntry is appending the zip file name. We want to ignore that level.
         String pattern = "\\w+\\/(.*)";
@@ -176,12 +177,19 @@ public class DownloadService extends IntentService
             zipFile.close();
 
             File[] listOfFiles = directory.listFiles();
+            File file;
+            Page page;
 
-
-            for( File file: listOfFiles ){
+            for( int i = 0; i < listOfFiles.length; i++ ){
+                file = listOfFiles[i];
 
                 if( !file.isDirectory()){
-                    files.add( file.getName() );
+                    page = new Page();
+                    page.setName( file.getName() );
+                    page.setPosition(i);
+                    page.setMagId(lastMagazine.getId());
+
+                    pages.add( page );
                 }
             }
 
@@ -193,12 +201,12 @@ public class DownloadService extends IntentService
             e.printStackTrace();
         }
 
-        return files;
+        return pages;
     }
 
     private int storeMagazine(){
 
-        Magazine cloneMagazine = MagazineParser.clone(lastMagazine);
+        Magazine cloneMagazine = MagazineUtil.clone(lastMagazine);
         cloneMagazine.setFileLocation( "download_" + lastMagazine.getIssue()  );
         cloneMagazine.setStatus( MagazineStatus.DOWNLOADED );
 
@@ -206,30 +214,34 @@ public class DownloadService extends IntentService
         Uri magazineURI = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider"+ "/magazines/" + cloneMagazine.getId());
 
         ContentResolver cr = getContentResolver();
-        ContentValues c = MagazineParser.toContentValues( cloneMagazine );
+        ContentValues c = MagazineUtil.toContentValues(cloneMagazine);
 
         int itemsModified = cr.update(magazineURI, c, null, null );
 
         if( itemsModified > 0 )
         {
-            MagazineParser.overwrite( cloneMagazine, lastMagazine );
+            MagazineUtil.overwrite(cloneMagazine, lastMagazine);
         }
 
         return itemsModified;
     }
 
-    private void storePages( List<String> files, int lastMagazineID ){
+    private void storePages( List<Page> pages ){
 
         MagazineApp app = ((MagazineApp) getApplication());
         Uri pagesURI = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider" + "/pages");
         ContentResolver cr = getContentResolver();
         ContentValues c;
-        for( String file: files ){
 
-            c = new ContentValues();
-            c.put(SQLPage.MAG_ID, lastMagazineID );
-            c.put(SQLPage.NAME, file );
-            //cr.insert( pagesURI, c );
+        for( Page page: pages ){
+
+            c = PageUtil.toContentValues(page);
+            Uri result = cr.insert( pagesURI, c );
+
+            if( result != null && MagazineProvider.uriMatcher.match(result) == MagazineProvider.SINGLE_PAGE  )
+            {
+                page.setId(Integer.parseInt(result.getLastPathSegment()));
+            }
         }
     }
 }

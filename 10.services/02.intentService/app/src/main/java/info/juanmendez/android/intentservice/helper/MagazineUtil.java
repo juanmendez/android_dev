@@ -19,7 +19,7 @@ import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
 /**
  * Created by Juan on 8/2/2015.
  */
-public class MagazineParser
+public class MagazineUtil
 {
     public static ContentValues toContentValues( Magazine magazine ){
 

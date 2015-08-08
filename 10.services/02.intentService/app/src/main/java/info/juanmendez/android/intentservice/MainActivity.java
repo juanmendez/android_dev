@@ -1,27 +1,48 @@
 package info.juanmendez.android.intentservice;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.CursorLoader;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import dagger.ObjectGraph;
 import info.juanmendez.android.intentservice.helper.DownloadProxy;
+import info.juanmendez.android.intentservice.helper.PageUtil;
 import info.juanmendez.android.intentservice.model.Magazine;
+import info.juanmendez.android.intentservice.model.MagazineStatus;
+import info.juanmendez.android.intentservice.model.Page;
 import info.juanmendez.android.intentservice.module.ActivityModule;
+import info.juanmendez.android.intentservice.service.page.PageAdapter;
+import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
+import info.juanmendez.android.intentservice.service.provider.SQLPage;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     WebView webView;
-    DownloadProxy receiver;
+    @Inject
+    Magazine magazine;
+
+    @Inject
+    ArrayList<Page> pageList;
+
+    @Inject
+    PageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         MagazineApp app = (MagazineApp)getApplication();
         ObjectGraph graph = app.getGraph().plus( new ActivityModule(this));
@@ -30,17 +51,7 @@ public class MainActivity extends AppCompatActivity {
         webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
 
-        receiver = new DownloadProxy(this);
-        getLatestMagazine();
-    }
-
-    private void getLatestMagazine(){
-        receiver.startService( new DownloadProxy.UiCallback() {
-            @Override
-            public void onReceiveResult(int resultCode) {
-
-            }
-        });
+        getSupportLoaderManager().initLoader(1, null, this);
     }
 
     @Override
@@ -52,9 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -63,5 +71,37 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        CursorLoader cursorLoader = new CursorLoader( MainActivity.this,
+
+                Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider/pages"),
+                new String[]{SQLPage.ID, SQLPage.POSITION, SQLPage.NAME, SQLPage.MAG_ID},
+                SQLPage.MAG_ID + " = ?",
+                new String[]{ Integer.toString(magazine.getId())},
+                null );
+
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor query) {
+        pageList.clear();
+        Page page;
+
+        while( query.moveToNext())
+        {
+            page = PageUtil.fromCursor( query );
+            pageList.add( page );
+        }
+
+        magazine.setStatus(MagazineStatus.DOWNLOADED);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }

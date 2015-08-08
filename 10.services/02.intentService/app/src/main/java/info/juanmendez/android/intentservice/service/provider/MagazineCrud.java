@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -48,16 +49,22 @@ public class MagazineCrud implements CrudProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        long id = db.insert(SQLMagazine.TABLE, null, values);
+SQLiteDatabase db = helper.getWritableDatabase();
 
-        if( id >= 0 ){
+try{
+    long id = db.insertOrThrow(SQLMagazine.TABLE, null, values);
 
-            Uri insertedId = ContentUris.withAppendedId(uri, id);
+    if( id >= 0 ){
 
-            context.getContentResolver().notifyChange( insertedId, null);
-            return insertedId;
-        }
+        Uri insertedId = ContentUris.withAppendedId(uri, id);
+
+        context.getContentResolver().notifyChange( insertedId, null);
+        return insertedId;
+    }
+}
+catch(SQLiteException e ){
+    e.printStackTrace();
+}
 
         return null;
     }

@@ -6,12 +6,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import java.net.URI;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.helper.MagazineParser;
+import info.juanmendez.android.intentservice.helper.MagazineUtil;
 import info.juanmendez.android.intentservice.model.Magazine;
 
 /**
@@ -56,7 +54,7 @@ public class MagazineLoader extends AsyncTaskLoader<ArrayList<Magazine>> {
         if( query != null ){
             while( query.moveToNext() )
             {
-                magazines.add(MagazineParser.fromCursor( query ));
+                magazines.add(MagazineUtil.fromCursor(query));
             }
         }
 

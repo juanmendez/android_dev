@@ -11,4 +11,5 @@ public class MagazineStatus
     public static final String AVAILABLE = "{fa-file-text}";
     public static final String PENDING = "{fa-circle-thin}";
     public static final String NONE = "MagazineStatus-none";
+    public static final String READ = "{fa-eye}";
 }

@@ -1,6 +1,12 @@
 package info.juanmendez.android.intentservice.module;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -23,9 +29,9 @@ injects = {
 )
 public class ActivityModule
 {
-    private final Activity activity;
+    private final AppCompatActivity activity;
 
-    public ActivityModule( Activity activity ){
+    public ActivityModule( AppCompatActivity activity ){
         this.activity = activity;
     }
 
@@ -40,5 +46,21 @@ public class ActivityModule
     public DownloadProxy providesProxy(Activity activity )
     {
         return new DownloadProxy(activity);
+    }
+
+
+    @Provides
+    @Singleton
+    public FragmentManager fragmentManagerProvider()
+    {
+        return activity.getSupportFragmentManager();
+    }
+
+
+    @Provides
+    @Singleton
+    public ArrayList<Fragment> fragmentListProvider()
+    {
+        return new ArrayList<Fragment>();
     }
 }

@@ -2,6 +2,7 @@ package info.juanmendez.android.intentservice;
 
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -127,15 +128,20 @@ public class ListMagazines extends AppCompatActivity  implements LoaderManager.L
     @Subscribe
     public void magazineActionUpdate( Magazine magazine ){
 
-
         switch( magazine.getStatus() ){
             case MagazineStatus.PENDING:
+
                 receiver.startService( new DownloadProxy.UiCallback() {
                     @Override
                     public void onReceiveResult(int resultCode) {
                         adapter.notifyDataSetChanged();
                     }
                 });
+            break;
+
+            case MagazineStatus.READ:
+                Intent intent = new Intent( this, MainActivity.class);
+                startActivity(intent);
             break;
         }
     }

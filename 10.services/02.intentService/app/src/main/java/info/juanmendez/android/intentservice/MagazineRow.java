@@ -71,10 +71,19 @@ public class MagazineRow extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        magazine.setStatus( MagazineStatus.PENDING );
-        imageButton.setText(magazine.getStatus());
-        Iconify.addIcons(imageButton);
 
-        dispatcher.setMagazine(magazine);
+        if( magazine.getStatus().equals(MagazineStatus.AVAILABLE) ) {
+            magazine.setStatus(MagazineStatus.PENDING);
+            imageButton.setText(magazine.getStatus());
+            Iconify.addIcons(imageButton);
+
+            dispatcher.setMagazine(magazine);
+        }
+        else
+        if( magazine.getStatus().equals(MagazineStatus.DOWNLOADED )){
+            magazine.setStatus(MagazineStatus.READ);
+            Iconify.addIcons(imageButton);
+            dispatcher.setMagazine(magazine);
+        }
     }
 }

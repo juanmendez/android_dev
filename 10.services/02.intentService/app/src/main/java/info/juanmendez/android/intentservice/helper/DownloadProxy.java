@@ -22,7 +22,7 @@ import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
 //TODO maybe stay away from Dagger here.
 public class DownloadProxy extends ResultReceiver
 {
-    private UiCallback callback;
+    protected UiCallback callback;
     Activity activity;
 
     public DownloadProxy(){
