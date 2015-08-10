@@ -45,8 +45,7 @@ import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
 public class DownloadService extends IntentService
 {
     @Inject
-    Magazine lastMagazine;
-
+    MagazineDispatcher dispatcher;
     public DownloadService()
     {
         super("download-zip");
@@ -62,6 +61,7 @@ public class DownloadService extends IntentService
         Bundle bundle = new Bundle();
         bundle.putString( "message", "nothing happened");
         int result = Activity.RESULT_CANCELED;
+        Magazine lastMagazine = dispatcher.getMagazine();
 
         if( lastMagazine != null )
         {
@@ -78,28 +78,24 @@ public class DownloadService extends IntentService
 
                 unzipDir.mkdir();
 
-                List<Page> pages = unzip( target, unzipDir );
+                int itemsModified = storeMagazine();
 
-                if( pages.size() > 0 ){
+                if( itemsModified > 0 )
+                {
+                    List<Page> pages = unzip( target, unzipDir );
 
-                    int itemsModified = storeMagazine();
-
-                    if( itemsModified >= 0 ){
+                    if( pages.size() > 0  ){
 
                         storePages( pages );
-
-                        //try to store the page twice!!
-                        storePages( pages );
-
                         result = Activity.RESULT_OK;
-                        bundle.putString("message", "zip was downloaded and decompressed!");
+
+                    }else{
+
+                        bundle.putString("message", "couldn't unzip");
                     }
-
+                }
+                else{
                     bundle.putString("message", "couldn't store first magazine " + lastMagazine.getIssue() );
-
-                }else{
-
-                    bundle.putString("message", "couldn't unzip");
                 }
 
             }else{
@@ -149,7 +145,7 @@ public class DownloadService extends IntentService
         InputStream is = null;
         File entryDestination = null;
         ZipFile zipFile = null;
-
+        Magazine lastMagazine = dispatcher.getMagazine();
         List<Page> pages = new ArrayList<Page>();
 
         //reading the zipEntry is appending the zip file name. We want to ignore that level.
@@ -206,24 +202,42 @@ public class DownloadService extends IntentService
 
     private int storeMagazine(){
 
+        Magazine lastMagazine = dispatcher.getMagazine();
         Magazine cloneMagazine = MagazineUtil.clone(lastMagazine);
-        cloneMagazine.setFileLocation( "download_" + lastMagazine.getIssue()  );
+        cloneMagazine.setFileLocation(  "file://" + getFilesDir().getAbsolutePath() +  "/version_" + lastMagazine.getIssue()  );
         cloneMagazine.setStatus( MagazineStatus.DOWNLOADED );
 
         MagazineApp app = ((MagazineApp) getApplication());
-        Uri magazineURI = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider"+ "/magazines/" + cloneMagazine.getId());
+        Uri magazineURI = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider" + "/magazines/" + cloneMagazine.getId());
 
         ContentResolver cr = getContentResolver();
         ContentValues c = MagazineUtil.toContentValues(cloneMagazine);
 
-        int itemsModified = cr.update(magazineURI, c, null, null );
 
-        if( itemsModified > 0 )
+        if( lastMagazine.getId() <= 0 )
         {
-            MagazineUtil.overwrite(cloneMagazine, lastMagazine);
+            Uri result = cr.insert( Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider" + "/magazines/"), c );
+
+            if( MagazineProvider.uriMatcher.match(result) == MagazineProvider.SINGLE_MAGAZINE )
+            {
+                cloneMagazine.setId( Integer.parseInt(result.getLastPathSegment()));
+                MagazineUtil.overwrite(cloneMagazine, lastMagazine);
+                return 1;
+            }
+        }
+        else
+        {
+            int itemsModified = cr.update(magazineURI, c, null, null);
+
+            if( itemsModified > 0 )
+            {
+                MagazineUtil.overwrite(cloneMagazine, lastMagazine);
+            }
+
+            return itemsModified;
         }
 
-        return itemsModified;
+        return 0;
     }
 
     private void storePages( List<Page> pages ){

@@ -6,15 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import info.juanmendez.android.intentservice.ListMagazines;
-import info.juanmendez.android.intentservice.MainActivity;
+import info.juanmendez.android.intentservice.MagazineActivity;
 import info.juanmendez.android.intentservice.helper.DownloadProxy;
+import info.juanmendez.android.intentservice.model.WebViewAdapter;
 
 /**
  * Created by Juan on 7/29/2015.
@@ -22,7 +22,8 @@ import info.juanmendez.android.intentservice.helper.DownloadProxy;
 @Module(
 injects = {
         ListMagazines.class,
-        MainActivity.class
+        MagazineActivity.class,
+        WebViewAdapter.class
 },
         addsTo = AppModule.class,
         library = true
@@ -46,21 +47,5 @@ public class ActivityModule
     public DownloadProxy providesProxy(Activity activity )
     {
         return new DownloadProxy(activity);
-    }
-
-
-    @Provides
-    @Singleton
-    public FragmentManager fragmentManagerProvider()
-    {
-        return activity.getSupportFragmentManager();
-    }
-
-
-    @Provides
-    @Singleton
-    public ArrayList<Fragment> fragmentListProvider()
-    {
-        return new ArrayList<Fragment>();
     }
 }

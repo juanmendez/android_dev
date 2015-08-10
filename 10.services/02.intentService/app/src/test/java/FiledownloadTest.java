@@ -25,7 +25,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.MainActivity;
+import info.juanmendez.android.intentservice.MagazineActivity;
 import info.juanmendez.android.intentservice.service.downloading.DownloadService;
 
 /**
@@ -40,13 +40,13 @@ public class FiledownloadTest {
         ShadowLog.stream = System.out;
     }
 
-    private MainActivity activity;
+    private MagazineActivity activity;
     private ActivityController controller;
 
     @Before
     public void buildActivity(){
-        controller = Robolectric.buildActivity( MainActivity.class ).create().start().resume().visible();
-        activity = (MainActivity) controller.get();
+        controller = Robolectric.buildActivity( MagazineActivity.class ).create().start().resume().visible();
+        activity = (MagazineActivity) controller.get();
 
         System.out.println( "hello world");
     }

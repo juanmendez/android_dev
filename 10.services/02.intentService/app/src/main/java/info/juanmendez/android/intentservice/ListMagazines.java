@@ -140,7 +140,7 @@ public class ListMagazines extends AppCompatActivity  implements LoaderManager.L
             break;
 
             case MagazineStatus.READ:
-                Intent intent = new Intent( this, MainActivity.class);
+                Intent intent = new Intent( this, MagazineActivity.class);
                 startActivity(intent);
             break;
         }
