@@ -15,6 +15,7 @@ import info.juanmendez.android.intentservice.ListMagazines;
 import info.juanmendez.android.intentservice.MagazineActivity;
 import info.juanmendez.android.intentservice.helper.DownloadProxy;
 import info.juanmendez.android.intentservice.model.WebViewAdapter;
+import info.juanmendez.android.intentservice.service.provider.MagazineLoader;
 
 /**
  * Created by Juan on 7/29/2015.

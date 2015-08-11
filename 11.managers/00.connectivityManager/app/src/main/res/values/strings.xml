@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Android Connectivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="network_info">network info</string>
+</resources>
