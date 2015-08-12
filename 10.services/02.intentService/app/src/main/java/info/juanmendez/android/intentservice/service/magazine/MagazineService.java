@@ -1,4 +1,4 @@
-package info.juanmendez.android.intentservice.model;
+package info.juanmendez.android.intentservice.service.magazine;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -7,9 +7,6 @@ import com.google.gson.internal.bind.DateTypeAdapter;
 
 import java.util.Date;
 
-import info.juanmendez.android.intentservice.R;
-import info.juanmendez.android.intentservice.service.versioning.RetrofitErrorHandler;
-import info.juanmendez.android.intentservice.service.versioning.RetroService;
 import retrofit.ErrorHandler;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;

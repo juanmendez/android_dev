@@ -1,4 +1,4 @@
-package info.juanmendez.android.intentservice.service.provider;
+package info.juanmendez.android.intentservice.service.provider.crud;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;

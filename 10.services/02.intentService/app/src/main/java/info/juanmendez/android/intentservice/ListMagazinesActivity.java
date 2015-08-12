@@ -18,19 +18,19 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import dagger.ObjectGraph;
-import info.juanmendez.android.intentservice.helper.DownloadProxy;
 import info.juanmendez.android.intentservice.helper.Logging;
-import info.juanmendez.android.intentservice.helper.MagazineListProxy;
-import info.juanmendez.android.intentservice.model.Magazine;
-import info.juanmendez.android.intentservice.model.MagazineAdapter;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
+import info.juanmendez.android.intentservice.model.adapter.MagazineAdapter;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.module.ActivityModule;
 import info.juanmendez.android.intentservice.service.provider.MagazineLoader;
+import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
+import info.juanmendez.android.intentservice.service.proxy.MagazineListProxy;
 
 /**
  * Created by Juan on 7/29/2015.
  */
-public class ListMagazines extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<ArrayList<Magazine>>, AdapterView.OnItemClickListener {
+public class ListMagazinesActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<ArrayList<Magazine>>, AdapterView.OnItemClickListener {
     ListView list;
     MagazineLoader loader;
     MagazineAdapter adapter;
@@ -84,7 +84,7 @@ public class ListMagazines extends AppCompatActivity  implements LoaderManager.L
                 @Override
                 public void onReceiveResult(int resultCode) {
                     if (resultCode == Activity.RESULT_OK) {
-                        getLoaderManager().initLoader(1, null, ListMagazines.this);
+                        getLoaderManager().initLoader(1, null, ListMagazinesActivity.this);
                     }
                 }
             });

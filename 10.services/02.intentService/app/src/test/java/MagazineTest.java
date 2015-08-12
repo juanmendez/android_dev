@@ -14,9 +14,8 @@ import org.robolectric.shadows.ShadowContentResolver;
 import org.robolectric.shadows.ShadowLog;
 
 import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.helper.Logging;
-import info.juanmendez.android.intentservice.helper.MagazineListProxy;
-import info.juanmendez.android.intentservice.service.versioning.MagazineListService;
+import info.juanmendez.android.intentservice.service.proxy.MagazineListProxy;
+import info.juanmendez.android.intentservice.service.magazine.MagazineListService;
 
 import static org.robolectric.Shadows.shadowOf;
 

@@ -1,20 +1,14 @@
 package info.juanmendez.android.intentservice.helper;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
-import android.os.Bundle;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
-import java.util.Date;
 
-import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.model.Magazine;
-import info.juanmendez.android.intentservice.model.MagazineService;
-import info.juanmendez.android.intentservice.service.provider.SQLGlobals;
-import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
+import info.juanmendez.android.intentservice.service.provider.table.SQLMagazine;
 
 /**
  * Created by Juan on 8/2/2015.
@@ -26,7 +20,7 @@ public class MagazineUtil
         ContentValues c = new ContentValues();
 
         c.put(SQLMagazine.ISSUE, magazine.getIssue());
-        c.put(SQLMagazine.DATETIME, SQLGlobals.dateFormat(magazine.getDateTime()));
+        c.put(SQLMagazine.DATETIME, PageUtil.TableUtils.dateFormat(magazine.getDateTime()));
         c.put(SQLMagazine.LOCATION, magazine.getLocation());
         c.put(SQLMagazine.FILE_LOCATION, magazine.getFileLocation());
         c.put(SQLMagazine.TITLE, magazine.getTitle());
@@ -45,7 +39,7 @@ public class MagazineUtil
             magazine.setFileLocation(c.getString(c.getColumnIndexOrThrow(SQLMagazine.FILE_LOCATION)));
             magazine.setTitle(c.getString(c.getColumnIndexOrThrow(SQLMagazine.TITLE)));
             magazine.setStatus(c.getString(c.getColumnIndexOrThrow(SQLMagazine.STATUS)));
-            magazine.setDateTime(SQLGlobals.parseDate(c.getString(c.getColumnIndexOrThrow(SQLMagazine.DATETIME))));
+            magazine.setDateTime(PageUtil.TableUtils.parseDate(c.getString(c.getColumnIndexOrThrow(SQLMagazine.DATETIME))));
 
             return magazine;
         }

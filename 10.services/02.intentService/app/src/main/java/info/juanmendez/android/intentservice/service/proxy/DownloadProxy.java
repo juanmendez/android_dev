@@ -1,4 +1,4 @@
-package info.juanmendez.android.intentservice.helper;
+package info.juanmendez.android.intentservice.service.proxy;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,10 +8,7 @@ import android.os.ResultReceiver;
 
 import javax.inject.Inject;
 
-import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.model.Magazine;
-import info.juanmendez.android.intentservice.service.downloading.DownloadService;
-import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
+import info.juanmendez.android.intentservice.service.download.DownloadService;
 
 /**
  * The intent to invoke service wraps an instance of this class. That same service is able to get the

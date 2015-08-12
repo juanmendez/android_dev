@@ -1,8 +1,8 @@
-package info.juanmendez.android.intentservice.service.versioning;
+package info.juanmendez.android.intentservice.service.magazine;
 
 import java.util.ArrayList;
 
-import info.juanmendez.android.intentservice.model.Magazine;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import retrofit.http.GET;
 import retrofit.Callback;
 

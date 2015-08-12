@@ -1,6 +1,8 @@
-package info.juanmendez.android.intentservice.model;
+package info.juanmendez.android.intentservice.model.pojo;
 
 import java.util.Date;
+
+import info.juanmendez.android.intentservice.model.MagazineStatus;
 
 public class Magazine {
 

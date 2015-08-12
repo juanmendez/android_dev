@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.helper.MagazineUtil;
-import info.juanmendez.android.intentservice.model.Magazine;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
+import info.juanmendez.android.intentservice.service.provider.table.SQLMagazine;
 
 /**
  * Created by Juan on 8/2/2015.

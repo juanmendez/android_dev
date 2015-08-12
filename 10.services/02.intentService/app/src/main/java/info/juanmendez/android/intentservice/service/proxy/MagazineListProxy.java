@@ -1,4 +1,4 @@
-package info.juanmendez.android.intentservice.helper;
+package info.juanmendez.android.intentservice.service.proxy;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 
-import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.service.downloading.DownloadService;
-import info.juanmendez.android.intentservice.service.versioning.MagazineListService;
+import info.juanmendez.android.intentservice.service.magazine.MagazineListService;
 
 public class MagazineListProxy extends ResultReceiver
 {

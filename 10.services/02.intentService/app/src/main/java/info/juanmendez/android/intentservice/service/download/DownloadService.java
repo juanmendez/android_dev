@@ -1,4 +1,4 @@
-package info.juanmendez.android.intentservice.service.downloading;
+package info.juanmendez.android.intentservice.service.download;
 
 import android.app.Activity;
 import android.app.IntentService;
@@ -31,9 +31,9 @@ import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.MagazineApp;
 import info.juanmendez.android.intentservice.helper.MagazineUtil;
 import info.juanmendez.android.intentservice.helper.PageUtil;
-import info.juanmendez.android.intentservice.model.Magazine;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
-import info.juanmendez.android.intentservice.model.Page;
+import info.juanmendez.android.intentservice.model.pojo.Page;
 import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
 
 /**

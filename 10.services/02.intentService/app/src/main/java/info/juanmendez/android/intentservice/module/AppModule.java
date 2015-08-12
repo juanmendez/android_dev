@@ -13,15 +13,13 @@ import dagger.Module;
 import dagger.Provides;
 import info.juanmendez.android.intentservice.MagazineApp;
 import info.juanmendez.android.intentservice.MagazineRow;
-import info.juanmendez.android.intentservice.TestObject;
-import info.juanmendez.android.intentservice.model.Page;
-import info.juanmendez.android.intentservice.service.downloading.MagazineDispatcher;
-import info.juanmendez.android.intentservice.service.downloading.DownloadService;
+import info.juanmendez.android.intentservice.model.pojo.Page;
+import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
+import info.juanmendez.android.intentservice.service.download.DownloadService;
 
 @Module( injects= { MagazineApp.class,
         DownloadService.class,
-        MagazineRow.class,
-        TestObject.class}, library = true)
+        MagazineRow.class}, library = true)
 public class AppModule {
 
     Application _app;

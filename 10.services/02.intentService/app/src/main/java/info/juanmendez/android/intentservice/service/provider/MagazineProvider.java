@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import info.juanmendez.android.intentservice.BuildConfig;
+import info.juanmendez.android.intentservice.service.provider.crud.MagazineCrud;
+import info.juanmendez.android.intentservice.service.provider.crud.PageCrud;
 
 /**
  * Created by Juan on 7/20/2015.

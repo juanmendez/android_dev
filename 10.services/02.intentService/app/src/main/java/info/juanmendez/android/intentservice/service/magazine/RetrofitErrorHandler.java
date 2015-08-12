@@ -1,4 +1,4 @@
-package info.juanmendez.android.intentservice.service.versioning;
+package info.juanmendez.android.intentservice.service.magazine;
 
 import info.juanmendez.android.intentservice.helper.Logging;
 import info.juanmendez.android.intentservice.model.RetrofitErrorResponse;

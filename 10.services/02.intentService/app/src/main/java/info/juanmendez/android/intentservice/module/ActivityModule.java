@@ -1,28 +1,23 @@
 package info.juanmendez.android.intentservice.module;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-
-import java.util.ArrayList;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import info.juanmendez.android.intentservice.ListMagazines;
+import info.juanmendez.android.intentservice.ListMagazinesActivity;
 import info.juanmendez.android.intentservice.MagazineActivity;
-import info.juanmendez.android.intentservice.helper.DownloadProxy;
-import info.juanmendez.android.intentservice.model.WebViewAdapter;
-import info.juanmendez.android.intentservice.service.provider.MagazineLoader;
+import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
+import info.juanmendez.android.intentservice.model.adapter.WebViewAdapter;
 
 /**
  * Created by Juan on 7/29/2015.
  */
 @Module(
 injects = {
-        ListMagazines.class,
+        ListMagazinesActivity.class,
         MagazineActivity.class,
         WebViewAdapter.class
 },

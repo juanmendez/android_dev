@@ -1,8 +1,10 @@
-package info.juanmendez.android.intentservice.service.provider;
+package info.juanmendez.android.intentservice.service.provider.table;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import info.juanmendez.android.intentservice.helper.PageUtil;
 
 /**
  * Created by Juan on 7/20/2015.
@@ -18,7 +20,7 @@ public class SQLPage extends SQLiteOpenHelper
 
     public SQLPage(Context context)
     {
-        super(context, null, null, SQLGlobals.version );
+        super(context, null, null, PageUtil.TableUtils.version );
     }
 
     @Override

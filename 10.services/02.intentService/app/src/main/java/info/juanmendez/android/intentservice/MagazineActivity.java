@@ -18,15 +18,14 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import dagger.ObjectGraph;
-import info.juanmendez.android.intentservice.helper.DownloadProxy;
+import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
 import info.juanmendez.android.intentservice.helper.PageUtil;
-import info.juanmendez.android.intentservice.model.Magazine;
-import info.juanmendez.android.intentservice.model.MagazineStatus;
-import info.juanmendez.android.intentservice.model.Page;
-import info.juanmendez.android.intentservice.model.WebViewAdapter;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
+import info.juanmendez.android.intentservice.model.pojo.Page;
+import info.juanmendez.android.intentservice.model.adapter.WebViewAdapter;
 import info.juanmendez.android.intentservice.module.ActivityModule;
-import info.juanmendez.android.intentservice.service.downloading.MagazineDispatcher;
-import info.juanmendez.android.intentservice.service.provider.SQLPage;
+import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
+import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
 
 public class MagazineActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 

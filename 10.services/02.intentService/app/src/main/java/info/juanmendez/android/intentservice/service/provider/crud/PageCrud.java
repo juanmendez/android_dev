@@ -1,4 +1,4 @@
-package info.juanmendez.android.intentservice.service.provider;
+package info.juanmendez.android.intentservice.service.provider.crud;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+
+import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
+import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
 
 /**
  * Created by Juan on 7/20/2015.

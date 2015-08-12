@@ -1,4 +1,4 @@
-package info.juanmendez.android.intentservice.model;
+package info.juanmendez.android.intentservice.model.pojo;
 
 /**
  * Created by Juan on 8/1/2015.

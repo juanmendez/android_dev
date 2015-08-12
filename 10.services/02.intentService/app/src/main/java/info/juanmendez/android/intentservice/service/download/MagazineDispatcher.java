@@ -1,11 +1,11 @@
-package info.juanmendez.android.intentservice.service.downloading;
+package info.juanmendez.android.intentservice.service.download;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;
 
 import javax.inject.Inject;
 
-import info.juanmendez.android.intentservice.model.Magazine;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
 
 /**
  * Created by Juan on 8/3/2015.

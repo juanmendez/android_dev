@@ -1,23 +1,19 @@
-package info.juanmendez.android.intentservice.model;
+package info.juanmendez.android.intentservice.model.adapter;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import info.juanmendez.android.intentservice.MagazineActivity;
-import info.juanmendez.android.intentservice.model.Page;
-import info.juanmendez.android.intentservice.service.downloading.MagazineDispatcher;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
+import info.juanmendez.android.intentservice.model.pojo.Page;
+import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
 
 /**
  * Created by Juan on 8/8/2015.

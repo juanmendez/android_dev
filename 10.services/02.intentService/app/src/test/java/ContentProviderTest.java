@@ -22,12 +22,11 @@ import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.MagazineApp;
 import info.juanmendez.android.intentservice.helper.MagazineUtil;
 import info.juanmendez.android.intentservice.helper.PageUtil;
-import info.juanmendez.android.intentservice.model.Magazine;
-import info.juanmendez.android.intentservice.model.Page;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
+import info.juanmendez.android.intentservice.model.pojo.Page;
 import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
-import info.juanmendez.android.intentservice.service.provider.SQLGlobals;
-import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
-import info.juanmendez.android.intentservice.service.provider.SQLPage;
+import info.juanmendez.android.intentservice.service.provider.table.SQLMagazine;
+import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
 
 import static org.robolectric.Shadows.shadowOf;
 
@@ -64,7 +63,7 @@ public class ContentProviderTest
 
         ContentValues row = new ContentValues();
         row.put(SQLMagazine.ISSUE, "2.22");
-        row.put(SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()));
+        row.put(SQLMagazine.DATETIME, PageUtil.TableUtils.dateFormat(new Date()));
         row.put(SQLMagazine.LOCATION, "/wherever/1.zip");
         result = resolver.insert(uri, row);
 
@@ -182,7 +181,7 @@ public class ContentProviderTest
         ContentValues row = new ContentValues();
         row.put(SQLMagazine.ISSUE, "2.22");
         row.put(SQLMagazine.LOCATION, "/wherever/1.zip");
-        row.put(SQLMagazine.DATETIME, SQLGlobals.dateFormat(new Date()));
+        row.put(SQLMagazine.DATETIME, PageUtil.TableUtils.dateFormat(new Date()));
         result = resolver.insert(magazineURI, row);
 
         int lastMagazineID = Integer.parseInt(result.getLastPathSegment());

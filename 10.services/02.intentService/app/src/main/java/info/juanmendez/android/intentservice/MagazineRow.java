@@ -13,9 +13,9 @@ import com.joanzapata.android.iconify.Iconify;
 
 import javax.inject.Inject;
 
-import info.juanmendez.android.intentservice.model.Magazine;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
-import info.juanmendez.android.intentservice.service.downloading.MagazineDispatcher;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
+import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
 
 /**
  * Created by Juan on 8/1/2015.

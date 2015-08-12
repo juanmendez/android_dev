@@ -3,9 +3,9 @@ import android.database.Cursor;
 import java.text.ParseException;
 import java.util.List;
 
-import info.juanmendez.android.intentservice.service.provider.SQLGlobals;
-import info.juanmendez.android.intentservice.service.provider.SQLMagazine;
-import info.juanmendez.android.intentservice.service.provider.SQLPage;
+import info.juanmendez.android.intentservice.helper.PageUtil;
+import info.juanmendez.android.intentservice.service.provider.table.SQLMagazine;
+import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
 
 /**
  * Created by Juan on 7/2/2015.
@@ -18,7 +18,7 @@ public class Log
         {
             try {
                 if( type == "magazines" )
-                    print( "id: " + result.getInt(result.getColumnIndexOrThrow( SQLMagazine.ID )) + ", version: " + result.getFloat(result.getColumnIndexOrThrow(SQLMagazine.ISSUE)) + ", date " +  SQLGlobals.parseDate(result.getString(result.getColumnIndexOrThrow(SQLMagazine.DATETIME))) );
+                    print( "id: " + result.getInt(result.getColumnIndexOrThrow( SQLMagazine.ID )) + ", version: " + result.getFloat(result.getColumnIndexOrThrow(SQLMagazine.ISSUE)) + ", date " +  PageUtil.TableUtils.parseDate(result.getString(result.getColumnIndexOrThrow(SQLMagazine.DATETIME))) );
                 if( type == "pages" )
                     print( "id: " + result.getInt(result.getColumnIndexOrThrow( SQLPage.ID )) + " " + result.getString(result.getColumnIndexOrThrow(SQLPage.MAG_ID)) + " " + result.getString( result.getColumnIndexOrThrow(SQLPage.NAME)));
             } catch (ParseException e) {

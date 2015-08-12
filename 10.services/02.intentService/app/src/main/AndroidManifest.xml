@@ -13,7 +13,7 @@
 
 
         <activity
-            android:name=".ListMagazines"
+            android:name=".ListMagazinesActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,7 @@
             android:authorities="${applicationId}.service.provider.MagazineProvider"
             android:name=".service.provider.MagazineProvider"/>
 
-        <service android:name=".service.downloading.DownloadService" android:exported="false"/>
-        <service android:name=".service.versioning.MagazineListService" android:exported="false"/>
+        <service android:name=".service.download.DownloadService" android:exported="false"/>
+        <service android:name=".service.magazine.MagazineListService" android:exported="false"/>
     </application>
 </manifest>
