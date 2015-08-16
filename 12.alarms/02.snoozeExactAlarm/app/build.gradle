@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.0 rc2"
 
     defaultConfig {
-        applicationId "info.juanmendez.android.preferenceactivity"
+        applicationId "info.juanmendez.android.simplealarm"
         minSdkVersion 10
         targetSdkVersion 22
         versionCode 1
