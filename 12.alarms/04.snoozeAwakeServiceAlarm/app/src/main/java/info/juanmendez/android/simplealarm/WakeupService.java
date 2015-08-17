@@ -27,7 +27,7 @@ public class WakeupService extends IntentService{
     }
 
     @TargetApi( Build.VERSION_CODES.HONEYCOMB )
-    private void notify( final String methodName) {
+    private void notify( final String messageName) {
 
         /**
          * From the back of my head, I remember this features in another tutorial
@@ -40,7 +40,7 @@ public class WakeupService extends IntentService{
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setContentTitle(methodName + " " + strings[strings.length - 1])
+                .setContentTitle(messageName + " " + strings[strings.length - 1])
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText(name)
                 .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0 ));

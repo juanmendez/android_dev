@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, ServiceWorkshopActivity!</string>
+    <string name="app_name">Service Workshop Thru Binding</string>
+    <string name="workshopGreeting">Welcome, testing services to your delight</string>
+</resources>
