@@ -1,8 +1,6 @@
 package info.juanmendez.android.intentservice.module;
 
 import android.app.Application;
-import android.content.Context;
-import android.net.ConnectivityManager;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
@@ -13,8 +11,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import info.juanmendez.android.intentservice.MagazineApp;
-import info.juanmendez.android.intentservice.MagazineRow;
+import info.juanmendez.android.intentservice.ui.MagazineApp;
+import info.juanmendez.android.intentservice.ui.MagazineRow;
 import info.juanmendez.android.intentservice.model.pojo.Page;
 import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
 import info.juanmendez.android.intentservice.service.download.DownloadService;

@@ -1,4 +1,4 @@
-package info.juanmendez.android.intentservice;
+package info.juanmendez.android.intentservice.ui;
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import dagger.ObjectGraph;
+import info.juanmendez.android.intentservice.BuildConfig;
+import info.juanmendez.android.intentservice.R;
 import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
 import info.juanmendez.android.intentservice.helper.PageUtil;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;

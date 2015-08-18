@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.juanmendez.android.intentservice.MagazineRow;
+import info.juanmendez.android.intentservice.ui.MagazineRow;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
 
 /**

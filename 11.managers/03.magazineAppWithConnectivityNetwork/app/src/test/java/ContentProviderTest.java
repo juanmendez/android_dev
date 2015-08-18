@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.MagazineApp;
+import info.juanmendez.android.intentservice.ui.MagazineApp;
 import info.juanmendez.android.intentservice.helper.MagazineUtil;
 import info.juanmendez.android.intentservice.helper.PageUtil;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
@@ -31,7 +31,7 @@ import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
-@Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml", emulateSdk = 21 )
+@Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml", sdk = 21 )
 public class ContentProviderTest
 {
     private ContentResolver resolver;

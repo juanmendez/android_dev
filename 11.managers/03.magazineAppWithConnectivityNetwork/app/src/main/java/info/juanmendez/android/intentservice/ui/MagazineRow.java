@@ -1,6 +1,5 @@
-package info.juanmendez.android.intentservice;
+package info.juanmendez.android.intentservice.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -14,6 +13,7 @@ import com.joanzapata.android.iconify.Iconify;
 
 import javax.inject.Inject;
 
+import info.juanmendez.android.intentservice.R;
 import info.juanmendez.android.intentservice.helper.NetworkUtil;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;

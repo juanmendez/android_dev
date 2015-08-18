@@ -1,8 +1,9 @@
-package info.juanmendez.android.intentservice;
+package info.juanmendez.android.intentservice.ui;
 
 import android.app.Application;
 
 import dagger.ObjectGraph;
+import info.juanmendez.android.intentservice.R;
 import info.juanmendez.android.intentservice.module.AppModule;
 
 /**

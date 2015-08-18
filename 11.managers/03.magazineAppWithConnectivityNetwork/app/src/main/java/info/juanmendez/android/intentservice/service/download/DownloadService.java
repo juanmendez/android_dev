@@ -28,7 +28,7 @@ import java.util.zip.ZipFile;
 import javax.inject.Inject;
 
 import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.MagazineApp;
+import info.juanmendez.android.intentservice.ui.MagazineApp;
 import info.juanmendez.android.intentservice.helper.MagazineUtil;
 import info.juanmendez.android.intentservice.helper.PageUtil;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;

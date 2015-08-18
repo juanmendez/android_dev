@@ -9,8 +9,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import info.juanmendez.android.intentservice.ListMagazinesActivity;
-import info.juanmendez.android.intentservice.MagazineActivity;
+import info.juanmendez.android.intentservice.ui.ListMagazinesActivity;
+import info.juanmendez.android.intentservice.ui.MagazineActivity;
 import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
 import info.juanmendez.android.intentservice.model.adapter.WebViewAdapter;
 

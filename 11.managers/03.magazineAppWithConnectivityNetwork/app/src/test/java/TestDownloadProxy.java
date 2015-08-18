@@ -12,14 +12,14 @@ import org.robolectric.shadows.ShadowLog;
 import org.robolectric.util.ActivityController;
 
 import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.ListMagazinesActivity;
-import info.juanmendez.android.intentservice.MagazineApp;
+import info.juanmendez.android.intentservice.ui.ListMagazinesActivity;
+import info.juanmendez.android.intentservice.ui.MagazineApp;
 import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
 
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
-@Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml", emulateSdk = 21 )
+@Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml", sdk = 21 )
 public class TestDownloadProxy
 {
     private ContentResolver resolver;

@@ -25,7 +25,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import info.juanmendez.android.intentservice.BuildConfig;
-import info.juanmendez.android.intentservice.MagazineActivity;
+import info.juanmendez.android.intentservice.ui.MagazineActivity;
 import info.juanmendez.android.intentservice.service.download.DownloadService;
 
 /**

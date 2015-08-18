@@ -1,18 +1,14 @@
-package info.juanmendez.android.intentservice;
+package info.juanmendez.android.intentservice.ui;
 
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.Loader;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -22,7 +18,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import dagger.ObjectGraph;
-import info.juanmendez.android.intentservice.helper.Logging;
+import info.juanmendez.android.intentservice.R;
 import info.juanmendez.android.intentservice.helper.NetworkUtil;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
 import info.juanmendez.android.intentservice.model.adapter.MagazineAdapter;
@@ -78,16 +74,16 @@ public class ListMagazinesActivity extends AppCompatActivity  implements LoaderM
     @Override
     public void onResume(){
         super.onResume();
+        bus.register(this);
         prepLoader();
-        prepDagger(true);
         networkReceiver.register();
     }
 
     @Override
     public void onPause(){
-        super.onPause();
+        bus.unregister(this);
         networkReceiver.unregister();
-        prepDagger(false);
+        super.onPause();
     }
 
     private void prepListView(){
@@ -111,21 +107,12 @@ public class ListMagazinesActivity extends AppCompatActivity  implements LoaderM
         proxy.startService(this, this);
     }
 
-    private void prepDagger(Boolean start){
-
-        if( start ){
-            bus.register(this);
-        }
-        else{
-            bus.unregister(this);
-        }
-    }
 
     @Override
     public Loader<ArrayList<Magazine>> onCreateLoader(int id, Bundle args) {
 
         loader = new MagazineLoader(this );
-          return loader;
+        return loader;
     }
 
     @Override
@@ -150,12 +137,12 @@ public class ListMagazinesActivity extends AppCompatActivity  implements LoaderM
                         adapter.notifyDataSetChanged();
                     }
                 });
-            break;
+                break;
 
             case MagazineStatus.READ:
                 Intent intent = new Intent( this, MagazineActivity.class);
                 startActivity(intent);
-            break;
+                break;
         }
     }
 

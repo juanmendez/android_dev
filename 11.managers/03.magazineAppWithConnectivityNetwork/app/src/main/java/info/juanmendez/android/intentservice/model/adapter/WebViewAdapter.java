@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import info.juanmendez.android.intentservice.MagazineActivity;
+import info.juanmendez.android.intentservice.ui.MagazineActivity;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.model.pojo.Page;
 import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
