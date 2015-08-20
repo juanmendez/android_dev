@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import info.juanmendez.android.intentservice.helper.MVPUtils;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
 import info.juanmendez.android.intentservice.model.adapter.MagazineAdapter;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
@@ -21,6 +22,7 @@ import info.juanmendez.android.intentservice.service.provider.MagazineLoader;
 import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
 import info.juanmendez.android.intentservice.service.proxy.MagazineListProxy;
 import info.juanmendez.android.intentservice.ui.MagazineActivity;
+import info.juanmendez.android.intentservice.ui.magazine.IMagazineView;
 
 /**
  * Created by Juan on 8/19/2015.
@@ -43,24 +45,14 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     @Inject
     ArrayList<Magazine> magazines;
 
+    IListMagazinesView view;
+
 
     public ListMagazinesPresenter( Activity activity ){
         this.activity = activity;
         adapter = new MagazineAdapter( activity, new ArrayList<Magazine>());
-        getView().setAdapter(adapter);
-    }
-
-
-    IListMagazinesView getView(){
-
-        try{
-            return (IListMagazinesView) activity;
-        }catch( ClassCastException e ){
-
-            throw new IllegalStateException( activity.getClass().getSimpleName() +
-                    " does not implement contract interface" +
-                    getClass().getSimpleName(), e );
-        }
+        view = MVPUtils.getView( activity, IListMagazinesView.class );
+        view.setAdapter(adapter);
     }
 
     @Override
@@ -73,7 +65,7 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     private void prepLoader(){
         Loader loader = activity.getLoaderManager().getLoader(1);
 
-        if (loader == null && magazines.size() == 0 ) {
+        if ( magazines.size() == 0 ) {
             getMagazines();
         } else {
             onLoadFinished( loader, magazines );
@@ -90,7 +82,7 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     public void getMagazines() {
 
         MagazineListProxy proxy = new MagazineListProxy();
-        proxy.startService((Activity) activity, this);
+        proxy.startService(activity, this);
     }
 
     @Override
@@ -105,14 +97,13 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
             getMagazines();
         }
 
-        getView().onNetworkStatus(connected, type);
+        view.onNetworkStatus(connected, type);
     }
 
     @Override
     public void onMagazineListResult(int resultCode) {
         if (resultCode == Activity.RESULT_OK) {
             activity.getLoaderManager().initLoader(1, null, this);
-            getView().onMagazineList();
         }
     }
 
@@ -145,7 +136,13 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     @Override
     public void onLoadFinished(Loader<ArrayList<Magazine>> loader, ArrayList<Magazine> data ) {
 
+        if( magazines.size() == 0 )
+        {
+            magazines.addAll( data );
+        }
+
         adapter.addAll( magazines );
+        view.onMagazineList();
     }
 
     @Override

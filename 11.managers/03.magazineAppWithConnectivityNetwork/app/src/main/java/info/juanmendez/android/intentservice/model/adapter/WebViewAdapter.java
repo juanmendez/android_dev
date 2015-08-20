@@ -1,6 +1,7 @@
 package info.juanmendez.android.intentservice.model.adapter;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import info.juanmendez.android.intentservice.helper.MVPUtils;
 import info.juanmendez.android.intentservice.ui.MagazineActivity;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.model.pojo.Page;
 import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
+import info.juanmendez.android.intentservice.ui.magazine.IMagazineView;
 
 /**
  * Created by Juan on 8/8/2015.
@@ -22,15 +25,16 @@ public class WebViewAdapter extends PagerAdapter {
 
     @Inject
     ArrayList<Page> pages;
-    MagazineActivity activity;
+    Activity activity;
 
     @Inject
     MagazineDispatcher dispatcher;
 
-    public WebViewAdapter( MagazineActivity activity) {
+    public WebViewAdapter( Activity activity) {
         super();
-        activity.inject(this);
         this.activity = activity;
+
+        MVPUtils.getView(activity, IMagazineView.class).inject(this);
     }
 
     @Override

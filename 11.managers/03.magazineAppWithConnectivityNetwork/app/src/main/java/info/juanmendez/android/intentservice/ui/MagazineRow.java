@@ -21,6 +21,9 @@ import info.juanmendez.android.intentservice.service.download.MagazineDispatcher
 
 /**
  * Created by Juan on 8/1/2015.
+ *
+ * While trying to use MVP, I can tell it's not obligatory when the view has
+ * a short logic which can simply stay like in this case.
  */
 public class MagazineRow extends LinearLayout implements View.OnClickListener {
     TextView issueTextView;
@@ -63,7 +66,6 @@ public class MagazineRow extends LinearLayout implements View.OnClickListener {
         Iconify.addIcons(imageButton);
 
         imageButton.setOnClickListener(this);
-
         issueTextView.setText( magazine.getFileLocation() );
     }
 

@@ -15,6 +15,7 @@ import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
 import info.juanmendez.android.intentservice.model.adapter.WebViewAdapter;
 import info.juanmendez.android.intentservice.ui.listmagazine.IListMagazinesPresenter;
 import info.juanmendez.android.intentservice.ui.listmagazine.ListMagazinesPresenter;
+import info.juanmendez.android.intentservice.ui.magazine.MagazinePresenter;
 
 /**
  * Created by Juan on 7/29/2015.
@@ -24,7 +25,8 @@ injects = {
         ListMagazinesActivity.class,
         ListMagazinesPresenter.class,
         MagazineActivity.class,
-        WebViewAdapter.class
+        WebViewAdapter.class,
+        MagazinePresenter.class
 },
         addsTo = AppModule.class,
         library = true

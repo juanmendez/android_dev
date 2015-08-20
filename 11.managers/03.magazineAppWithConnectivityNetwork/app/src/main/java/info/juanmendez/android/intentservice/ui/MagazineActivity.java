@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -28,38 +29,28 @@ import info.juanmendez.android.intentservice.model.adapter.WebViewAdapter;
 import info.juanmendez.android.intentservice.module.ActivityModule;
 import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
 import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
+import info.juanmendez.android.intentservice.ui.magazine.IMagazineView;
+import info.juanmendez.android.intentservice.ui.magazine.MagazinePresenter;
 
-public class MagazineActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-
-    @Inject
-    ArrayList<Page> pageList;
-
-    @Inject
-    protected DownloadProxy receiver;
-
-    @Inject
-    MagazineDispatcher dispatcher;
-
-    @Inject
-    protected Bus bus;
+public class MagazineActivity extends AppCompatActivity implements IMagazineView {
 
     ViewPager viewPager;
-    WebViewAdapter adapter;
     ObjectGraph graph;
+
+    MagazinePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_magazine);
 
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         MagazineApp app = (MagazineApp)getApplication();
         graph = app.getGraph().plus( new ActivityModule(this));
         graph.inject(this);
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        adapter = new WebViewAdapter(this);
-        viewPager.setAdapter(adapter);
+        presenter = new MagazinePresenter(this);
     }
 
     public void inject( Object object ){
@@ -67,21 +58,20 @@ public class MagazineActivity extends AppCompatActivity implements LoaderManager
     }
 
     @Override
+    public void setAdapter(PagerAdapter adapter) {
+        viewPager.setAdapter(adapter);
+    }
+
+    @Override
     public void onResume(){
         super.onResume();
-        bus.register(this);
-
-        Magazine mag =  dispatcher.getMagazine();
-
-        if( mag.getId() > 0 && pageList.size() == 0 ){
-            getSupportLoaderManager().initLoader(1, null,this);
-        }
+        presenter.resume();
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        bus.unregister(this);
+        presenter.pause();
     }
 
     @Override
@@ -101,42 +91,5 @@ public class MagazineActivity extends AppCompatActivity implements LoaderManager
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
-        Magazine magazine = dispatcher.getMagazine();
-
-        CursorLoader cursorLoader = new CursorLoader( MagazineActivity.this,
-
-                Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider/pages"),
-                new String[]{SQLPage.ID, SQLPage.POSITION, SQLPage.NAME, SQLPage.MAG_ID},
-                SQLPage.MAG_ID + " = ?",
-                new String[]{ Integer.toString(magazine.getId())},
-                null );
-
-        return cursorLoader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor query) {
-
-        pageList.clear();
-        Page page;
-
-        while( query.moveToNext())
-        {
-            page = PageUtil.fromCursor( query );
-            pageList.add( page );
-        }
-
-        adapter.notifyDataSetChanged();
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 }

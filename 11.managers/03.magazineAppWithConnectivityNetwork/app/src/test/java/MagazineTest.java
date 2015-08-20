@@ -42,7 +42,7 @@ public class MagazineTest {
         MagazineListProxyMock mock = new MagazineListProxyMock();
         mock.startService(new MagazineListProxy.UiCallBack() {
             @Override
-            public void onReceiveResult(int resultCode) {
+            public void onMagazineListResult(int resultCode) {
                 Assert.assertTrue( "magazine list is up to date in content provider!", resultCode == Activity.RESULT_OK );
             }
         });
