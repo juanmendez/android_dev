@@ -41,7 +41,7 @@ public class DownloadProxy extends ResultReceiver
     }
 
     public interface UiCallback {
-        public void onReceiveResult( int resultCode );
+        public void onDownloadResult( int resultCode );
     }
 
     @Override
@@ -49,6 +49,6 @@ public class DownloadProxy extends ResultReceiver
 
         super.onReceiveResult(resultCode, resultData);
 
-        callback.onReceiveResult( resultCode );
+        callback.onDownloadResult( resultCode );
     }
 }

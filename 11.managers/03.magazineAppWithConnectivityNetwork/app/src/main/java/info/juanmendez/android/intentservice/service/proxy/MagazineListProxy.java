@@ -27,17 +27,17 @@ public class MagazineListProxy extends ResultReceiver
             i.putExtra("receiver", this);
             activity.startService(i);
         }else{
-            callback.onReceiveResult( Activity.RESULT_CANCELED);
+            callback.onMagazineListResult(Activity.RESULT_CANCELED);
         }
     }
 
     public interface UiCallBack {
-        public void onReceiveResult( int resultCode );
+        public void onMagazineListResult( int resultCode );
     }
 
     @Override
     protected void onReceiveResult(int resultCode, Bundle resultData) {
         super.onReceiveResult(resultCode, resultData);
-        callback.onReceiveResult( resultCode );
+        callback.onMagazineListResult( resultCode );
     }
 }

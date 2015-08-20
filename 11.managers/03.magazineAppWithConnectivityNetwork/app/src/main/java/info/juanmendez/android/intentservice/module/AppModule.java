@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.ui.MagazineApp;
 import info.juanmendez.android.intentservice.ui.MagazineRow;
 import info.juanmendez.android.intentservice.model.pojo.Page;
@@ -45,5 +46,11 @@ public class AppModule {
     @Singleton
     ArrayList<Page> providesPages(){
         return new ArrayList<Page>();
+    }
+
+    @Provides
+    @Singleton
+    ArrayList<Magazine> provideMagazines(){
+        return new ArrayList<Magazine>();
     }
 }

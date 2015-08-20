@@ -20,31 +20,27 @@ public class NetworkReceiver extends BroadcastReceiver
     NetworkUpdate networkUpdate;
 
     @Inject
-    public NetworkReceiver( Activity updater ){
+    public NetworkReceiver( Activity activity ){
         super();
-
-        try{
-            activity = updater;
-            networkUpdate = (NetworkUpdate) updater;
-        }catch( ClassCastException e ){
-
-            throw new IllegalStateException( updater.getClass().getSimpleName() +
-                    " does not implement contract interface" +
-                    getClass().getSimpleName(), e );
-        }
+        this.activity = activity;
     }
 
-    public void register(){
+    public void register( NetworkUpdate updater){
+        networkUpdate =  updater;
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        activity.registerReceiver( this, filter );
+        activity.registerReceiver(this, filter);
     }
 
     public void unregister(){
+        networkUpdate = null;
         activity.unregisterReceiver(this);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        networkUpdate.onNetworkStatus(NetworkUtil.isConnected(context), NetworkUtil.getConnectivityStatusString(context) );
+
+        if( networkUpdate != null ){
+            networkUpdate.onNetworkStatus(NetworkUtil.isConnected(context), NetworkUtil.getConnectivityStatusString(context) );
+        }
     }
 }

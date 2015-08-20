@@ -13,6 +13,8 @@ import info.juanmendez.android.intentservice.ui.ListMagazinesActivity;
 import info.juanmendez.android.intentservice.ui.MagazineActivity;
 import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
 import info.juanmendez.android.intentservice.model.adapter.WebViewAdapter;
+import info.juanmendez.android.intentservice.ui.listmagazine.IListMagazinesPresenter;
+import info.juanmendez.android.intentservice.ui.listmagazine.ListMagazinesPresenter;
 
 /**
  * Created by Juan on 7/29/2015.
@@ -20,6 +22,7 @@ import info.juanmendez.android.intentservice.model.adapter.WebViewAdapter;
 @Module(
 injects = {
         ListMagazinesActivity.class,
+        ListMagazinesPresenter.class,
         MagazineActivity.class,
         WebViewAdapter.class
 },
