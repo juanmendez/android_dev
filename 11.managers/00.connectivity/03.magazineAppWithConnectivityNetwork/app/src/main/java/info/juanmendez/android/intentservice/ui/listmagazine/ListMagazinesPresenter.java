@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import info.juanmendez.android.intentservice.helper.MVPUtils;
+import info.juanmendez.android.intentservice.helper.NetworkUtil;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
 import info.juanmendez.android.intentservice.model.adapter.MagazineAdapter;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
@@ -81,8 +82,15 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     @Override
     public void getMagazines() {
 
-        MagazineListProxy proxy = new MagazineListProxy();
-        proxy.startService(activity, this);
+        if(NetworkUtil.isConnected(activity))
+        {
+            MagazineListProxy proxy = new MagazineListProxy();
+            proxy.startService(activity, this);
+        }
+        else
+        {
+            activity.getLoaderManager().initLoader(1, null, this);
+        }
     }
 
     @Override
