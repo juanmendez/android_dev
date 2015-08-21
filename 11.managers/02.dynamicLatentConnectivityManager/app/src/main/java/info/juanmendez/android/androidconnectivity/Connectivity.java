@@ -14,7 +14,6 @@ import net.viralpatel.network.NetworkUtil;
 
 public class Connectivity extends AppCompatActivity {
 
-    ConnectivityManager cm;
     TextView textView;
     NetworkChangeReceiver receiver;
 
@@ -23,9 +22,7 @@ public class Connectivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.connectivity_layout);
 
-
         textView = (TextView) findViewById(R.id.textView);
-        cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         getDataSettings();
     }
 
