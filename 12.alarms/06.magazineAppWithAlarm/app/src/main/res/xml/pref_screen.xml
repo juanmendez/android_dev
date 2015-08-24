@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Magazine Publications">
+        <CheckBoxPreference android:key="update_id" android:title="Find out of new issues"
+            android:summary="This option checks for new magazines in the background" android:defaultValue="true"/>
+    </PreferenceCategory>
+</PreferenceScreen>

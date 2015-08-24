@@ -98,6 +98,7 @@ public class MagazinePresenter implements IMagazinePresenter {
         }
 
         query.close();
+
         adapter.notifyDataSetChanged();
     }
 

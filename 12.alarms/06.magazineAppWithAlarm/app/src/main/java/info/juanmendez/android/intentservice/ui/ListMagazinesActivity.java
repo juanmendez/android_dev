@@ -1,5 +1,6 @@
 package info.juanmendez.android.intentservice.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -40,7 +41,7 @@ public class ListMagazinesActivity extends AppCompatActivity  implements IListMa
             @Override
             public void onClick(View v) {
                 if (NetworkUtil.isConnected(ListMagazinesActivity.this)) {
-                    presenter.getMagazines();
+                    presenter.refreshList(false);
                     noNetworkButton.setVisibility(View.GONE);
                 }
             }
@@ -70,9 +71,14 @@ public class ListMagazinesActivity extends AppCompatActivity  implements IListMa
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            presenter.refreshList(false);
+        if (id == R.id.action_refresh) {
+            presenter.refreshList(true);
             return true;
+        }
+        else
+        if( id == R.id.action_settings ){
+            Intent i = new Intent( this, PrefActivity.class );
+            startActivity( i );
         }
 
         return super.onOptionsItemSelected(item);
