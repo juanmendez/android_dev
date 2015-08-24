@@ -70,7 +70,7 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
         bus.register(this);
         networkReceiver.register( this );
         networkReceiver.refresh();
-        refreshList(true);
+        refreshList(false);
     }
 
     @Override
