@@ -66,7 +66,7 @@ public class MagazineRow extends LinearLayout implements View.OnClickListener {
         Iconify.addIcons(imageButton);
 
         imageButton.setOnClickListener(this);
-        issueTextView.setText( magazine.getFileLocation() );
+        issueTextView.setText( magazine.getTitle() );
     }
 
     public static MagazineRow inflate( ViewGroup parent ){
@@ -78,7 +78,7 @@ public class MagazineRow extends LinearLayout implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        if( magazine.getStatus().equals(MagazineStatus.AVAILABLE) && NetworkUtil.isConnected(app)) {
+        if( magazine.getStatus().equals(MagazineStatus.AVAILABLE) ) {
             magazine.setStatus(MagazineStatus.PENDING);
             imageButton.setText(magazine.getStatus());
             Iconify.addIcons(imageButton);

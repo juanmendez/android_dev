@@ -97,6 +97,8 @@ public class MagazinePresenter implements IMagazinePresenter {
             pageList.add( page );
         }
 
+        query.close();
+
         adapter.notifyDataSetChanged();
     }
 

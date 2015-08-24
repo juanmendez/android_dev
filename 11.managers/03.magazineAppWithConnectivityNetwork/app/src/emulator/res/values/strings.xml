@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Emulator Service</string>
-    <string name="localhost">http://ip</string>
+    <string name="localhost">http://192.168.45.1</string>
 </resources>

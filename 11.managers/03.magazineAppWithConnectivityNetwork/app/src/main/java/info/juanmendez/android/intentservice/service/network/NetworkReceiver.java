@@ -36,6 +36,10 @@ public class NetworkReceiver extends BroadcastReceiver
         activity.unregisterReceiver(this);
     }
 
+    public void refresh(){
+        onReceive( activity, new Intent());
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
 

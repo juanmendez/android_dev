@@ -12,18 +12,19 @@ import android.text.TextUtils;
 
 import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
 import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
+import info.juanmendez.android.intentservice.service.provider.table.SqlHelper;
 
 /**
  * Created by Juan on 7/20/2015.
  */
 public class PageCrud implements CrudProvider
 {
-    SQLPage helper;
+    SqlHelper helper;
     Context context;
 
-    public PageCrud( Context context ){
+    public PageCrud( Context context, SqlHelper helper ){
         this.context = context;
-        this.helper = new SQLPage( context );
+        this.helper = helper;
     }
 
     @Override
@@ -41,7 +42,6 @@ public class PageCrud implements CrudProvider
         }
 
         Cursor cursor = builder.query( db, projection, selection, selectionArgs, null, null, sortOrder );
-
         return cursor;
     }
 

@@ -9,6 +9,7 @@ import android.net.Uri;
 import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.service.provider.crud.MagazineCrud;
 import info.juanmendez.android.intentservice.service.provider.crud.PageCrud;
+import info.juanmendez.android.intentservice.service.provider.table.SqlHelper;
 
 /**
  * Created by Juan on 7/20/2015.
@@ -40,8 +41,13 @@ public class MagazineProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
 
-        pageCrud = new PageCrud( getContext() );
-        magazineCrud = new MagazineCrud( getContext() );
+        /**
+         * it's not required to close db
+         * https://groups.google.com/forum/#!msg/android-developers/NwDRpHUXt0U/jIam4Q8-cqQJ
+         */
+        SqlHelper sqlHelper = new SqlHelper( getContext() );
+        pageCrud = new PageCrud( getContext(), sqlHelper );
+        magazineCrud = new MagazineCrud( getContext(), sqlHelper );
         return true;
     }
 

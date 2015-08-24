@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -27,6 +28,10 @@ import info.juanmendez.android.intentservice.ui.magazine.IMagazineView;
 
 /**
  * Created by Juan on 8/19/2015.
+ *
+ * This presenter takes care to feed a list adapter
+ * and commands other services to pull new magazines, store them on the db
+ * and finally query to fill the adapter and indirectly feed the activity's list view
  */
 public class ListMagazinesPresenter implements IListMagazinesPresenter {
 
@@ -37,9 +42,12 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     @Inject
     protected Bus bus;
 
+    //pull new magazines from restful service
+    //and populate db
     @Inject
     protected DownloadProxy downloadProxy;
 
+    //detect connection and notify this presenter
     @Inject
     NetworkReceiver networkReceiver;
 
@@ -47,7 +55,6 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     ArrayList<Magazine> magazines;
 
     IListMagazinesView view;
-
 
     public ListMagazinesPresenter( Activity activity ){
         this.activity = activity;
@@ -60,16 +67,17 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     public void resume() {
         bus.register(this);
         networkReceiver.register( this );
-        prepLoader();
+        networkReceiver.refresh();
+        refreshList(false);
     }
 
-    private void prepLoader(){
-        Loader loader = activity.getLoaderManager().getLoader(1);
+    @Override
+    public void refreshList(Boolean forceQuery){
 
         if ( magazines.size() == 0 ) {
             getMagazines();
         } else {
-            onLoadFinished( loader, magazines );
+            onLoadFinished( null, magazines );
         }
     }
 
@@ -79,6 +87,13 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
         networkReceiver.unregister();
     }
 
+    /**
+     * v.01 we want to detect and add new magazines to the list
+     * before we do the query
+     *
+     * v.02 we want to detect connection to do v.01 otherwise
+     * just do the query and populate any magazine listing left
+     */
     @Override
     public void getMagazines() {
 
@@ -89,6 +104,14 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
         }
         else
         {
+            startLoader();
+        }
+    }
+
+    private void startLoader(){
+        if( activity.getLoaderManager().getLoader(1) != null ){
+            activity.getLoaderManager().restartLoader(1, null, this);
+        }else{
             activity.getLoaderManager().initLoader(1, null, this);
         }
     }
@@ -101,17 +124,13 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     @Override
     public void onNetworkStatus(Boolean connected, String type) {
 
-        if( magazines.size() == 0 && !connected ){
-            getMagazines();
-        }
-
-        view.onNetworkStatus(connected, type);
+       view.onNetworkStatus(connected, type);
     }
 
     @Override
     public void onMagazineListResult(int resultCode) {
         if (resultCode == Activity.RESULT_OK) {
-            activity.getLoaderManager().initLoader(1, null, this);
+            startLoader();
         }
     }
 
@@ -120,6 +139,11 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * these are requests which happen somewhere else in the app and tell us
+     * to either download the magazine content or read it.
+     * @param magazine
+     */
     @Subscribe
     public void magazineActionUpdate( Magazine magazine ){
 
@@ -135,6 +159,10 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
         }
     }
 
+    /**
+     * In my humble opinion, I gotta say I feel so glad with MVP for the fact notifications from loaders
+     * can be in the presenter rather than the view and ease the code there.
+     */
     @Override
     public Loader<ArrayList<Magazine>> onCreateLoader(int id, Bundle args) {
         loader = new MagazineLoader( activity );
@@ -156,5 +184,10 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     @Override
     public void onLoaderReset(Loader<ArrayList<Magazine>> loader) {
 
+    }
+
+    public void debug( String text ){
+
+        Toast.makeText( activity, text, Toast.LENGTH_LONG ).show();
     }
 }

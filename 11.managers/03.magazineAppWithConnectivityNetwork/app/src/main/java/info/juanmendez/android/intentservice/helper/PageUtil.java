@@ -16,6 +16,7 @@ import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
  */
 public class PageUtil {
 
+    public static final String DB = "magazinesDB";
     public static ContentValues toContentValues( Page page ){
         ContentValues c = new ContentValues();
         c.put(SQLPage.POSITION, page.getPosition() );

@@ -57,6 +57,8 @@ public class MagazineLoader extends AsyncTaskLoader<ArrayList<Magazine>> {
             {
                 magazines.add(MagazineUtil.fromCursor(query));
             }
+
+            query.close();
         }
 
         return magazines;
@@ -73,10 +75,5 @@ public class MagazineLoader extends AsyncTaskLoader<ArrayList<Magazine>> {
         {
             super.deliverResult( magazines );
         }
-
-    }
-
-    public ArrayList<Magazine> getMagazines() {
-        return magazines;
     }
 }

@@ -18,4 +18,5 @@ public interface IListMagazinesPresenter extends NetworkUpdate, MagazineListProx
     void resume();
     void getMagazines();
     void loadMagazine();
+    void refreshList(Boolean forceQuery);
 }
