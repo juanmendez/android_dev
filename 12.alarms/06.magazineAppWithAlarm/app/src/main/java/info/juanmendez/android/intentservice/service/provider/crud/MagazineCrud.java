@@ -21,7 +21,7 @@ import info.juanmendez.android.intentservice.service.provider.table.SqlHelper;
  * I realized that while keeping the SQLiteOpenHelper within the content provider
  * there was a case the db found itself trying to connect to two different threads.
  * I commented out db commands dealing with transactions. But surely is best to keep
- * the db transactions in a content provider.
+ * the SQLiteOpenHelper within a contentProvider.
  */
 public class MagazineCrud implements CrudProvider {
 
