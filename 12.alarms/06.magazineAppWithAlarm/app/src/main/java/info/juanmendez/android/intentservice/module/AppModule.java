@@ -13,6 +13,7 @@ import dagger.Module;
 import dagger.Provides;
 import info.juanmendez.android.intentservice.model.pojo.Log;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
+import info.juanmendez.android.intentservice.service.magazine.MagazineListService;
 import info.juanmendez.android.intentservice.ui.MagazineApp;
 import info.juanmendez.android.intentservice.ui.MagazineRow;
 import info.juanmendez.android.intentservice.model.pojo.Page;
@@ -21,6 +22,7 @@ import info.juanmendez.android.intentservice.service.download.DownloadService;
 
 @Module( injects= { MagazineApp.class,
         DownloadService.class,
+        MagazineListService.class,
         MagazineRow.class}, library = true)
 public class AppModule {
 

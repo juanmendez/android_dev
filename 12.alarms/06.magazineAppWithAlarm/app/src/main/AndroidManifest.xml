@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.change_network_state"/>
+
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="21"/>
     <application
         android:name=".ui.MagazineApp"
@@ -34,6 +39,12 @@
         <provider
             android:authorities="${applicationId}.service.provider.MagazineProvider"
             android:name=".service.provider.MagazineProvider"/>
+
+        <receiver android:name=".service.alarm.WakeReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <service android:name=".service.download.DownloadService" android:exported="false"/>
         <service android:name=".service.magazine.MagazineListService" android:exported="false"/>

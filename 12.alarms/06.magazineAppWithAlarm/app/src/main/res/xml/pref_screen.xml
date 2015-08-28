@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="Magazine Publications">
-        <CheckBoxPreference android:key="update_id" android:title="Find out of new issues"
+        <CheckBoxPreference android:key="magazine_updates" android:title="Find out of new issues"
             android:summary="This option checks for new magazines in the background" android:defaultValue="true"/>
+
+
+        <CheckBoxPreference android:key="magazine_updates_start" android:title="Automatic load new issues"
+            android:summary="Everytime you start the app, it checks for latest magazines" android:defaultValue="false"/>
+
     </PreferenceCategory>
 </PreferenceScreen>

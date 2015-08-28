@@ -74,29 +74,29 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     }
 
     @Override
-    public void refreshList(Boolean aggressive){
-
-        if( aggressive && NetworkUtil.isConnected(activity) )
-        {
-            log.tickLastMagazineCall();
-            getLatestMagazines();
-
-        }else
-        {
-            if ( magazines.size() == 0 ) {
-                startLoader();
-            } else {
-                onLoadFinished( null, magazines );
-            }
-        }
-
-    }
-
-    @Override
     public void pause() {
         bus.unregister(this);
         networkReceiver.unregister();
     }
+
+    @Override
+    public void refreshList(Boolean aggressive){
+
+        if( aggressive && NetworkUtil.isConnected(activity) )
+        {
+            getLatestMagazines();
+        }
+        else
+        {
+            if ( log.getState() == Log.Integer.CLEAN ) {
+                feedListView();
+            }
+            else {
+                startLoader();
+            }
+        }
+    }
+
 
     /**
      * v.01 we want to detect and add new magazines to the list
@@ -109,7 +109,6 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
 
         if(NetworkUtil.isConnected(activity))
         {
-            magazines.clear();
             MagazineListProxy proxy = new MagazineListProxy();
             proxy.startService(activity, this);
         }
@@ -140,7 +139,7 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
 
     @Override
     public void onMagazineListResult(int resultCode) {
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && log.getState() == Log.Integer.DIRTY ) {
             startLoader();
         }
     }
@@ -183,18 +182,25 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     @Override
     public void onLoadFinished(Loader<ArrayList<Magazine>> loader, ArrayList<Magazine> data ) {
 
-        if( magazines.size() == 0 )
-        {
-            magazines.addAll( data );
-        }
+        magazines.clear();
+        magazines.addAll(data);
 
+        feedListView();
+
+        if( log.getState() == Log.Integer.INIT )
+        {
+            refreshList(true);
+        }
+        else
+        {
+            log.setState( Log.Integer.CLEAN );
+        }
+    }
+
+    private void feedListView(){
         adapter.addAll(magazines);
         adapter.notifyDataSetChanged();
         view.onMagazineList();
-
-        if( log.getLastMagazineCall() == null ){
-            refreshList(true);
-        }
     }
 
     @Override

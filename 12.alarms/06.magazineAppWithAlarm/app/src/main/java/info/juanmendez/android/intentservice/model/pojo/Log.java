@@ -7,14 +7,24 @@ import java.util.Date;
  */
 public class Log
 {
-    private Date lastMagazineCall;
-
-    public Date getLastMagazineCall() {
-        return lastMagazineCall;
+    /**
+     * INIT means the list has never been populated.
+     * DIRTY means the database has updated magazines, and requires app's list magazine to update
+     * CLEAN the list magazine attached to the app has the latest items from the database.
+     */
+    public enum Integer{
+        INIT, CLEAN, DIRTY
     }
 
-    public void tickLastMagazineCall() {
-        this.lastMagazineCall = new Date();
+
+    public Integer getState() {
+        return state;
     }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    private Integer state = Integer.INIT;
 
 }

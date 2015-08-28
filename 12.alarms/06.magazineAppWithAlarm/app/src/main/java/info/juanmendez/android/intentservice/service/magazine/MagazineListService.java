@@ -10,7 +10,11 @@ import android.os.ResultReceiver;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import info.juanmendez.android.intentservice.BuildConfig;
+import info.juanmendez.android.intentservice.model.pojo.Log;
+import info.juanmendez.android.intentservice.service.alarm.WakeReceiver;
 import info.juanmendez.android.intentservice.ui.MagazineApp;
 import info.juanmendez.android.intentservice.helper.MagazineUtil;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
@@ -20,6 +24,9 @@ import info.juanmendez.android.intentservice.model.pojo.Magazine;
  */
 public class MagazineListService extends IntentService
 {
+    @Inject
+    Log log;
+
     public MagazineListService() {
 
         super("magazine_list");
@@ -29,26 +36,46 @@ public class MagazineListService extends IntentService
     protected void onHandleIntent(Intent intent) {
 
         MagazineApp app = ((MagazineApp) getApplication());
+        app.inject(this);
 
         Uri uri = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider" + "/magazines");
         ContentResolver resolver = app.getContentResolver();
-        RetroService service = MagazineService.getService( app.getLocalhost() );
+        RetroService service = MagazineService.getService(app.getLocalhost());
         ResultReceiver rec = intent.getParcelableExtra("receiver");
+        Boolean isWakeful = intent.getBooleanExtra( "wakeful", false );
 
         try{
             ArrayList<Magazine> magazines = service.getIssues();
+            Boolean dirty = false;
+
+            //we want to let the application if there has been at least one
+            //successful record added. otherwise, we can set the state to clean.
+            Uri result;
 
             for( Magazine m: magazines ){
 
-                resolver.insert( uri, MagazineUtil.toContentValues(m));
+                result = resolver.insert( uri, MagazineUtil.toContentValues(m));
+                dirty |= (result!=null);
             }
 
-            rec.send(Activity.RESULT_OK, new Bundle());
+            if( dirty )
+                log.setState(Log.Integer.DIRTY);
+            else
+                log.setState(Log.Integer.CLEAN);
+
+            if( rec != null )
+                rec.send(Activity.RESULT_OK, new Bundle());
 
         }
         catch( Exception e ){
             e.printStackTrace();
-            rec.send( Activity.RESULT_CANCELED, new Bundle());
+
+            if( rec != null )
+                rec.send( Activity.RESULT_CANCELED, new Bundle());
+        }
+        finally{
+            if( isWakeful )
+                WakeReceiver.completeWakefulIntent(intent);
         }
     }
 }
