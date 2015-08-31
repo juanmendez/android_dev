@@ -30,10 +30,13 @@
 
         </activity>
 
-        <activity android:name=".ui.MagazineActivity" android:label="@string/app_name">
+        <activity android:name=".ui.MagazineActivity" android:label="@string/app_name"
+            android:parentActivityName=".ui.ListMagazinesActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.ListMagazinesActivity"/>
         </activity>
 
-        <activity android:name=".ui.PrefActivity" android:label="Preferences">
+        <activity android:name=".ui.SettingsHolderActivity" android:label="Preferences">
         </activity>
 
         <provider

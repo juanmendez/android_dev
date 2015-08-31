@@ -75,7 +75,9 @@ public class MagazineListService extends IntentService
         }
         finally{
             if( isWakeful )
+            {
                 WakeReceiver.completeWakefulIntent(intent);
+            }
         }
     }
 }

@@ -62,7 +62,7 @@ public class ListMagazinesActivity extends AppCompatActivity  implements IListMa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.listmagazines_menu, menu);
         return true;
     }
 
@@ -77,7 +77,7 @@ public class ListMagazinesActivity extends AppCompatActivity  implements IListMa
         }
         else
         if( id == R.id.action_settings ){
-            Intent i = new Intent( this, PrefActivity.class );
+            Intent i = new Intent( this, SettingsHolderActivity.class );
             startActivity( i );
         }
 

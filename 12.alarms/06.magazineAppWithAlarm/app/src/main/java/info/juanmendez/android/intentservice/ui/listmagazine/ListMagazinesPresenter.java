@@ -9,7 +9,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.inject.Inject;
 

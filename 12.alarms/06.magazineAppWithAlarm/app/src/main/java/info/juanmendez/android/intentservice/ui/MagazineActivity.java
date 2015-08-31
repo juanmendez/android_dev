@@ -1,34 +1,16 @@
 package info.juanmendez.android.intentservice.ui;
 
-import android.database.Cursor;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.squareup.otto.Bus;
-
-import java.util.ArrayList;
-
-import javax.inject.Inject;
-
 import dagger.ObjectGraph;
-import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.R;
-import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
-import info.juanmendez.android.intentservice.helper.PageUtil;
-import info.juanmendez.android.intentservice.model.pojo.Magazine;
-import info.juanmendez.android.intentservice.model.pojo.Page;
-import info.juanmendez.android.intentservice.model.adapter.WebViewAdapter;
 import info.juanmendez.android.intentservice.module.ActivityModule;
-import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
-import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
 import info.juanmendez.android.intentservice.ui.magazine.IMagazineView;
 import info.juanmendez.android.intentservice.ui.magazine.MagazinePresenter;
 
@@ -77,7 +59,7 @@ public class MagazineActivity extends AppCompatActivity implements IMagazineView
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -86,8 +68,9 @@ public class MagazineActivity extends AppCompatActivity implements IMagazineView
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if( id == R.id.action_settings ){
+            Intent i = new Intent( this, SettingsHolderActivity.class );
+            startActivity( i );
         }
 
         return super.onOptionsItemSelected(item);
