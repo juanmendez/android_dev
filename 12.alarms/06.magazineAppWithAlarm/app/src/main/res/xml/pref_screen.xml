@@ -5,8 +5,10 @@
             android:summary="This option checks for new magazines in the background" android:defaultValue="true"/>
 
 
-        <CheckBoxPreference android:key="magazine_updates_start" android:title="Automatic load new issues"
-            android:summary="Everytime you start the app, it checks for latest magazines" android:defaultValue="false"/>
+        <ListPreference android:key="magazine_updates_interval" android:title="Update frequency"
+            android:entries="@array/interval_keys" android:entryValues="@array/interval_values"
+            android:summary="How often to check on updates">
+        </ListPreference>
 
     </PreferenceCategory>
 </PreferenceScreen>

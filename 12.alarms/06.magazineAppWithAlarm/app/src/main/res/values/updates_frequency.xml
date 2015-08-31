@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="interval_keys">
+        <item>Fifteen minutes</item>
+        <item>Half an hour</item>
+        <item>Hourly</item>
+        <item>Twice daily</item>
+        <item>Daily</item>
+    </array>
+
+    <array name="interval_values">
+        <item>FIFTEEN_MINUTES</item>
+        <item>THIRTY_MINUTES</item>
+        <item>HOURLY</item>
+        <item>HALF_DAY</item>
+        <item>DAILY</item>
+    </array>
+</resources>

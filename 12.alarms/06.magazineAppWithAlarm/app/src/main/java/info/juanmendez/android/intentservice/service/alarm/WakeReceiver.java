@@ -36,14 +36,19 @@ public class WakeReceiver extends WakefulBroadcastReceiver
     }
 
     public static void startAlarm( Context context ){
+        startAlarm( context, AlarmManager.INTERVAL_FIFTEEN_MINUTES );
+    }
+
+
+    public static void startAlarm( Context context, Long interval ){
+
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent( context, WakeReceiver.class );
         PendingIntent pi = PendingIntent.getBroadcast( context, 0, i , 0 );
 
         mgr.setRepeating( AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + 5000,
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pi );
-
+                interval, pi );
     }
 
     public static void cancelAlarm( Context context ){
