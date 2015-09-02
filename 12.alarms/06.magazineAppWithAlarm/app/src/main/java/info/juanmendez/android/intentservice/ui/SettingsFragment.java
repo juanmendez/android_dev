@@ -68,6 +68,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         switch( key )
         {
+            case "ONE_MINUTE":
+                interval = 60 * 1000l;
+                break;
+
             case "FIFTEEN_MINUTES":
                 interval = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
                 break;

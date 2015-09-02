@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CheesyNotification</string>
+    <string name="action_notification">That\'s a cheesy notification</string>
+</resources>

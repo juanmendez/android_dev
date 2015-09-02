@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="interval_keys">
+        <item>Sixty seconds</item>
         <item>Fifteen minutes</item>
         <item>Half an hour</item>
         <item>Hourly</item>
@@ -9,6 +10,7 @@
     </array>
 
     <array name="interval_values">
+        <item>ONE_MINUTE</item>
         <item>FIFTEEN_MINUTES</item>
         <item>THIRTY_MINUTES</item>
         <item>HOURLY</item>
