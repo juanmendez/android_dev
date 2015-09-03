@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".SuperSizeActivity">
+    <item android:id="@+id/start_service" android:title="@string/supersize_notification"
+        android:icon="@drawable/whopper_icon"
+        android:orderInCategory="100" app:showAsAction="always" />
+</menu>
