@@ -115,6 +115,7 @@ public class SuperSizeActivity extends AppCompatActivity implements View.OnLongC
 
             //set as, should be a resource in production!
             startActivity(Intent.createChooser(intent, "Set as:"));
+            return true;
         }
 
 
