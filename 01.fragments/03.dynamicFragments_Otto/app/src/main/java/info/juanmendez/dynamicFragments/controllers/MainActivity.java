@@ -37,18 +37,18 @@ public class MainActivity extends Activity
 
         //01
         /**
-        if( savedInstanceState != null )
-        {
-            int value = savedInstanceState.getInt( "value",0);
+         if( savedInstanceState != null )
+         {
+         int value = savedInstanceState.getInt( "value",0);
 
-            if( value != 0 )
-            {
-                Bundle args = new Bundle();
-                args.putInt("value", value );
-                right.setArguments( args );
-                left.setArguments( args );
-            }
-        }**/
+         if( value != 0 )
+         {
+         Bundle args = new Bundle();
+         args.putInt("value", value );
+         right.setArguments( args );
+         left.setArguments( args );
+         }
+         }**/
 
         fts.replace(R.id.leftContainer, left);
         fts.addToBackStack("left");
@@ -76,16 +76,16 @@ public class MainActivity extends Activity
 
     //01
     /**
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
+     @Override
+     protected void onSaveInstanceState(Bundle outState) {
 
-        if( valueChanged != null )
-        {
-            outState.putInt( "value", valueChanged.getValue() );
-        }
+     if( valueChanged != null )
+     {
+     outState.putInt( "value", valueChanged.getValue() );
+     }
 
-        super.onSaveInstanceState(outState);
-    }**/
+     super.onSaveInstanceState(outState);
+     }**/
 
     @Override
     protected void onResume() {

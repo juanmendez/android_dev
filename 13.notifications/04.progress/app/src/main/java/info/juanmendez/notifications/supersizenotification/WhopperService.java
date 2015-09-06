@@ -1,12 +1,15 @@
 package info.juanmendez.notifications.supersizenotification;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
 import java.io.BufferedInputStream;
@@ -27,7 +30,7 @@ import static junit.framework.Assert.assertTrue;
 public class WhopperService extends IntentService
 {
     NotificationManager mgr;
-    NotificationCompat.Builder builder;
+    NotificationCompat.Builder b;
     public static final int id = 2015;
 
     public WhopperService() {
@@ -48,13 +51,16 @@ public class WhopperService extends IntentService
 
         if( intent.getStringExtra("url") != null ){
 
-            builder= new NotificationCompat.Builder(this);
+            b = new NotificationCompat.Builder(this);
 
-            builder.setTicker("downloading image")
+            b.setAutoCancel(true);
+            b.setTicker("downloading image")
                     .setContentTitle("Save your Whopper Wallpaper!!")
-                    .setContentText("busy saving wallpaper")
-                    .setSmallIcon(R.drawable.whopper_icon)
-                    .setOngoing(true);
+                    .setSmallIcon(R.drawable.whopper_icon);
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                b.setPriority(Notification.PRIORITY_HIGH);
 
 
             File target = new File( getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "whopper" );
@@ -62,14 +68,18 @@ public class WhopperService extends IntentService
 
             target = new File( target, "whopper.jpg" );
 
+
             if( target.exists() )
             {
-                builder.setContentText("Your wallpaper is broiling!!");
-                builder.setContentIntent(buildContentIntent(target));
-                mgr.notify(2015, builder.build());
+                b.setContentText("Your wallpaper is broiling!!");
+                b.setContentIntent(buildContentIntent(target));
+                b.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(getBurgerBitmapped("https://lh3.googleusercontent.com/-EwzpKj41AW8/Vey1Ji4JV_I/AAAAAAAANvE/zHygDiSDI4A/h120/Hands-Free-Whopper.jpg"))
+                        .setSummaryText("awesome download!!"));
+                mgr.notify(2015, b.build());
             }
             else{
                 Boolean downloaded = false;
+                b.setOngoing(true);
 
                 try {
                     downloaded = download( target, new URL(intent.getStringExtra("url")));
@@ -80,12 +90,13 @@ public class WhopperService extends IntentService
 
                 if( downloaded )
                 {
-                    builder.setContentText("your wallpaper has been saved!")
+                    b.setContentText("your wallpaper has been saved!")
                             .setProgress(0, 0, false).setOngoing(false);
 
-                    builder.setContentIntent(buildContentIntent(target));
+                    b.setContentIntent(buildContentIntent(target));
+                    b.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(getBurgerBitmapped(target)));
 
-                    mgr.notify(2015, builder.build());
+                    mgr.notify(2015, b.build());
                 }
             }
         }
@@ -111,9 +122,9 @@ public class WhopperService extends IntentService
                 output.write(data, 0, count);
                 progress = ((total*100)/length);
 
-                builder.setProgress(100, progress, false);
-                builder.setContentText(Integer.toString(progress) + "%");
-                mgr.notify(2015, builder.build());
+                b.setProgress(100, progress, false);
+                b.setContentText(Integer.toString(progress) + "%");
+                mgr.notify(2015, b.build());
                 SystemClock.sleep(10);
             }
 
@@ -134,5 +145,29 @@ public class WhopperService extends IntentService
         Intent i=new Intent(getApplicationContext(), SuperSizeActivity.class);
         i.putExtra( "file", file.getAbsolutePath() );
         return(PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT));
+    }
+
+    private Bitmap getBurgerBitmapped(File file){
+
+        /**
+         * nice to know for url
+         *
+         * remote_picture = BitmapFactory.decodeStream((InputStream) new      URL(sample_url).getContent());
+         */
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions );
+
+        return bitmap;
+    }
+
+    private Bitmap getBurgerBitmapped(String urlString){
+
+        try {
+            return BitmapFactory.decodeStream((InputStream) new URL(urlString).getContent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -47,7 +47,7 @@ public class SuperSizeActivity extends AppCompatActivity implements View.OnLongC
     {
         if( path != null )
         {
-            Picasso.with( this ).load( "file://" + path ).into(imageView);
+            Picasso.with( this ).load( new File(path) ).into(imageView);
             Toast.makeText(this, "Long press to set as wallpaper!", Toast.LENGTH_LONG).show();
         }
     }
