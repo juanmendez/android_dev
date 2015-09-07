@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="info.juanmendez.android.intentservice" >
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.change_network_state"/>
+
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="21"/>
+    <application
+        android:name=".ui.MagazineApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+
+        <activity
+            android:name=".ui.ListMagazinesActivity"
+            android:label="@string/app_name" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".ui.MagazineActivity" android:label="@string/app_name"
+            android:parentActivityName=".ui.ListMagazinesActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.ListMagazinesActivity"/>
+        </activity>
+
+        <activity android:name=".ui.SettingsHolderActivity" android:label="Preferences">
+        </activity>
+
+        <provider
+            android:authorities="${applicationId}.service.provider.MagazineProvider"
+            android:name=".service.provider.MagazineProvider"/>
+
+        <receiver android:name=".service.alarm.WakeReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".service.download.DownloadService" android:exported="false"/>
+        <service android:name=".service.magazine.MagazineListService" android:exported="false"/>
+    </application>
+</manifest>

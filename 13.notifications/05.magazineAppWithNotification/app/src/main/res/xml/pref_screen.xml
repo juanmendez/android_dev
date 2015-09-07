@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Magazine Publications">
+        <CheckBoxPreference android:key="magazine_updates" android:title="Find out of new issues"
+            android:summary="This option checks for new magazines in the background" android:defaultValue="true"/>
+
+
+        <ListPreference android:key="magazine_updates_interval" android:title="Update frequency"
+            android:entries="@array/interval_keys" android:entryValues="@array/interval_values"
+            android:summary="How often to check on updates">
+        </ListPreference>
+
+    </PreferenceCategory>
+</PreferenceScreen>
