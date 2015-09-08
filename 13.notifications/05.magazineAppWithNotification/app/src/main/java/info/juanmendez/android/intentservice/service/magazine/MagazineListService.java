@@ -86,6 +86,7 @@ public class MagazineListService extends IntentService
 
                 result = resolver.insert( uri, MagazineUtil.toContentValues(m));
 
+                //needs condition, to include only if added
                 addedMagazines.add(m);
                 dirty |= (result!=null);
 
@@ -117,6 +118,7 @@ public class MagazineListService extends IntentService
             }
 
             //https://github.com/square/otto/issues/38
+            //this condition is allow if Log.state = Dirty
             if( listener.hasListener() )
             {
                 BusUtil.postOnMain(bus, magazinesNotification);

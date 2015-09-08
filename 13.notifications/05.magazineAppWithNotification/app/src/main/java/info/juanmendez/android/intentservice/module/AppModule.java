@@ -39,7 +39,7 @@ public class AppModule {
     @Singleton
     Bus getBus()
     {
-        return new Bus(ThreadEnforcer.MAIN);
+        return new Bus(ThreadEnforcer.ANY);
     }
 
     @Provides
