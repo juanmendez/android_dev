@@ -33,7 +33,7 @@ apt {
 //android remains intact
 android {
     compileSdkVersion 22
-    buildToolsVersion "23 rc2"
+    buildToolsVersion "23"
 
     defaultConfig {
         applicationId "$MyProject"

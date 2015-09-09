@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
 
-    <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="21"/>
+    <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="22"/>
     <application
         android:name=".ui.MagazineApp"
         android:allowBackup="true"

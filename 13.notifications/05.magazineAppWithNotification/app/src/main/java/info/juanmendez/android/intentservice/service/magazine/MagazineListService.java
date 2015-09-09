@@ -9,8 +9,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.ResultReceiver;
 import android.support.v4.app.NotificationCompat;
 
@@ -24,14 +22,14 @@ import javax.inject.Inject;
 import info.juanmendez.android.intentservice.BuildConfig;
 import info.juanmendez.android.intentservice.R;
 import info.juanmendez.android.intentservice.helper.BusUtil;
-import info.juanmendez.android.intentservice.model.pojo.MagazinesNotification;
+import info.juanmendez.android.intentservice.helper.MagazineUtil;
 import info.juanmendez.android.intentservice.model.pojo.Log;
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
+import info.juanmendez.android.intentservice.model.pojo.MagazinesNotification;
 import info.juanmendez.android.intentservice.model.pojo.NotificationListener;
 import info.juanmendez.android.intentservice.service.alarm.WakeReceiver;
 import info.juanmendez.android.intentservice.ui.ListMagazinesActivity;
 import info.juanmendez.android.intentservice.ui.MagazineApp;
-import info.juanmendez.android.intentservice.helper.MagazineUtil;
-import info.juanmendez.android.intentservice.model.pojo.Magazine;
 
 /**
  * Created by Juan on 8/2/2015.
@@ -86,8 +84,9 @@ public class MagazineListService extends IntentService
 
                 result = resolver.insert( uri, MagazineUtil.toContentValues(m));
 
-                //needs condition, to include only if added
-                addedMagazines.add(m);
+                if( result != null )
+                    addedMagazines.add(m);
+
                 dirty |= (result!=null);
 
             }
@@ -119,12 +118,17 @@ public class MagazineListService extends IntentService
 
             //https://github.com/square/otto/issues/38
             //this condition is allow if Log.state = Dirty
-            if( listener.hasListener() )
+            if( log.getState() == Log.Integer.DIRTY )
             {
-                BusUtil.postOnMain(bus, magazinesNotification);
-            }
-            else{
-                notifyMagazines();
+                if( listener.hasListener() )
+                {
+                    BusUtil.postOnMain(bus, magazinesNotification);
+                }
+                else
+                {
+                    notifyMagazines();
+                }
+
             }
 
             bus.unregister(this);

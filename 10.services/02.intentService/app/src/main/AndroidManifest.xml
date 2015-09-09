@@ -3,7 +3,7 @@
     package="info.juanmendez.android.intentservice" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="21"/>
+    <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="22"/>
     <application
         android:name=".MagazineApp"
         android:allowBackup="true"

@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "23.0.0 rc2"
+    compileSdkVersion 22
+    buildToolsVersion "23"
 
     defaultConfig {
         applicationId "com.example.android.searchabledict"
         minSdkVersion 7
-        targetSdkVersion 15
+        targetSdkVersion 22
     }
 
     buildTypes {

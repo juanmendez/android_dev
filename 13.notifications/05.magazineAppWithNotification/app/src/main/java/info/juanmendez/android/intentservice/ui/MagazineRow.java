@@ -14,7 +14,6 @@ import com.joanzapata.android.iconify.Iconify;
 import javax.inject.Inject;
 
 import info.juanmendez.android.intentservice.R;
-import info.juanmendez.android.intentservice.helper.NetworkUtil;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
@@ -26,6 +25,7 @@ import info.juanmendez.android.intentservice.service.download.MagazineDispatcher
  * a short logic which can simply stay like in this case.
  */
 public class MagazineRow extends LinearLayout implements View.OnClickListener {
+
     TextView issueTextView;
     Button imageButton;
     Magazine magazine;

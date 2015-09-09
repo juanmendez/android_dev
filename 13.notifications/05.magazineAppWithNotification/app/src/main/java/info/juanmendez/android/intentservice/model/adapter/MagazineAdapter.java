@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.juanmendez.android.intentservice.ui.MagazineRow;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
+import info.juanmendez.android.intentservice.ui.MagazineRow;
 
 /**
  * Created by Juan on 8/1/2015.
@@ -39,10 +39,7 @@ public class MagazineAdapter extends ArrayAdapter<Magazine>
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        if( convertView == null ){
-            convertView = MagazineRow.inflate( parent );
-        }
+        convertView = MagazineRow.inflate( parent );
 
         Magazine magazine = getItem(position);
         ((MagazineRow) convertView).setItem(magazine);

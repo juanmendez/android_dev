@@ -30,7 +30,7 @@ apt {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "23"
 
     defaultConfig {
         applicationId "$MyProject"
@@ -60,7 +60,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
 
     //added for android annotations
     apt "org.androidannotations:androidannotations:$AAVersion"
