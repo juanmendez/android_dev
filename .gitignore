@@ -1,6 +1,6 @@
-**/.gradle/**
-**/.svn/**
-**/.idea/**
-**/.DS_Store/**
-**/build/**
-**/.gitignore/**
+.gitignore
+build/
+.idea/
+.gradle/
+*.iml
+local.properties
