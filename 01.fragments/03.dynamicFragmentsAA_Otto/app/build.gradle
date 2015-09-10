@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+// This does not break the build when Android Studio is missing the JRebel for Android plugin.
+apply plugin: 'com.zeroturnaround.jrebel.android'
 
 //added for android annotations
 apply plugin: 'android-apt'
@@ -34,7 +36,7 @@ android {
 
     defaultConfig {
         applicationId "$MyProject"
-        minSdkVersion 16
+        minSdkVersion 10
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"

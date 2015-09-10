@@ -1,8 +1,9 @@
 package info.juanmendez.dynamicfragments.controllers;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.squareup.otto.Subscribe;
@@ -19,7 +20,7 @@ import info.juanmendez.dynamicfragments.models.Otto;
 import info.juanmendez.dynamicfragments.models.ValueChangedEvent;
 
 @EActivity( R.layout.activity_main )
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends AppCompatActivity
 {
     @Bean
     Otto otto;
@@ -48,7 +49,7 @@ public class MainActivity extends ActionBarActivity
     @AfterViews
     void afterViews()
     {
-        FragmentTransaction fts = getFragmentManager().beginTransaction();
+        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
 
         right = new RightFragment_();
         left = new LeftFragment_();
@@ -70,7 +71,7 @@ public class MainActivity extends ActionBarActivity
     {
         if( rightLayout == null )
         {
-            FragmentTransaction fts = getFragmentManager().beginTransaction();
+            FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
             Fragment f = left;
             String tag = "left";
 

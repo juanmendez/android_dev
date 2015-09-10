@@ -1,6 +1,6 @@
 package info.juanmendez.dynamicfragments.controllers.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
