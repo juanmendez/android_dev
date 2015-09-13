@@ -1,4 +1,4 @@
-package info.juanmendez.dynamicfragments.controllers.fragments;
+package info.juanmendez.dynamicfragments.ui.fragments;
 
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -21,8 +21,8 @@ import info.juanmendez.dynamicfragments.models.ValueChangedEvent;
 /**
  * Created by Juan on 3/28/2015.
  */
-@EFragment( R.layout.right_fragment )
-public class RightFragment extends Fragment
+@EFragment( R.layout.left_fragment )
+public class LeftFragment extends Fragment
 {
     @Bean
     Otto otto;
@@ -38,18 +38,18 @@ public class RightFragment extends Fragment
     {
         if( editText != null )
         {
-            helper.setFragmentName( "rightFragment" );
+            helper.setFragmentName( "leftFragment" );
+
             editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
                     if (actionId == EditorInfo.IME_ACTION_SEND) {
-
                         try
                         {
+                            otto.requestValueChanged(new ValueChangedEvent(Integer.valueOf(editText.getText().toString()), LeftFragment.this));
                             helper.hideKeyboard();
-                            otto.requestValueChanged(new ValueChangedEvent(Integer.valueOf(editText.getText().toString()), RightFragment.this));
                         }
                         catch (Exception e)
                         {
@@ -83,8 +83,6 @@ public class RightFragment extends Fragment
     public void onValueChanged( ValueChangedEvent event )
     {
         if( event.getTarget() != this )
-        {
-            helper.receiveValue(event.getValue());
-        }
+            helper.receiveValue( event.getValue() );
     }
 }

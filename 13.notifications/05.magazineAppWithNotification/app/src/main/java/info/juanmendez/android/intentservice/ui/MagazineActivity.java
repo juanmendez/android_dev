@@ -31,7 +31,7 @@ public class MagazineActivity extends AppCompatActivity implements IMagazineView
         MagazineApp app = (MagazineApp)getApplication();
         graph = app.getGraph().plus( new ActivityModule(this));
         graph.inject(this);
-
+        
         presenter = new MagazinePresenter(this);
     }
 

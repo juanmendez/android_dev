@@ -3,6 +3,7 @@ package info.juanmendez.android.intentservice.module;
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Singleton;
@@ -41,13 +42,13 @@ public class ActivityModule
 
     @Provides
     @Singleton
-    public Activity activityProvider()
+    public AppCompatActivity activityProvider()
     {
         return this.activity;
     }
 
     @Provides
-    public DownloadProxy providesProxy(Activity activity )
+    public DownloadProxy providesProxy(AppCompatActivity activity )
     {
         return new DownloadProxy(activity);
     }

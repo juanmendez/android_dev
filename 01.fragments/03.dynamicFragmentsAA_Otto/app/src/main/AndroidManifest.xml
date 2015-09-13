@@ -10,7 +10,7 @@
 
         <!--stateHidden hides keyboard-->
         <activity
-            android:name="info.juanmendez.dynamicfragments.controllers.MainActivity_"
+            android:name=".ui.MainActivity_"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>

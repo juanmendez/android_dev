@@ -1,8 +1,7 @@
-package info.juanmendez.dynamicfragments.controllers;
+package info.juanmendez.dynamicfragments.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
@@ -14,8 +13,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import info.juanmendez.dynamicfragments.R;
-import info.juanmendez.dynamicfragments.controllers.fragments.LeftFragment_;
-import info.juanmendez.dynamicfragments.controllers.fragments.RightFragment_;
+import info.juanmendez.dynamicfragments.ui.fragments.LeftFragment_;
+import info.juanmendez.dynamicfragments.ui.fragments.RightFragment_;
 import info.juanmendez.dynamicfragments.models.Otto;
 import info.juanmendez.dynamicfragments.models.ValueChangedEvent;
 

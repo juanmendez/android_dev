@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
 
@@ -16,11 +17,11 @@ import info.juanmendez.android.intentservice.helper.NetworkUtil;
  */
 public class NetworkReceiver extends BroadcastReceiver
 {
-    Activity activity;
+    AppCompatActivity activity;
     NetworkUpdate networkUpdate;
 
     @Inject
-    public NetworkReceiver( Activity activity ){
+    public NetworkReceiver( AppCompatActivity activity ){
         super();
         this.activity = activity;
     }

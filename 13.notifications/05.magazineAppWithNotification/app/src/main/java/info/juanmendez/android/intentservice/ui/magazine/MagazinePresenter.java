@@ -6,6 +6,8 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.squareup.otto.Bus;
 
@@ -29,7 +31,7 @@ import info.juanmendez.android.intentservice.ui.listmagazine.IListMagazinesView;
  */
 public class MagazinePresenter implements IMagazinePresenter {
 
-    Activity activity;
+    AppCompatActivity activity;
 
     @Inject
     ArrayList<Page> pageList;
@@ -43,12 +45,12 @@ public class MagazinePresenter implements IMagazinePresenter {
     WebViewAdapter adapter;
     IMagazineView view;
 
-    public MagazinePresenter(Activity activity ){
+    public MagazinePresenter(AppCompatActivity activity ){
         this.activity = activity;
         view = MVPUtils.getView( activity, IMagazineView.class );
         view.inject(this);
 
-        adapter = new WebViewAdapter(activity);
+        adapter = new WebViewAdapter( activity );
         view.setAdapter(adapter);
     }
 
