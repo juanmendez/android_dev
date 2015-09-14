@@ -19,7 +19,7 @@ public class WebViewFragment extends Fragment
 {
     private WebView mWebView;
     private boolean mIsWebViewAvailable;
-    private boolean mInit = true;
+    private boolean mRotated = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,8 +39,8 @@ public class WebViewFragment extends Fragment
      * let us know if the webView has just being instantiated.
      * @return
      */
-    public boolean isInit() {
-        return mInit;
+    public boolean rotated() {
+        return mRotated;
     }
 
     /**
@@ -53,7 +53,7 @@ public class WebViewFragment extends Fragment
         if (honeyOrHigher())
             mWebView.onPause();
 
-        mInit = false;
+        mRotated = true;
     }
 
     /**

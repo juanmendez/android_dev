@@ -19,7 +19,7 @@ public class ClientFragment extends WebViewFragment
 
         WebView webView = (WebView) super.onCreateView(inflater, container, savedInstanceState);
 
-        if( isInit() )
+        if( !rotated() )
         {
             webView.setWebViewClient(new WebViewClient() {
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
