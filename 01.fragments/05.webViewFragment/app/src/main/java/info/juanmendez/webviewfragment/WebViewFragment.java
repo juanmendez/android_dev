@@ -36,7 +36,7 @@ public class WebViewFragment extends Fragment
 
 
     /**
-     * let us know if the webView has just being instantiated.
+     * let us know if the webView has been rotated.
      * @return
      */
     public boolean rotated() {
