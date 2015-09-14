@@ -18,9 +18,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
 
-        adapter.addNewPage( "http://www.newwavecoffee.com/", "new wave");
-        adapter.addNewPage( "http://www.lacatrinacafe.com/", "la catrina");
-        adapter.addNewPage("http://www.perkolatorcoffee.com/", "perkolator");
+        adapter.addPage("http://www.newwavecoffee.com/", "new wave");
+        adapter.addPage("http://www.lacatrinacafe.com/", "la catrina");
+        adapter.addPage("http://www.perkolatorcoffee.com/", "perkolator");
 
         viewPager.setAdapter(adapter);
 

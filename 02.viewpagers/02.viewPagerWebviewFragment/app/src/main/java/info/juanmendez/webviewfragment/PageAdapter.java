@@ -18,7 +18,7 @@ public class PageAdapter extends FragmentPagerAdapter
         super( fm);
     }
 
-    public void addNewPage( String url, String title ){
+    public void addPage(String url, String title){
         pages.add(Page.createPage(url, title));
     }
 

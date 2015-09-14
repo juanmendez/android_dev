@@ -33,9 +33,6 @@ public class Page extends WebViewFragment
 
         if( !rotated() )
         {
-            //twitter says to make JS enabled!
-            webView.getSettings().setJavaScriptEnabled(true);
-
             webView.setWebViewClient(new WebViewClient() {
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     return false;
