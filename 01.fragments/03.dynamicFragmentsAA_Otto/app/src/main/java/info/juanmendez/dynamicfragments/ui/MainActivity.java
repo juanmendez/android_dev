@@ -13,7 +13,9 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import info.juanmendez.dynamicfragments.R;
+import info.juanmendez.dynamicfragments.ui.fragments.LeftFragment;
 import info.juanmendez.dynamicfragments.ui.fragments.LeftFragment_;
+import info.juanmendez.dynamicfragments.ui.fragments.RightFragment;
 import info.juanmendez.dynamicfragments.ui.fragments.RightFragment_;
 import info.juanmendez.dynamicfragments.models.Otto;
 import info.juanmendez.dynamicfragments.models.ValueChangedEvent;
@@ -50,25 +52,48 @@ public class MainActivity extends AppCompatActivity
     {
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
 
-        right = new RightFragment_();
-        left = new LeftFragment_();
 
-        fts.replace(R.id.leftContainer, left);
-        fts.addToBackStack("left");
-
-        if( rightLayout != null )
+        if( singlePane())
         {
+            ValueChangedEvent event = otto.produceValueEvent();
+
+            if( event != null && event.getTarget() instanceof RightFragment ){
+
+                left = new LeftFragment_();
+                fts.replace( R.id.leftContainer, left);
+                fts.addToBackStack("left");
+            }
+            else
+            {
+                right = new RightFragment_();
+                fts.replace(R.id.leftContainer, right);
+                fts.addToBackStack("right");
+            }
+        }
+        else
+        {
+            right = new RightFragment_();
+            left = new LeftFragment_();
+
+            fts.replace(R.id.leftContainer, left);
+            fts.addToBackStack("left");
+
             fts.replace(R.id.rightContainer, right);
-            fts.addToBackStack( "right");
+            fts.addToBackStack("right");
         }
 
         fts.commit();
     }
 
+
+    private boolean singlePane(){
+        return rightLayout == null;
+    }
+
     @Subscribe
     public void onValueChanged( ValueChangedEvent event )
     {
-        if( rightLayout == null )
+        if( singlePane() )
         {
             FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
             Fragment f = left;
@@ -76,13 +101,13 @@ public class MainActivity extends AppCompatActivity
 
             if( !right.isVisible() )
             {
-                right = new RightFragment_();
+                right = new RightFragment_(); //red
                 f = right;
                 tag = "right";
             }
             else
             {
-                left = new LeftFragment_();
+                left = new LeftFragment_(); //light blue
                 f = left;
                 tag = "left";
             }
