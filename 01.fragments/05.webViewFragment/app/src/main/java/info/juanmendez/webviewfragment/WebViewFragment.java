@@ -84,7 +84,7 @@ public class WebViewFragment extends Fragment
         {
             ViewGroup parentViewGroup = (ViewGroup) mWebView.getParent();
             if (parentViewGroup != null) {
-                parentViewGroup.removeAllViewsInLayout();;
+                parentViewGroup.removeView(mWebView);
             }
         }
 
