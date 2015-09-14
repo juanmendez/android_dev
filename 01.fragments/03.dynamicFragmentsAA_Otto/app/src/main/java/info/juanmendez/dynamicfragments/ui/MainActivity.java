@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity
         {
             ValueChangedEvent event = otto.produceValueEvent();
 
+            //something seems not right..
             if( event != null && event.getTarget() instanceof RightFragment ){
 
                 left = new LeftFragment_();
@@ -96,8 +97,8 @@ public class MainActivity extends AppCompatActivity
         if( singlePane() )
         {
             FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
-            Fragment f = left;
-            String tag = "left";
+            Fragment f;
+            String tag;
 
             if( !right.isVisible() )
             {
