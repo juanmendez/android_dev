@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 // This does not break the build when Android Studio is missing the JRebel for Android plugin.
 apply plugin: 'com.zeroturnaround.jrebel.android'
@@ -6,6 +7,11 @@ apply plugin: 'com.zeroturnaround.jrebel.android'
 android {
     compileSdkVersion 22
     buildToolsVersion "23"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "info.juanmendez.android.intentservice"
@@ -55,4 +61,14 @@ dependencies {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
     testCompile "junit:junit:4.12";
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.2'
+    }
 }

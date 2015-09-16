@@ -14,11 +14,6 @@ public class BusUtil
 
     public static void postOnMain( final Bus bus, final Object event) {
 
-        mainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                bus.post(event);
-            }
-        });
+        mainThread.post(() -> bus.post(event));
     }
 }

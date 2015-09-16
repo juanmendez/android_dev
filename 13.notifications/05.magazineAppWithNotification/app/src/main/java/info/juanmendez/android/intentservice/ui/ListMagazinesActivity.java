@@ -37,13 +37,10 @@ public class ListMagazinesActivity extends AppCompatActivity  implements IListMa
 
         noNetworkButton = (Button) findViewById(R.id.noNetworkButton );
 
-        noNetworkButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (NetworkUtil.isConnected(ListMagazinesActivity.this)) {
-                    presenter.refreshList(false);
-                    noNetworkButton.setVisibility(View.GONE);
-                }
+        noNetworkButton.setOnClickListener(v -> {
+            if (NetworkUtil.isConnected(ListMagazinesActivity.this)) {
+                presenter.refreshList(false);
+                noNetworkButton.setVisibility(View.GONE);
             }
         });
 

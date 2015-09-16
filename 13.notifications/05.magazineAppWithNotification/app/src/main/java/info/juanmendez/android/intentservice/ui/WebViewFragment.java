@@ -1,5 +1,6 @@
 package info.juanmendez.android.intentservice.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,31 +9,38 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 /**
- * Created by Juan on 9/13/2015.
+ * WebViewFragment support for android.support.v4.app.Fragment
+ * This demo has been tested for SDK 10 and 22.
+ *
+ * @Author @juanmendezinfo
+ * @see <a href="http://www.juanmendez.info/2015/09/webviewfragment-which-supports.html">details</a>
  */
 public class WebViewFragment extends Fragment
 {
     private WebView mWebView;
     private boolean mIsWebViewAvailable;
-
-    public boolean isWebViewNew() {
-        return mWebViewIsNew;
-    }
-
-    private boolean mWebViewIsNew = true;
+    private boolean mRotated = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setRetainInstance(true);
 
-        if( mWebView == null )
+        if( mWebView == null  )
         {
             mWebView = new WebView(getActivity());
-            mIsWebViewAvailable = true;
         }
 
         return mWebView;
+    }
+
+
+    /**
+     * let us know if the webView has been rotated.
+     * @return
+     */
+    public boolean rotated() {
+        return mRotated;
     }
 
     /**
@@ -41,8 +49,11 @@ public class WebViewFragment extends Fragment
     @Override
     public void onPause() {
         super.onPause();
-        mWebView.onPause();
-        mWebViewIsNew = false;
+
+        if (honeyOrHigher())
+            mWebView.onPause();
+
+        mRotated = true;
     }
 
     /**
@@ -50,8 +61,15 @@ public class WebViewFragment extends Fragment
      */
     @Override
     public void onResume() {
-        mWebView.onResume();
+
+        if (honeyOrHigher())
+            mWebView.onResume();
+
         super.onResume();
+    }
+
+    private boolean honeyOrHigher(){
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     }
 
     /**
@@ -61,6 +79,15 @@ public class WebViewFragment extends Fragment
     @Override
     public void onDestroyView() {
         mIsWebViewAvailable = false;
+
+        if( mWebView != null )
+        {
+            ViewGroup parentViewGroup = (ViewGroup) mWebView.getParent();
+            if (parentViewGroup != null) {
+                parentViewGroup.removeView(mWebView);
+            }
+        }
+
         super.onDestroyView();
     }
 

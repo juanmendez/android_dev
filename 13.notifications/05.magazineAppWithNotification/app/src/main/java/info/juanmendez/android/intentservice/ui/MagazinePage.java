@@ -33,7 +33,7 @@ public class MagazinePage extends WebViewFragment
 
         WebView webView = (WebView) super.onCreateView(inflater, container, savedInstanceState );
 
-        if( isWebViewNew() && getUrl() != null )
+        if( !rotated() && getUrl() != null )
         {
 
             webView.getSettings().setJavaScriptEnabled(true);

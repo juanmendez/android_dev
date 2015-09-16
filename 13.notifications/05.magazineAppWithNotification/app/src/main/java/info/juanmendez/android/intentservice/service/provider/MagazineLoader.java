@@ -44,7 +44,7 @@ public class MagazineLoader extends AsyncTaskLoader<ArrayList<Magazine>> {
     public ArrayList<Magazine> loadInBackground() {
 
         magazines.clear();
-        Magazine magazine;
+
         Uri uri = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider/magazines/");
         Cursor query = resolver.query(uri,
                 new String[]{SQLMagazine.ID, SQLMagazine.ISSUE, SQLMagazine.DATETIME, SQLMagazine.LOCATION, SQLMagazine.FILE_LOCATION, SQLMagazine.TITLE, SQLMagazine.STATUS},
