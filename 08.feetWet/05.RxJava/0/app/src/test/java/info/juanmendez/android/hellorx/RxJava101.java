@@ -29,7 +29,7 @@ import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 
 @RunWith(RobolectricTestRunner.class)
 @Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml", sdk = 21)
-public class ExampleUnitTest {
+public class RxJava101 {
 
     static{
         ShadowLog.stream = System.out;
