@@ -1,13 +1,20 @@
 package info.juanmendez.android.hellorx;
 
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+
 import rx.subjects.AsyncSubject;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
 /**
  * Three type sof subjects
- * publish, behavoir and async subjects
+ * publish, behavior and async subjects
  */
+
+@RunWith(RobolectricTestRunner.class)
+@Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml", sdk = 21)
 public class TestSubjects
 {
 

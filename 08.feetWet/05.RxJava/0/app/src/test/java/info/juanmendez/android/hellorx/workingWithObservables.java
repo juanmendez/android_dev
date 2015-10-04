@@ -6,12 +6,12 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 
+import info.juanmendez.android.hellorx.model.DataGenerator;
+import info.juanmendez.android.hellorx.utils.ThreadUtils;
 import rx.Observable;
-import rx.Scheduler;
 import rx.schedulers.Schedulers;
 
 /**
@@ -31,6 +31,8 @@ public class workingWithObservables {
         Observable<Integer> observable = null;
         //create observable from a single value
 
+        //current code executed in current thread, due to lack of scheduler..
+
         observable = Observable.just(42);
         writeComment("observe integer");
         observable.subscribe(i -> {
@@ -38,7 +40,7 @@ public class workingWithObservables {
         });
 
         writeComment("observe list");
-        observable = Observable.from(generateFibonnacciList());
+        observable = Observable.from(DataGenerator.generateFibonacciArray());
         observable.subscribe(integer -> {
             System.out.println(integer);
         });
@@ -49,12 +51,12 @@ public class workingWithObservables {
 
         writeComment( "observing a future object");
         FutureTask<List<Integer>> future = new FutureTask<List<Integer>>(() -> {
-            return generateFibonnacciList();
+            return DataGenerator.generateFibonacciList();
         });
 
         Observable<List<Integer>> observable = Observable.from(future);
 
-        //you could just execute the future but instead we wrapp it in a scheduler
+        //you could just execute the future but instead we wrap it in a scheduler
         //which will do the computation processing.
         Schedulers.computation().createWorker().schedule(() -> {
             future.run();
@@ -62,7 +64,7 @@ public class workingWithObservables {
 
         observable.subscribe(integers -> {
             for (Integer integer : integers) {
-                System.out.println( integer );
+                System.out.println(integer);
             }
         });
     }
@@ -71,11 +73,11 @@ public class workingWithObservables {
     public void findTheThreads(){
 
         writeComment("working on main thread");
-        Observable<Integer> observable = Observable.from(generateFibonnacciList());
+        Observable<Integer> observable = Observable.from(DataGenerator.generateFibonacciList());
         observable.subscribe((i) -> {
-                    writeThread(Thread.currentThread().getName());
+                    writeThread(ThreadUtils.currentThreadName());
                     System.out.println(i);
-                    writeThread(Thread.currentThread().getName());
+                    writeThread(ThreadUtils.currentThreadName());
                 },
                 (t) -> {
                     t.printStackTrace();
@@ -87,12 +89,14 @@ public class workingWithObservables {
 
         writeComment("work on another thread");
 
-        observable = Observable.from(generateFibonnacciList());
+        //the observable runs on another thread, the observer the same way as
+        //we haven't specified its thread.
+        observable = Observable.from(DataGenerator.generateFibonacciList());
         observable.subscribeOn(Schedulers.newThread())
                 .subscribe((i) -> {
-                            writeThread(Thread.currentThread().getName());
+                            writeThread(ThreadUtils.currentThreadName());
                             System.out.println(i);
-                            writeThread(Thread.currentThread().getName());
+                            writeThread(ThreadUtils.currentThreadName());
                         },
                         (t) -> {
                             t.printStackTrace();
@@ -104,13 +108,10 @@ public class workingWithObservables {
 
         writeComment("work on io/newThread");
 
-        observable = Observable.from(generateFibonnacciList());
-        observable.subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.io())
+        observable = Observable.from(DataGenerator.generateFibonacciList());
+        observable.observeOn(Schedulers.io())
                 .subscribe((i) -> {
-                            writeThread(Thread.currentThread().getName());
-                            System.out.println(i);
-                            writeThread(Thread.currentThread().getName());
+                            System.out.println(ThreadUtils.currentThreadName() + ": " + i);
                         },
                         (t) -> {
                             t.printStackTrace();
@@ -122,25 +123,25 @@ public class workingWithObservables {
 
     }
 
-    public static List<Integer> generateFibonnacciList(){
-        ArrayList<Integer>  returnList = new ArrayList<Integer>();
+    @Test
+    public void doFiltering(){
 
-        int times = 0;
-        int fibo = 1;
+        writeComment("do filtering");
+        Observable<Integer> observable = Observable.from(DataGenerator.generateBigIntegerList());
 
-        do{
-            if( times <= 1 )
-                fibo = times;
-            else
-                fibo = returnList.get(times-1) + returnList.get(times - 2);
-
-            returnList.add( fibo );
-
-            times++;
-        }while( times < 20 );
-
-
-        return returnList;
+        observable.subscribeOn(Schedulers.newThread()).filter(integer -> {
+            return integer % 2 == 0;
+        }).doOnNext(xx -> {
+            System.out.println("parallel thread in " + ThreadUtils.currentThreadName());
+            ThreadUtils.sleep(10);
+            System.out.println("parallel thread out " + ThreadUtils.currentThreadName());
+        }).subscribe(i -> {
+            System.out.println("next thread" + ThreadUtils.currentThreadName());
+            System.out.println(i);
+            System.out.println( "next thread exit" + ThreadUtils.currentThreadName() );
+        }, t -> {
+        }, () -> {
+        });
     }
 
     public static void writeComment( String comment ){

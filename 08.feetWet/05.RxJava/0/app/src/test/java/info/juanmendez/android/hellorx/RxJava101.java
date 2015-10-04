@@ -49,7 +49,9 @@ public class RxJava101 {
         Observable.just("one", "two", "three", "four", "five")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(/* an Observer */);
+                .subscribe(s -> {
+                    System.out.println( s );
+                });
     }
 
     //@Test
@@ -61,13 +63,13 @@ public class RxJava101 {
             Observable.just("1", "2", "3", "4", "5" ).subscribeOn(Schedulers.newThread()).
                     observeOn(HandlerScheduler.from(handler)).subscribe(
                     s -> {
-                        Log.e("retrofix", "handle it!");
+                        System.out.println("retrofix " + "handle it! " + s);
                     });
 
         }, "custom-thread-1").start();
     }
 
-    @Test
+    //@Test
     public void testBackgroundThread(){
 
         backgroundThread.start();
@@ -78,26 +80,15 @@ public class RxJava101 {
     }
 
 
-    void onRunSchedulerExampleButtonClicked() {
-        sampleObservable()
-                .subscribeOn(HandlerScheduler.from(backgroundHandler)) //run on bg thread
+    @Test
+    public void onRunSchedulerExampleButtonClicked() {
+
+       Observable.just("uno", "dos", "tres", "cuatro", "cinco")
+                .subscribeOn(Schedulers.io()) //run on bg thread
                         // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "onCompleted()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError()", e);
-                    }
-
-                    @Override
-                    public void onNext(String string) {
-                        Log.d(TAG, "onNext(" + string + ")");
-                    }
+               .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                    System.out.println(s);
                 });
     }
 
