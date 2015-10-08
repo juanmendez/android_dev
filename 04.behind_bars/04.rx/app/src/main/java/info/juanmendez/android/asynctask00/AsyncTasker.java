@@ -11,7 +11,15 @@ import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
 /**
- * Created by Juan on 5/11/2015.
+ * There is Android Annotation used, but it's off the topic.
+ * Subject (listens to ) workingObservable @ doInBackground
+ * Subscription is a reference to Subject being subscribed to workingObservable.
+ * upon cancel() (Activity calls on destroy) Subscription simply unsubscribes to stop workingObservable.
+ * workingObservable only has a single subscription. Subject can have several subscriptions, though
+ * Subject stops emitting and avoid memory leaks.
+ *
+ * Something which comes to mind is to keep list of subscriptions made to Subject in this class,
+ * and therefore unsubscribe them as well upon cancel(). (more of this in further testing)
  */
 
 @EBean

@@ -9,9 +9,6 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @EActivity(R.layout.activity_main)
 public class MainActivity extends ListActivity {
 
@@ -26,17 +23,12 @@ public class MainActivity extends ListActivity {
     @Bean
     AsyncTasker tasker;
 
-    List<String> strings = new ArrayList<String>();
-
     @AfterViews
     void afterViews()
     {
-        adapter.setList(strings);
         setListAdapter(adapter);
 
-        Logging.print("working on " + Thread.currentThread().getName());
-
-        tasker.getObservable().subscribe(s -> {
+         tasker.getObservable().subscribe(s -> {
             adapter.notifyDataSetChanged();
         },throwable -> {
             Logging.print( throwable.getMessage() );

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
 
 @EBean(scope = EBean.Scope.Singleton)
 public class ListAdapter extends BaseAdapter{
-    List<String> items;
+    List<String> items = new ArrayList<String>();
 
     @RootContext
     Context context;
