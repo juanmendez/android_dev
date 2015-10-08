@@ -3,7 +3,11 @@ package info.juanmendez.android.asynctask00;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import rx.Observable;
+import rx.Observer;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,6 +24,8 @@ import rx.subjects.PublishSubject;
  *
  * Something which comes to mind is to keep list of subscriptions made to Subject in this class,
  * and therefore unsubscribe them as well upon cancel(). (more of this in further testing)
+ *
+ * Update, all Subject' subscriptions are kept, and unsubscribed at the end.
  */
 
 @EBean
@@ -28,14 +34,20 @@ public class AsyncTasker
     @Bean ListAdapter adapter;
     PublishSubject subject;
     Subscription subscription;
+    ArrayList<Subscription> subscriptions = new ArrayList<>();
 
     public AsyncTasker(){
 
         subject = PublishSubject.create();
     }
 
-    public Observable<String> getObservable(){
+    private Observable<String> getObservable(){
         return subject.asObservable();
+    }
+
+    public void subscribe( Observer<String> observer ){
+
+        subscriptions.add( getObservable().subscribe( observer ) );
     }
 
     public void doInBackground( String[] stringArray ) {
@@ -75,6 +87,14 @@ public class AsyncTasker
         if( subscription != null )
         {
             subscription.unsubscribe();
+        }
+
+
+        for( Iterator<Subscription> it = subscriptions.iterator(); it.hasNext(); )
+        {
+            Subscription s = it.next();
+            it.remove();
+            s.unsubscribe();
         }
     }
 }

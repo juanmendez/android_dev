@@ -9,6 +9,8 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import rx.Observer;
+
 @EActivity(R.layout.activity_main)
 public class MainActivity extends ListActivity {
 
@@ -28,13 +30,22 @@ public class MainActivity extends ListActivity {
     {
         setListAdapter(adapter);
 
-         tasker.getObservable().subscribe(s -> {
-            adapter.notifyDataSetChanged();
-        },throwable -> {
-            Logging.print( throwable.getMessage() );
-        }, () -> {
-            Toast.makeText( MainActivity.this, "subscriber knows completion", Toast.LENGTH_LONG ).show();
-        } );
+         tasker.subscribe(new Observer<String>() {
+             @Override
+             public void onCompleted() {
+                 Toast.makeText( MainActivity.this, "observer knows completion", Toast.LENGTH_LONG ).show();
+             }
+
+             @Override
+             public void onError(Throwable e) {
+                 Logging.print( e.getMessage() );
+             }
+
+             @Override
+             public void onNext(String s) {
+                 adapter.notifyDataSetChanged();
+             }
+         });
 
         tasker.doInBackground( items );
     }
