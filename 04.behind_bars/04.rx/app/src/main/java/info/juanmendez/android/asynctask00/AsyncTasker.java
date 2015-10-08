@@ -12,7 +12,7 @@ import rx.subjects.PublishSubject;
 
 /**
  * There is Android Annotation used, but it's off the topic.
- * Subject (listens to ) workingObservable @ doInBackground
+ * Subject (listens to ) workingObservable @ doInBackground (line 46)
  * Subscription is a reference to Subject being subscribed to workingObservable.
  * upon cancel() (Activity calls on destroy) Subscription simply unsubscribes to stop workingObservable.
  * workingObservable only has a single subscription. Subject can have several subscriptions, though
