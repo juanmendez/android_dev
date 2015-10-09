@@ -3,9 +3,6 @@ package info.juanmendez.android.asynctask00;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import rx.Observable;
 import rx.Observer;
 import rx.Scheduler;
@@ -33,21 +30,18 @@ public class AsyncTasker
 {
     @Bean ListAdapter adapter;
     PublishSubject subject;
-    Subscription subscription;
-    ArrayList<Subscription> subscriptions = new ArrayList<>();
+    Subscription workingSubscription;
+    Subscriptions subscriptions;
 
     public AsyncTasker(){
 
         subject = PublishSubject.create();
+        subscriptions = new Subscriptions<>( subject.asObservable() );
     }
 
-    private Observable<String> getObservable(){
-        return subject.asObservable();
-    }
+    public Subscription subscribe( Observer<String> observer ){
 
-    public void subscribe( Observer<String> observer ){
-
-        subscriptions.add( getObservable().subscribe( observer ) );
+        return subscriptions.subscribe(observer);
     }
 
     public void doInBackground( String[] stringArray ) {
@@ -55,7 +49,7 @@ public class AsyncTasker
         Scheduler scheduler = Schedulers.io();
         adapter.getList().clear();
 
-        subscription = Observable.from(stringArray).map(s1 -> {
+        workingSubscription = Observable.from(stringArray).map(s1 -> {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -82,19 +76,13 @@ public class AsyncTasker
         );
     }
 
-    public void cancel(){
+    public void unsubscribe(){
 
-        if( subscription != null )
+        if( workingSubscription != null )
         {
-            subscription.unsubscribe();
+            workingSubscription.unsubscribe();
         }
 
-
-        for( Iterator<Subscription> it = subscriptions.iterator(); it.hasNext(); )
-        {
-            Subscription s = it.next();
-            it.remove();
-            s.unsubscribe();
-        }
+        subscriptions.unsubscribe();
     }
 }

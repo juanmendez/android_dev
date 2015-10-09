@@ -53,7 +53,7 @@ public class MainActivity extends ListActivity {
     @Override
     public void onDestroy() {
         if (tasker != null) {
-            tasker.cancel();
+            tasker.unsubscribe();
         }
 
         super.onDestroy();
