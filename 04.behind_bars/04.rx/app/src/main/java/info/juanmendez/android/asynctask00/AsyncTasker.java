@@ -70,7 +70,6 @@ public class AsyncTasker
                     Logging.print(throwable.getMessage());
                 },
                 () -> {
-                    adapter.notifyDataSetChanged();
                     subject.onCompleted();
                 }
         );

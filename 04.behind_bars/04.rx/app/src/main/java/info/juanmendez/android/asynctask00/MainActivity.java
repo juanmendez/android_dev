@@ -33,6 +33,7 @@ public class MainActivity extends ListActivity {
          tasker.subscribe(new Observer<String>() {
              @Override
              public void onCompleted() {
+                 adapter.notifyDataSetChanged();
                  Toast.makeText( MainActivity.this, "observer knows completion", Toast.LENGTH_LONG ).show();
              }
 
