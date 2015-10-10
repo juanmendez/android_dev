@@ -16,13 +16,13 @@ import rx.subjects.PublishSubject;
  * Subject (listens to ) workingObservable @ doInBackground (line 46)
  * Subscription is a reference to Subject being subscribed to workingObservable.
  * upon cancel() (Activity calls on destroy) Subscription simply unsubscribes to stop workingObservable.
- * workingObservable only has a single subscription. Subject can have several subscriptions, though
+ * workingObservable only has a single subscription. Subject can have several uiSubscriptions, though
  * Subject stops emitting and avoid memory leaks.
  *
- * Something which comes to mind is to keep list of subscriptions made to Subject in this class,
+ * Something which comes to mind is to keep list of uiSubscriptions made to Subject in this class,
  * and therefore unsubscribe them as well upon cancel(). (more of this in further testing)
  *
- * Update, all Subject' subscriptions are kept, and unsubscribed at the end.
+ * Update, all Subject' uiSubscriptions are kept, and unsubscribed at the end.
  */
 
 @EBean
@@ -31,17 +31,17 @@ public class AsyncTasker
     @Bean ListAdapter adapter;
     PublishSubject subject;
     Subscription workingSubscription;
-    Subscriptions subscriptions;
+    Subscriptions uiSubscriptions;
 
     public AsyncTasker(){
 
         subject = PublishSubject.create();
-        subscriptions = new Subscriptions<>( subject.asObservable() );
+        uiSubscriptions = new Subscriptions<>( subject.asObservable() );
     }
 
     public Subscription subscribe( Observer<String> observer ){
 
-        return subscriptions.subscribe(observer);
+        return uiSubscriptions.subscribe(observer);
     }
 
     public void doInBackground( String[] stringArray ) {
@@ -82,6 +82,6 @@ public class AsyncTasker
             workingSubscription.unsubscribe();
         }
 
-        subscriptions.unsubscribe();
+        uiSubscriptions.unsubscribe();
     }
 }

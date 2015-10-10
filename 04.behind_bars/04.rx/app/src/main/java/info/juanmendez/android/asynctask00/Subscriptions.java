@@ -17,7 +17,7 @@ import rx.Subscription;
  */
 public class Subscriptions<T>
 {
-    HashMap<Observer<T>, Subscription > subscriptionMap = new HashMap<>();
+    HashMap<Observer<T>, Subscription > subscriptionMap = new HashMap<Observer<T>, Subscription>();
     Observable<T> subject;
 
     public Subscriptions(Observable<T> observable)
