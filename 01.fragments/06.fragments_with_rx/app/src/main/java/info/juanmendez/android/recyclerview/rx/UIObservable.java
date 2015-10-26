@@ -3,6 +3,7 @@ package info.juanmendez.android.recyclerview.rx;
 import info.juanmendez.android.recyclerview.model.Country;
 import rx.Subscription;
 import rx.functions.Action1;
+import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
 /**
@@ -10,11 +11,11 @@ import rx.subjects.PublishSubject;
  */
 public class UIObservable
 {
-    PublishSubject subject;
+    BehaviorSubject subject;
     SubscriptionHandler handler;
 
     public UIObservable(){
-        subject = PublishSubject.create();
+        subject = BehaviorSubject.create();
         handler = new SubscriptionHandler( subject );
     }
 

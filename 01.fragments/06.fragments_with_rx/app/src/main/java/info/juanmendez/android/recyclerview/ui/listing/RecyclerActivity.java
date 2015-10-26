@@ -1,26 +1,16 @@
 package info.juanmendez.android.recyclerview.ui.listing;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-
-import java.util.ArrayList;
+import android.view.MenuItem;
 
 import info.juanmendez.android.recyclerview.App;
 import info.juanmendez.android.recyclerview.R;
-import info.juanmendez.android.recyclerview.model.Country;
 import info.juanmendez.android.recyclerview.rx.UIObservable;
-import info.juanmendez.android.recyclerview.ui.detail.WikiActivity;
 import info.juanmendez.android.recyclerview.ui.detail.WikiFragment;
-import info.juanmendez.android.recyclerview.ui.listing.recyclerview.CountryAdapter;
-import rx.Observer;
 import rx.Subscription;
 
 public class RecyclerActivity extends AppCompatActivity {
@@ -28,16 +18,30 @@ public class RecyclerActivity extends AppCompatActivity {
     CountriesFragment countriesFragment;
     WikiFragment wikiFragment;
     Subscription subscription;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        toolbar.setNavigationOnClickListener(v -> {
+
+        });
         setSupportActionBar(toolbar);
 
         countriesFragment = (CountriesFragment) getSupportFragmentManager().findFragmentById(R.id.countriesFragment);
         wikiFragment = (WikiFragment) getSupportFragmentManager().findFragmentById(R.id.wikiFragment);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        if( drawerLayout != null )
+        {
+            toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close );
+            drawerLayout.setDrawerListener(toggle);
+        }
     }
 
     @Override
@@ -49,11 +53,9 @@ public class RecyclerActivity extends AppCompatActivity {
 
             subscription = getObservable().subscribe(country -> {
 
-                if( !getResources().getBoolean(R.bool.dual_fragments) )
+                if( drawerLayout != null )
                 {
-                    Intent i = new Intent( this, WikiActivity.class );
-                    i.putExtra("url", country.getLink());
-                    startActivity(i);
+                    drawerLayout.closeDrawers();
                 }
             });
         }
@@ -63,7 +65,7 @@ public class RecyclerActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
 
-        if( wikiFragment != null ){
+        if( wikiFragment != null){
 
             getObservable().unsubscribe( subscription );
         }
@@ -72,5 +74,17 @@ public class RecyclerActivity extends AppCompatActivity {
     private UIObservable getObservable(){
 
         return ((App) getApplication()).getObservable();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle your other action bar items...
+
+        return super.onOptionsItemSelected(item);
     }
 }

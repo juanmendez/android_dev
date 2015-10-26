@@ -62,24 +62,19 @@ public class WikiFragment extends WebViewFragment
     public void onStart() {
         super.onStart();
 
-        if( isInSecondPane )
-        {
-            subscription = getObservable().subscribe(country -> {
-                if( isInSecondPane )
-                {
-                    webView.loadUrl(country.getLink());
-                }
-            });
-        }
+        subscription = getObservable().subscribe(country -> {
+            webView.loadUrl(country.getLink());
+        });
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        if( isInSecondPane )
+        if( subscription != null )
         {
             getObservable().unsubscribe( subscription );
+            subscription = null;
         }
     }
 

@@ -13,7 +13,6 @@ import info.juanmendez.android.recyclerview.App;
 import info.juanmendez.android.recyclerview.R;
 import info.juanmendez.android.recyclerview.model.Country;
 import info.juanmendez.android.recyclerview.rx.UIObservable;
-import info.juanmendez.android.recyclerview.ui.detail.WikiActivity;
 
 /**
  * Created by Juan on 10/19/2015.
