@@ -49,24 +49,20 @@ public class RecyclerActivity extends AppCompatActivity {
     {
         super.onResume();
 
-        if( wikiFragment != null ){
+        subscription = getObservable().subscribe(country -> {
 
-            subscription = getObservable().subscribe(country -> {
-
-                if( drawerLayout != null )
-                {
-                    drawerLayout.closeDrawers();
-                }
-            });
-        }
+            if( drawerLayout != null ) //close drawer once an item is selected
+            {
+                drawerLayout.closeDrawers();
+            }
+        });
     }
 
     @Override
     protected void onPause(){
         super.onPause();
 
-        if( wikiFragment != null){
-
+        if( subscription != null ){
             getObservable().unsubscribe( subscription );
         }
     }
