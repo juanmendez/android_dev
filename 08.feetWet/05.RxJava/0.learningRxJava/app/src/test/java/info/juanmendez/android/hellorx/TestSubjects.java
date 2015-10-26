@@ -30,11 +30,18 @@ public class TestSubjects
     }
 
 
+    /**
+     * BehaviorSubject works like PublishSubject except it only receives the previous emit and the following remaining.
+     * If it observes after complete, it will get that event.
+     */
     public void testBehaviorSubjects(){
         BehaviorSubject<String> subject = BehaviorSubject.create("Start State");
 
     }
 
+    /**
+     * Subject that publishes only the last item observed to each Observer that has subscribed, when the source Observable completes.
+     */
     public void testAsyncSubjects(){
 
         //AsyncSubjects only emits the last one before onComplete.

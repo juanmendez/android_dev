@@ -136,9 +136,9 @@ public class workingWithObservables {
             ThreadUtils.sleep(10);
             System.out.println("parallel thread out " + ThreadUtils.currentThreadName());
         }).subscribe(i -> {
-            System.out.println("next thread" + ThreadUtils.currentThreadName());
+            System.out.println("next thread " + ThreadUtils.currentThreadName());
             System.out.println(i);
-            System.out.println( "next thread exit" + ThreadUtils.currentThreadName() );
+            System.out.println( "next thread exit " + ThreadUtils.currentThreadName() );
         }, t -> {
         }, () -> {
         });

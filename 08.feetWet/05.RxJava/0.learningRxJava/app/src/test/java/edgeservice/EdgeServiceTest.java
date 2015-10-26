@@ -10,6 +10,7 @@ import edgeservice.dto.Address;
 import edgeservice.dto.Customer;
 import edgeservice.dto.OwnedProduct;
 import edgeservice.service.CustomerService;
+import info.juanmendez.android.hellorx.BuildConfig;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 

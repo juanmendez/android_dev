@@ -14,7 +14,7 @@ import rx.schedulers.Schedulers;
 
 @RunWith(RobolectricTestRunner.class)
 @Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml", sdk = 21)
-public class CompositionTests {
+public class   CompositionTests {
     @Test
     public void testComposition(){
         Object waitMonitor = new Object();

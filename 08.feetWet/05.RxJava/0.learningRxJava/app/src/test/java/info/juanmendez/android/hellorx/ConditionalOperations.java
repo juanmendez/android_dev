@@ -23,6 +23,7 @@ public class ConditionalOperations {
     public void testWithEmpty()
     {
         writeComment("test with empty");
+
         // defaultIfEmpty example - We create an empty observable
         // and then apply "defaultIfEmpty" and set the default to "Hello World".
         // Since the observable is empty, "Hello World" will be emitted as
@@ -67,8 +68,8 @@ public class ConditionalOperations {
     }
 
     @Test
-    public void testTakeWhie(){
-        writeComment("testTakeWhie");
+    public void testTakeWhile(){
+        writeComment("testTakeWhile");
 
         Observable.from(DataGenerator.generateFibonacciList())
                 .takeWhile((i) -> {

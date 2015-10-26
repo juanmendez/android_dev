@@ -15,6 +15,8 @@ public class EmailMonitor {
         this.iEmailService = emailService;
 
         // Subscribe to UserEvents in the userService
+        //here instead of creating a lambda, we specify
+        //which object to refer to and its matching method.
         iUserService.subscribeToUserEvents(this::userEventHandler);
     }
 

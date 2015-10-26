@@ -166,6 +166,12 @@ public class TestingFiltering {
     }
 
 
+    /**
+     * In this example we set the observable to emit earlier than 5 seconds.
+     * Then we hold the thread for 10 seconds so the ticker emits for that time and
+     * then we set to pause the ticker for six seconds. In this way the observable is
+     * caught on hold for longer than five seconds, and then the tiimeout error happens.
+     */
     @Test
     public void testTimeout(){
 

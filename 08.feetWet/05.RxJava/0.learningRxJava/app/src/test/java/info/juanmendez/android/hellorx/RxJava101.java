@@ -15,6 +15,7 @@ import org.robolectric.shadows.ShadowLog;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.android.schedulers.HandlerScheduler;
@@ -43,7 +44,31 @@ public class RxJava101 {
         backgroundThread = new BackgroundThread();
     }
 
-    //@Test
+    @Test
+    public void testBloggerDemo(){
+
+        String[] subject = new String[]{"one", "two", "three", "four", "five"};
+
+        Observable.from(subject).subscribe(new Observer<String>() {
+            @Override
+            public void onCompleted() {
+                System.out.println( "completed!!");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(String s) {
+                //notified on next
+                System.out.println( s );
+            }
+        });
+    }
+
+    @Test
     public void observeInMainUI() throws Exception
     {
         Observable.just("one", "two", "three", "four", "five")
@@ -54,7 +79,7 @@ public class RxJava101 {
                 });
     }
 
-    //@Test
+    @Test
     public void observeInArbitraryThreads(){
 
         new Thread(()->{
@@ -69,7 +94,7 @@ public class RxJava101 {
         }, "custom-thread-1").start();
     }
 
-    //@Test
+    @Test
     public void testBackgroundThread(){
 
         backgroundThread.start();

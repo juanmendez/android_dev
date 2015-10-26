@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources formatted="false">
+    <string-array name="countries">
+    <item>Antigua and Barbuda</item>
+    <item>Bahamas</item>
+    <item>Barbados</item>
+    <item>Belize</item>
+    <item>Canada</item>
+    <item>Costa Rica</item>
+    <item>Cuba</item>
+    <item>Dominica</item>
+    <item>Dominican Republic</item>
+    <item>El Salvador</item>
+    <item>Grenada</item>
+    <item>Guatemala</item>
+    <item>Haiti</item>
+    <item>Honduras</item>
+    <item>Jamaica</item>
+    <item>Mexico</item>
+    <item>Nicaragua</item>
+    <item>Panama</item>
+    <item>Saint Kitts and Nevis</item>
+    <item>Saint Lucia</item>
+    <item>Saint Vincent and the Grenadines</item>
+    <item>Trinidad and Tobago</item>
+    <item>United States</item>
+    <item>Argentina</item>
+    <item>Bolivia</item>
+    <item>Brazil</item>
+    <item>Chile</item>
+    <item>Colombia</item>
+    <item>Ecuador</item>
+    <item>Guyana</item>
+    <item>Paraguay</item>
+    <item>Peru</item>
+    <item>Suriname</item>
+    <item>Uruguay</item>
+    <item>Venezuela</item>
+    </string-array>
+    <string-array name="links">
+        <item>https://en.wikipedia.org/wiki/Antigua_and_Barbuda</item>
+        <item>https://en.wikipedia.org/wiki/Bahamas</item>
+        <item>https://en.wikipedia.org/wiki/Barbados</item>
+        <item>https://en.wikipedia.org/wiki/Belize</item>
+        <item>https://en.wikipedia.org/wiki/Canada</item>
+        <item>https://en.wikipedia.org/wiki/Costa_Rica</item>
+        <item>https://en.wikipedia.org/wiki/Cuba</item>
+        <item>https://en.wikipedia.org/wiki/Dominica</item>
+        <item>https://en.wikipedia.org/wiki/Dominican_Republic</item>
+        <item>https://en.wikipedia.org/wiki/El_Salvador</item>
+        <item>https://en.wikipedia.org/wiki/Grenada</item>
+        <item>https://en.wikipedia.org/wiki/Guatemala</item>
+        <item>https://en.wikipedia.org/wiki/Haiti</item>
+        <item>https://en.wikipedia.org/wiki/Honduras</item>
+        <item>https://en.wikipedia.org/wiki/Jamaica</item>
+        <item>https://en.wikipedia.org/wiki/Mexico</item>
+        <item>https://en.wikipedia.org/wiki/Nicaragua</item>
+        <item>https://en.wikipedia.org/wiki/Panama</item>
+        <item>https://en.wikipedia.org/wiki/Saint_Kitts_and_Nevis</item>
+        <item>https://en.wikipedia.org/wiki/Saint_Lucia</item>
+        <item>https://en.wikipedia.org/wiki/Saint_Vincent_and_the_Grenadines</item>
+        <item>https://en.wikipedia.org/wiki/Trinidad_and_Tobago</item>
+        <item>https://en.wikipedia.org/wiki/United_States</item>
+        <item>https://en.wikipedia.org/wiki/Argentina</item>
+        <item>https://en.wikipedia.org/wiki/Bolivia</item>
+        <item>https://en.wikipedia.org/wiki/Brazil</item>
+        <item>https://en.wikipedia.org/wiki/Chile</item>
+        <item>https://en.wikipedia.org/wiki/Colombia</item>
+        <item>https://en.wikipedia.org/wiki/Ecuador</item>
+        <item>https://en.wikipedia.org/wiki/Guyana</item>
+        <item>https://en.wikipedia.org/wiki/Paraguay</item>
+        <item>https://en.wikipedia.org/wiki/Peru</item>
+        <item>https://en.wikipedia.org/wiki/Suriname</item>
+        <item>https://en.wikipedia.org/wiki/Uruguay</item>
+        <item>https://en.wikipedia.org/wiki/Venezuela</item>
+    </string-array>
+    <string-array name="flags">
+        <item>http://www.nationsonline.org/flags_big/Antigua_and_Barbuda_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Bahamas_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Barbados_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Belize_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Canada_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Costa_Rica_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Cuba_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Dominica_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Dominican_Republic_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/El_Salvador_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Grenada_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Guatemala_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Haiti_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Honduras_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Jamaica_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Mexico_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Nicaragua_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Panama_lgflag.gif</item>
+        <item>http://www.free-country-flags.com/countries/Saint_Kitts_and_Nevis/1/large/Saint_Kitts_and_Nevis.png</item>
+        <item>http://www.nationsonline.org/flags_big/Saint_Lucia_lgflag.gif</item>
+        <item>http://www.free-country-flags.com/countries/Saint_Vicent_and_the_Grenadines/1/large/Saint_Vicent_and_the_Grenadines.png</item>
+        <item>http://www.nationsonline.org/flags_big/Trinidad_and_Tobago_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/United_States_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Argentina_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Bolivia_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Brazil_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Chile_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Colombia_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Ecuador_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Guyana_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Paraguay_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Peru_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Suriname_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Uruguay_lgflag.gif</item>
+        <item>http://www.nationsonline.org/flags_big/Venezuela_lgflag.gif</item>
+    </string-array>
+</resources>
