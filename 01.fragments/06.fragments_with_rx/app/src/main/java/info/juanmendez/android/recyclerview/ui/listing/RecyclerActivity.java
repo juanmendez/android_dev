@@ -76,7 +76,7 @@ public class RecyclerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if (toggle.onOptionsItemSelected(item)) {
+        if ( toggle != null && toggle.onOptionsItemSelected(item)) {
             return true;
         }
         // Handle your other action bar items...

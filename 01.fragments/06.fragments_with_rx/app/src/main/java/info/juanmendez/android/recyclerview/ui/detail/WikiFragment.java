@@ -37,6 +37,8 @@ public class WikiFragment extends WebViewFragment
         webView = (WebView) super.onCreateView(inflater, container, savedInstanceState);
 
         isInSecondPane = getResources().getBoolean(R.bool.dual_fragments );
+
+
         if( !rotated() ){
             webView.setWebViewClient(new WebViewClient() {
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {

@@ -13,6 +13,7 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 
+import info.juanmendez.android.recyclerview.App;
 import info.juanmendez.android.recyclerview.R;
 import info.juanmendez.android.recyclerview.model.Country;
 import info.juanmendez.android.recyclerview.ui.listing.recyclerview.CountryAdapter;
@@ -38,9 +39,14 @@ public class CountriesFragment extends Fragment
         mRecyclerView.addItemDecoration(decor);
 
         //mRecyclerView.setLayoutManager( new GridLayoutManager(this, 2 ));
+        ArrayList<Country> countries = getCountries();
         mRecyclerView.setAdapter(new CountryAdapter(inflater, getCountries()));
 
+        App app = (App) getActivity().getApplication();
 
+        if( app.getObservable().getCountry() == null ){
+            app.getObservable().emit( getCountries().get(0) );
+        }
 
         return view;
     }

@@ -13,6 +13,7 @@ public class UIObservable
 {
     BehaviorSubject subject;
     SubscriptionHandler handler;
+    Country lastCountry;
 
     public UIObservable(){
         subject = BehaviorSubject.create();
@@ -22,8 +23,13 @@ public class UIObservable
     public void emit( Country country ){
 
         if( country != null ){
+            lastCountry = country;
             subject.onNext( country );
         }
+    }
+
+    public Country getCountry(){
+        return this.lastCountry;
     }
 
     public Subscription subscribe( Action1<Country> observer ){
