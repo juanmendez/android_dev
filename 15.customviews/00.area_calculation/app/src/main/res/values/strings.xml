@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Length Picker</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="width">Width</string>
+    <string name="height">Height</string>
+    <string name="area">Area</string>
+</resources>

@@ -46,28 +46,28 @@ public class CountryHolder extends RecyclerView.ViewHolder {
         textView.setText(country.getName());
         Picasso.with( context ).load( country.getFlag() ).into(imageView);
 
-        itemView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(View v) {
-                subscription = getObservable().subscribe(countrySelected -> {
+itemView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+    @Override
+    public void onViewAttachedToWindow(View v) {
+        subscription = getObservable().subscribe(countrySelected -> {
 
-                    if (countrySelected.getName().equals(country.getName())) {
-                        ((LinearLayout)itemView).setBackgroundColor(Color.YELLOW );
-                    }
-                    else{
-                        ((LinearLayout)itemView).setBackgroundColor(Color.WHITE );
-                    }
-                });
+            if (countrySelected.getName().equals( country.getName())) {
+                ((LinearLayout)itemView).setBackgroundColor(Color.YELLOW );
             }
-
-            @Override
-            public void onViewDetachedFromWindow(View v) {
-                if (subscription != null) {
-                    getObservable().unsubscribe(subscription);
-                    subscription = null;
-                }
+            else{
+                ((LinearLayout)itemView).setBackgroundColor(Color.WHITE );
             }
         });
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(View v) {
+        if (subscription != null) {
+            getObservable().unsubscribe(subscription);
+            subscription = null;
+        }
+    }
+});
     }
 
     private UIObservable getObservable(){
