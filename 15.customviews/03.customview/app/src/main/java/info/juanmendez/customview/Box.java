@@ -18,6 +18,7 @@ public class Box extends View {
     TypedArray androidAttrs;
     TypedArray boxAttrs;
     BoxStyles boxStyles = new BoxStyles();
+    int index = 0;
 
     public Box(Context context) {
         this(context, null);
@@ -31,6 +32,14 @@ public class Box extends View {
     public Box(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public static Box generateBox( Context context, BoxStyles boxStyles ){
@@ -50,7 +59,7 @@ public class Box extends View {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(v.getContext(), "clicked", Toast.LENGTH_LONG ).show();
+                Toast.makeText(v.getContext(), "clicked", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -59,16 +68,7 @@ public class Box extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        /*
-        int contentWidth = 100;
-        int minW = contentWidth + getPaddingLeft() + getPaddingRight();
-        int minH = contentWidth + getPaddingTop() + getPaddingBottom();
-
-        int w = resolveSizeAndState(minW, widthMeasureSpec, 0);
-        int h = resolveSizeAndState(minH, heightMeasureSpec, 0);
-
-        setMeasuredDimension( w, h );*/
+        setMeasuredDimension( 150, 150 );
     }
 
     @Override
@@ -96,6 +96,15 @@ public class Box extends View {
 
         paint.setColor(androidAttrs.getColor(0, boxStyles.getFill_color()));
         canvas.drawRect(rect, paint);
+
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(45);
+        int textWidth = Float.valueOf(paint.measureText( Integer.toString(getIndex()) )).intValue();
+        canvas.drawText( Integer.toString(getIndex()),
+               ( getWidth() - textWidth )/2,
+                getHeight()/2 + padding_stroke, /**here we draw laying on the baseline**/
+                paint );
 
         //androidAttrs.recycle();
         //boxAttrs.recycle();
@@ -131,8 +140,6 @@ public class Box extends View {
         }
 
         int fill_color = Color.YELLOW;
-
-
 
         public BoxStyles(){
 

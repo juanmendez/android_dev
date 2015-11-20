@@ -1,11 +1,12 @@
 package info.juanmendez.customview;
 
 import android.content.Context;
-import android.content.res.TypedArray;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
@@ -14,7 +15,6 @@ import android.widget.RemoteViews;
 /**
  * Created by Juan on 11/8/2015.
  */
-
 @RemoteViews.RemoteView
 public class BoxGroup extends ViewGroup {
 
@@ -39,20 +39,26 @@ public class BoxGroup extends ViewGroup {
 
     public BoxGroup(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        createChildren( 50, attrs );
     }
 
 
-    private void createChildren( int numChildren, AttributeSet attrs ){
+    private void createChildren( int numChildren ){
 
         Box box;
 
+        /**
+         * I was trying hard to work with AttributeStyles programmatically
+         * when in fact, I simply need to talk to the children in plain java objects.
+         *
+         * What I did was to set a default pojo for each child view, and then override
+         * values if they come from AttributeStyles.
+         */
         Box.BoxStyles styles = new Box.BoxStyles();
         styles.setPadding_color(getColorResource(getContext(), R.color.colorPrimary));
         styles.setPadding_Stroke(10);
         styles.setFill_color(getColorResource(getContext(), R.color.colorAccent));
 
-        LayoutParams params = new LayoutParams(100, 100 );
+        LayoutParams params = new LayoutParams(150, 150 );
 
         for( int i = 0; i < numChildren; i++ ){
             box = Box.generateBox( getContext(), styles );
@@ -77,7 +83,41 @@ public class BoxGroup extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        int count = getChildCount();
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        int width = 800, height = 800; //unspecified
+        int dim = 150;
+        int count;
+
+        if( getChildCount() == 0 )
+        {
+            createChildren( 900 );
+            count = 900;
+        }
+        else
+        {
+            count = getChildCount();
+        }
+
+        if( heightMode == MeasureSpec.EXACTLY )
+        {
+            if( count * dim > height )
+                height = Double.valueOf( Math.ceil( heightSize / dim ) ).intValue() * dim;
+            else
+                height = count * dim;
+        }
+        else
+        if( heightMode == MeasureSpec.AT_MOST )
+        {
+            height = Math.min( height, heightSize );
+        }
+
+        width = Double.valueOf( Math.ceil( height / dim ) ).intValue();
+        width = count/width * dim;
+
+
         View child;
 
         for( int i = 0; i < count; i++ ){
@@ -85,13 +125,13 @@ public class BoxGroup extends ViewGroup {
 
             if( child instanceof Box && child.getVisibility() != GONE ){
 
-                child.measure( widthMeasureSpec, heightMeasureSpec );
+                child.measure(width, height);
+                Log.i("child", Integer.toString(child.getMeasuredWidth()) );
             }
         }
 
-
         // Report our final dimensions.
-        setMeasuredDimension( widthMeasureSpec, heightMeasureSpec );
+        setMeasuredDimension( width, height );
     }
 
 
@@ -106,7 +146,7 @@ public class BoxGroup extends ViewGroup {
         View child;
         int x = 0;
         int y = 0;
-        int dim = 100;
+        int dim = 150;
         int width = getWidth() - getPaddingLeft() - getPaddingRight();
 
         for( int i = 0; i < count; i++ ){
@@ -115,16 +155,16 @@ public class BoxGroup extends ViewGroup {
             if( child instanceof Box && child.getVisibility() != GONE ){
 
                 child.layout( x, y, x + dim, y + dim );
+                ((Box) child ).setIndex( i );
                 x += dim;
 
-                if( x  > width )
+                if( x + dim > width )
                 {
                     x = 0;
                     y += dim;
                 }
             }
         }
-
     }
 
     // ----------------------------------------------------------------------
