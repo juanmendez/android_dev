@@ -1,15 +1,17 @@
 package info.juanmendez.customview;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -18,29 +20,15 @@ import android.widget.RemoteViews;
 @RemoteViews.RemoteView
 public class BoxGroup extends ViewGroup {
 
-
-    /** The amount of space used by children in the left gutter. */
-    private int mLeftWidth;
-
-    /** The amount of space used by children in the right gutter. */
-    private int mRightWidth;
-
-    /** These are used for computing child frames based on their gravity. */
-    private final Rect mTmpContainerRect = new Rect();
-    private final Rect mTmpChildRect = new Rect();
-
     public BoxGroup(Context context) {
         this( context, null );
     }
 
-    public BoxGroup(Context context, AttributeSet attrs) {
-        this( context, attrs, 0 );
-    }
+    public BoxGroup(Context context, AttributeSet attrs) {this( context, attrs, 0 );}
 
     public BoxGroup(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
 
     private void createChildren( int numChildren ){
 
@@ -79,6 +67,10 @@ public class BoxGroup extends ViewGroup {
     /**
      * Ask all children to measure themselves and compute the measurement of this
      * layout based on the children.
+     *
+     * when it comes to child measurments if the children were set in the layout
+     * they indirectly will force onMeasure to be called, and then return for each its dimensions.
+     * the first time onMeasure is called dimensions are all 0x0.
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -87,14 +79,13 @@ public class BoxGroup extends ViewGroup {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        int width = 800, height = 800; //unspecified
+        int roundWidth = 800, roundHeight = 800;
         int dim = 150;
         int count;
 
         if( getChildCount() == 0 )
         {
-            createChildren( 900 );
-            count = 900;
+            createChildren( count = 15 );
         }
         else
         {
@@ -103,19 +94,28 @@ public class BoxGroup extends ViewGroup {
 
         if( heightMode == MeasureSpec.EXACTLY )
         {
-            if( count * dim > height )
-                height = Double.valueOf( Math.ceil( heightSize / dim ) ).intValue() * dim;
-            else
-                height = count * dim;
+            roundHeight = heightSize;
         }
         else
         if( heightMode == MeasureSpec.AT_MOST )
         {
-            height = Math.min( height, heightSize );
+            roundHeight = Math.min( roundHeight, heightSize );
         }
 
-        width = Double.valueOf( Math.ceil( height / dim ) ).intValue();
-        width = count/width * dim;
+
+        int totalHeight = count * dim;
+
+        /**find out the height of this viewgroup**/
+        if( roundHeight > totalHeight  )
+        {
+            roundHeight = totalHeight;
+            roundWidth = dim;
+        }
+        else
+        {
+            roundHeight = Double.valueOf( Math.floor( (float)roundHeight / dim ) ).intValue() * dim;
+            roundWidth = Double.valueOf( Math.ceil( (float)totalHeight / roundHeight) ).intValue() * dim;
+        }
 
 
         View child;
@@ -125,14 +125,14 @@ public class BoxGroup extends ViewGroup {
 
             if( child instanceof Box && child.getVisibility() != GONE ){
 
-                child.measure(width, height);
-                Log.i("child", Integer.toString(child.getMeasuredWidth()) );
+                child.measure(roundWidth, roundHeight);
             }
         }
 
         // Report our final dimensions.
-        setMeasuredDimension( width, height );
+        setMeasuredDimension( roundWidth, roundHeight );
     }
+
 
 
 
@@ -199,6 +199,16 @@ public class BoxGroup extends ViewGroup {
             return ContextCompat.getColor( context, id );
         } else {
             return context.getResources().getColor(id);
+        }
+    }
+
+    class Dims{
+        int width;
+        int height;
+
+        Dims( int width, int height ){
+            this.width = width;
+            this.height = height;
         }
     }
 }
