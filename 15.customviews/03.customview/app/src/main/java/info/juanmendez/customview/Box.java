@@ -64,14 +64,6 @@ public class Box extends View {
         });
     }
 
-    /*
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(150, 150 );
-    }*/
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

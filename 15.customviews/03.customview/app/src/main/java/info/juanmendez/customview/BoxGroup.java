@@ -133,9 +133,6 @@ public class BoxGroup extends ViewGroup {
         setMeasuredDimension( roundWidth, roundHeight );
     }
 
-
-
-
     /**
      * Position all children within this layout.
      */
@@ -192,23 +189,12 @@ public class BoxGroup extends ViewGroup {
         return p instanceof LayoutParams;
     }
 
-
      int getColorResource(Context context, int id) {
         final int version = Build.VERSION.SDK_INT;
         if (version >= 23) {
             return ContextCompat.getColor( context, id );
         } else {
             return context.getResources().getColor(id);
-        }
-    }
-
-    class Dims{
-        int width;
-        int height;
-
-        Dims( int width, int height ){
-            this.width = width;
-            this.height = height;
         }
     }
 }

@@ -4,4 +4,8 @@
         <attr name="padding_color" format="color"/>
         <attr name="padding_stroke" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="ExpandStyle">
+        <attr name="max_width" format="dimension"/>
+        <attr name="max_height" format="dimension"/>
+    </declare-styleable>
 </resources>
