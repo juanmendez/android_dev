@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Emulator Service</string>
+    <string name="localhost">http://172.00.00.00.1</string>
+</resources>
