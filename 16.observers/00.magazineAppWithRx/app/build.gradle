@@ -71,6 +71,6 @@ buildscript {
     }
 
     dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.2.2'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.3'
     }
 }

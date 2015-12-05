@@ -34,7 +34,6 @@ public class MagazineListService extends IntentService
     @Inject
     Log log;
 
-
     @Inject
     MagazineNotificationSubject notificationSubject;
 
