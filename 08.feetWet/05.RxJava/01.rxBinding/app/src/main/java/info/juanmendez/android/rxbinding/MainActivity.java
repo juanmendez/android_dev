@@ -12,6 +12,10 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.concurrent.TimeUnit;
+
+import rx.android.schedulers.AndroidSchedulers;
+
 @EActivity (R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
 
@@ -30,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
     @AfterViews
     void afterViews(){
 
-        RxTextView.textChanges( editText ).subscribe(charSequence -> {
-            textView.setText( charSequence );
+        //Only the original thread that created a view hierarchy can touch its views.
+        RxTextView.textChanges( editText ).debounce( 2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(charSequence -> {
+            textView.setText(charSequence);
         });
 
         RxView.clicks(clearButton).subscribe(aVoid -> {
