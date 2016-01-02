@@ -14,6 +14,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.concurrent.TimeUnit;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
 @EActivity (R.layout.activity_main)
@@ -31,20 +32,34 @@ public class MainActivity extends AppCompatActivity {
     @ViewById
     Button reverseButton;
 
+    //to prevent memory leak, it's usefull to unsubscribe on pause.
+    //and if not using @Afterviews, then use instead onResume
+    Subscription s1, s2, s3;
+
     @AfterViews
     void afterViews(){
 
         //Only the original thread that created a view hierarchy can touch its views.
-        RxTextView.textChanges( editText ).debounce( 2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(charSequence -> {
+        s1 = RxTextView.textChanges(editText).debounce(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(charSequence -> {
             textView.setText(charSequence);
         });
 
-        RxView.clicks(clearButton).subscribe(aVoid -> {
+        s2 = RxView.clicks(clearButton).subscribe(aVoid -> {
             editText.setText("");
         });
 
-        RxView.clicks(reverseButton).subscribe(aVoid -> {
+        s3 = RxView.clicks(reverseButton).subscribe(aVoid -> {
             editText.setText( new StringBuilder(textView.getText()).reverse());
         });
+    }
+
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        s1.unsubscribe();
+        s2.unsubscribe();
+        s3.unsubscribe();
     }
 }

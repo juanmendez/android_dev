@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <item android:id="@+id/preferences" android:title="preferences" android:icon="@android:drawable/btn_star" android:showAsAction="ifRoom"></item>
+</menu>

@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
-// This does not break the build when Android Studio is missing the JRebel for Android plugin.
-apply plugin: 'com.zeroturnaround.jrebel.android'
 apply plugin: 'android-apt'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.hugo'
 
 def AAVersion = "3.3.2"
-def Project = "info.juanmendez.android.rxbinding"
+def Project = "com.example.sqlbrite.todo"
 
 apt {
     arguments {
@@ -27,7 +26,7 @@ android {
 
     defaultConfig {
         applicationId "$Project"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -39,9 +38,14 @@ android {
         }
     }
 
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
     dexOptions {
@@ -56,9 +60,21 @@ dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
 
+    // Square dependencies.
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
+
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'io.reactivex:rxandroid:1.0.1'
 
+    compile 'com.squareup.sqlbrite:sqlbrite:0.5.0'
+
     compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.3.0'
+
+    compile 'com.github.frankiesardo:auto-parcel:0.3.1'
+    apt 'com.github.frankiesardo:auto-parcel-processor:0.3.1'
+
+    compile 'com.jakewharton.timber:timber:4.1.0'
+    compile 'com.jakewharton:butterknife:6.1.0'
 }
