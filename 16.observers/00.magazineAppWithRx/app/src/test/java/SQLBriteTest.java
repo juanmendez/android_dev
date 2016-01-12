@@ -28,6 +28,8 @@ import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
 import info.juanmendez.android.intentservice.service.provider.table.SQLMagazine;
 import info.juanmendez.android.intentservice.ui.MagazineApp;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static org.robolectric.Shadows.shadowOf;
 
@@ -96,17 +98,26 @@ public class SQLBriteTest
                 null,
                 SQLMagazine.ISSUE + " desc", false);
 
-        queryObservable.subscribe(myQuery -> {
-            Cursor cursor = myQuery.run();
+        /**
+         * prints
+         * Magazine( issue: 2.23, location: /wherever/2.zip, title: null, file_location: null )
+         * Magazine( issue: 2.22, location: /wherever/1.zip, title: null, file_location: null )
+         */
+        queryObservable
+                .map(query -> {
+                                ArrayList<Magazine> list = new ArrayList<>();
 
-            while( cursor.moveToNext() )
-            {
-                magazines.add(MagazineUtil.fromCursor(cursor));
-            }
+                                Cursor cursor = query.run();
+                                while (cursor.moveToNext()) {
+                                    list.add(MagazineUtil.fromCursor(cursor));
+                                }
 
-            for( Magazine m: magazines ){
-                Log.print( magazines.toString() );
-            }
-        });
+                                return list;
+                })
+                .subscribe(thoseMagazines -> {
+                    for (Magazine m : thoseMagazines) {
+                        Log.print(m.toString());
+                    }
+                });
     }
 }
