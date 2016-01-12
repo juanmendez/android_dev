@@ -5,8 +5,9 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.zeroturnaround.jrebel.android'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "23.0.2"
+    useLibrary 'org.apache.http.legacy'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -15,8 +16,8 @@ android {
 
     defaultConfig {
         applicationId "info.juanmendez.android.intentservice"
-        minSdkVersion 12
-        targetSdkVersion 22
+        minSdkVersion 15
+        targetSdkVersion 23
         versionCode 1
         versionName "1.1"
     }
@@ -42,12 +43,17 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    dexOptions {
+        preDexLibraries = false
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile "commons-io:commons-io:2.4"
     compile 'com.squareup.dagger:dagger:1.2.2'
@@ -56,7 +62,7 @@ dependencies {
 
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.14'
-
+    compile 'com.squareup.sqlbrite:sqlbrite:0.5.0'
 
     testCompile('org.robolectric:robolectric:3.0') {
         exclude group: 'commons-logging', module: 'commons-logging'

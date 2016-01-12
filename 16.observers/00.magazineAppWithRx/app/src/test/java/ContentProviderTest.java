@@ -31,7 +31,7 @@ import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
-@Config( constants = BuildConfig.class, manifest="app/src/main/AndroidManifest.xml", sdk = 21 )
+@Config( constants = BuildConfig.class, manifest="src/main/AndroidManifest.xml", sdk = 21 )
 public class ContentProviderTest
 {
     private ContentResolver resolver;
