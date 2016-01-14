@@ -12,7 +12,7 @@ import info.juanmendez.android.intentservice.service.proxy.MagazineListProxy;
 /**
  * Created by Juan on 8/19/2015.
  */
-public interface IListMagazinesPresenter extends NetworkUpdate, DownloadProxy.UiCallback, LoaderManager.LoaderCallbacks<ArrayList<Magazine>> {
+public interface IListMagazinesPresenter extends NetworkUpdate, DownloadProxy.UiCallback {
 
     void pause();
     void resume();

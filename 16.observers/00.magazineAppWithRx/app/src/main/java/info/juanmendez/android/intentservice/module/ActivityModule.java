@@ -6,6 +6,9 @@ import android.net.ConnectivityManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.squareup.sqlbrite.BriteContentResolver;
+import com.squareup.sqlbrite.SqlBrite;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -56,5 +59,12 @@ public class ActivityModule
     @Provides
     public ConnectivityManager providesConnectivityManager(){
         return (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+    }
+
+    @Provides
+    @Singleton
+    public BriteContentResolver providesContentResolver( SqlBrite sqlBrite ){
+
+        return sqlBrite.wrapContentProvider( activity.getContentResolver() );
     }
 }

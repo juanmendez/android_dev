@@ -16,6 +16,7 @@ import info.juanmendez.android.intentservice.service.provider.table.SQLMagazine;
 /**
  * Created by Juan on 8/2/2015.
  */
+@Deprecated
 public class MagazineLoader extends AsyncTaskLoader<ArrayList<Magazine>> {
 
     ArrayList<Magazine> magazines = new ArrayList<Magazine>();

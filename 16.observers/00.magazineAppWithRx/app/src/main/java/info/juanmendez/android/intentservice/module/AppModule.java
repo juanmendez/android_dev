@@ -4,6 +4,8 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
 
+import com.squareup.sqlbrite.SqlBrite;
+
 import java.util.ArrayList;
 
 import javax.inject.Singleton;
@@ -65,5 +67,11 @@ public class AppModule {
     @Provides
     NotificationManager providesNotificationManager(){
         return (NotificationManager)_app.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    @Provides
+    @Singleton
+    SqlBrite providesSqlBrite(){
+        return SqlBrite.create();
     }
 }

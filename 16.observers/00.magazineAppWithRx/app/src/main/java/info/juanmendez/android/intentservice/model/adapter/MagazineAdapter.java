@@ -10,11 +10,12 @@ import java.util.List;
 
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.ui.MagazineRow;
+import rx.functions.Action1;
 
 /**
  * Created by Juan on 8/1/2015.
  */
-public class MagazineAdapter extends ArrayAdapter<Magazine>
+public class MagazineAdapter extends ArrayAdapter<Magazine> implements Action1<List<Magazine>>
 {
     List<Magazine> magazines = new ArrayList<Magazine>();
     public MagazineAdapter(Context context,List<Magazine> list) {
@@ -47,14 +48,16 @@ public class MagazineAdapter extends ArrayAdapter<Magazine>
         return convertView;
     }
 
-    public void addAll( ArrayList<Magazine> list ){
-        magazines.clear();
-        magazines.addAll(list);
-        this.notifyDataSetChanged();
-    }
-
     @Override
     public int getCount() {
         return magazines.size();
+    }
+
+    @Override
+    public void call(List<Magazine> list) {
+
+        magazines.clear();
+        magazines.addAll(list);
+        this.notifyDataSetChanged();
     }
 }

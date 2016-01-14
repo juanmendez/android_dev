@@ -1,16 +1,21 @@
 package info.juanmendez.android.intentservice.ui.listmagazine;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.Loader;
-import android.os.Bundle;
+import android.database.Cursor;
+import android.net.Uri;
 import android.widget.Toast;
+
+import com.squareup.sqlbrite.BriteContentResolver;
+import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import info.juanmendez.android.intentservice.helper.MVPUtils;
+import info.juanmendez.android.intentservice.helper.MagazineUtil;
 import info.juanmendez.android.intentservice.helper.NetworkUtil;
 import info.juanmendez.android.intentservice.model.MagazineStatus;
 import info.juanmendez.android.intentservice.model.adapter.MagazineAdapter;
@@ -20,10 +25,14 @@ import info.juanmendez.android.intentservice.model.pojo.MagazineNotificationSubj
 import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
 import info.juanmendez.android.intentservice.service.magazine.MagazineListService;
 import info.juanmendez.android.intentservice.service.network.NetworkReceiver;
-import info.juanmendez.android.intentservice.service.provider.MagazineLoader;
+import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
+import info.juanmendez.android.intentservice.service.provider.table.SQLMagazine;
 import info.juanmendez.android.intentservice.service.proxy.DownloadProxy;
 import info.juanmendez.android.intentservice.ui.MagazineActivity;
+import rx.Observable;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Juan on 8/19/2015.
@@ -36,10 +45,6 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
 
     Activity activity;
     MagazineAdapter adapter;
-    MagazineLoader loader;
-
-    //@Inject
-    //protected Bus bus;
 
     //pull new magazines from restful service
     //and populate db
@@ -62,8 +67,15 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     @Inject
     MagazineNotificationSubject magazineNotificationSubject;
 
+    @Inject
+    SqlBrite sqlBrite;
+
     Subscription magazineSubscription;
     Subscription notificationSubscription;
+    Observable<SqlBrite.Query> queryObservable;
+
+    @Inject
+    BriteContentResolver briteContentResolver;
 
     IListMagazinesView view;
 
@@ -109,6 +121,7 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
         magazineDispatcher.unsubscribe( magazineSubscription );
         magazineNotificationSubject.unsubscribe(notificationSubscription);
         networkReceiver.unregister();
+        queryObservable.unsubscribeOn( AndroidSchedulers.mainThread() );
     }
 
     @Override
@@ -151,11 +164,35 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     }
 
     private void startLoader(){
-        if( activity.getLoaderManager().getLoader(1) != null ){
-            activity.getLoaderManager().restartLoader(1, null, this);
-        }else{
-            activity.getLoaderManager().initLoader(1, null, this);
-        }
+
+        Uri uri = Uri.parse("content://" + MagazineProvider.AUTHORITY + "/magazines");
+
+       queryObservable = briteContentResolver.createQuery(uri, new String[]
+                        {SQLMagazine.ID, SQLMagazine.ISSUE,
+                                SQLMagazine.TITLE,
+                                SQLMagazine.LOCATION,
+                                SQLMagazine.FILE_LOCATION,
+                                SQLMagazine.DATETIME,
+                                SQLMagazine.STATUS},
+                null,
+                null,
+                SQLMagazine.ISSUE + " desc", false);
+
+        queryObservable
+                .subscribeOn(Schedulers.io() )
+                .observeOn(AndroidSchedulers.mainThread() )
+                .map(query -> {
+                    ArrayList<Magazine> list = new ArrayList<>();
+
+                    Cursor cursor = query.run();
+                    while (cursor.moveToNext()) {
+                        list.add(MagazineUtil.fromCursor(cursor));
+                    }
+
+                    return list;
+                })
+                .subscribe( adapter );
+
     }
 
     @Override
@@ -174,43 +211,9 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
         adapter.notifyDataSetChanged();
     }
 
-
-    /**
-     * In my humble opinion, I gotta say I feel so glad with MVP for the fact notifications from loaders
-     * can be in the presenter rather than the view and ease the code there.
-     */
-    @Override
-    public Loader<ArrayList<Magazine>> onCreateLoader(int id, Bundle args) {
-        loader = new MagazineLoader( activity );
-        return loader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<ArrayList<Magazine>> loader, ArrayList<Magazine> data ) {
-
-        magazines.clear();
-        magazines.addAll(data);
-
-        feedListView();
-
-        if( log.getState() == Log.Integer.INIT )
-        {
-            refreshList(true);
-        }
-        else
-        {
-            log.setState( Log.Integer.CLEAN );
-        }
-    }
-
     private void feedListView(){
         adapter.addAll(magazines);
         adapter.notifyDataSetChanged();
         view.onMagazineList();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<ArrayList<Magazine>> loader) {
-
     }
 }
