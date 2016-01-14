@@ -72,10 +72,10 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
 
     Subscription magazineSubscription;
     Subscription notificationSubscription;
-    Observable<SqlBrite.Query> queryObservable;
 
     @Inject
     BriteContentResolver briteContentResolver;
+    Observable<SqlBrite.Query> queryObservable;
 
     IListMagazinesView view;
 

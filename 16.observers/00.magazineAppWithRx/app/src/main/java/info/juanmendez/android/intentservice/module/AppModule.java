@@ -15,11 +15,11 @@ import dagger.Provides;
 import info.juanmendez.android.intentservice.model.pojo.Log;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.model.pojo.MagazineNotificationSubject;
-import info.juanmendez.android.intentservice.model.pojo.Page;
 import info.juanmendez.android.intentservice.service.download.DownloadService;
 import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
 import info.juanmendez.android.intentservice.service.magazine.MagazineListService;
 import info.juanmendez.android.intentservice.ui.MagazineApp;
+import info.juanmendez.android.intentservice.ui.MagazinePage;
 import info.juanmendez.android.intentservice.ui.MagazineRow;
 
 @Module( injects= { MagazineApp.class,
@@ -48,8 +48,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    ArrayList<Page> providesPages(){
-        return new ArrayList<Page>();
+    ArrayList<MagazinePage> providesPages(){
+        return new ArrayList<MagazinePage>();
     }
 
     @Provides

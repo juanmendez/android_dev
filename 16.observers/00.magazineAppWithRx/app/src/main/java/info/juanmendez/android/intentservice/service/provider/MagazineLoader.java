@@ -15,6 +15,9 @@ import info.juanmendez.android.intentservice.service.provider.table.SQLMagazine;
 
 /**
  * Created by Juan on 8/2/2015.
+ *
+ * This provider has been replaced for this Rx version with SqlBrite's contentProvider observable.
+ * This file will stay as being just legacy of the growth of this project.
  */
 @Deprecated
 public class MagazineLoader extends AsyncTaskLoader<ArrayList<Magazine>> {

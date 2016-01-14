@@ -8,8 +8,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.model.pojo.Page;
 import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
+import info.juanmendez.android.intentservice.ui.MagazinePage;
 
 /**
  * Created by Juan on 8/7/2015.
@@ -34,6 +36,12 @@ public class PageUtil {
         page.setName(c.getString(c.getColumnIndexOrThrow(SQLPage.NAME)));
 
         return page;
+    }
+
+    public static MagazinePage fromCursor( Magazine magazine, Cursor c )
+    {
+        Page page = fromCursor( c );
+        return MagazinePage.build(magazine.getFileLocation() + "/" + page.getName());
     }
 
     /**

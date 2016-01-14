@@ -1,11 +1,12 @@
 package info.juanmendez.android.intentservice.ui.magazine;
 
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.squareup.sqlbrite.BriteContentResolver;
+import com.squareup.sqlbrite.SqlBrite;
+
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -18,6 +19,10 @@ import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.model.pojo.Page;
 import info.juanmendez.android.intentservice.service.download.MagazineDispatcher;
 import info.juanmendez.android.intentservice.service.provider.table.SQLPage;
+import info.juanmendez.android.intentservice.ui.MagazinePage;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Juan on 8/20/2015.
@@ -27,10 +32,14 @@ public class MagazinePresenter implements IMagazinePresenter {
     AppCompatActivity activity;
 
     @Inject
-    ArrayList<Page> pageList;
+    ArrayList<MagazinePage> pageList;
 
     @Inject
     MagazineDispatcher dispatcher;
+
+    @Inject
+    BriteContentResolver briteContentResolver;
+    Observable<SqlBrite.Query> queryObservable;
 
     WebViewAdapter adapter;
     IMagazineView view;
@@ -46,53 +55,44 @@ public class MagazinePresenter implements IMagazinePresenter {
 
     @Override
     public void pause() {
+
+        if( queryObservable != null )
+        queryObservable.unsubscribeOn( AndroidSchedulers.mainThread() );
     }
 
     @Override
     public void resume() {
         Magazine mag =  dispatcher.getMagazine();
 
-        if( mag.getId() > 0 && pageList.size() == 0 ){
-
-            activity.getLoaderManager().initLoader(1, null,this);
-        }
+        if( mag.getId() > 0 && pageList.size() == 0 )
+            startLoader( mag );
+        else
+            adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Magazine magazine = dispatcher.getMagazine();
+    private void startLoader( Magazine magazine ){
+        Uri uri = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider/pages");
 
-        CursorLoader cursorLoader = new CursorLoader( activity,
-
-                Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".service.provider.MagazineProvider/pages"),
-                new String[]{SQLPage.ID, SQLPage.POSITION, SQLPage.NAME, SQLPage.MAG_ID},
+        queryObservable = briteContentResolver.createQuery(uri,
+        new String[]{SQLPage.ID, SQLPage.POSITION, SQLPage.NAME, SQLPage.MAG_ID},
                 SQLPage.MAG_ID + " = ?",
                 new String[]{ Integer.toString(magazine.getId())},
-                null );
+                null, false);
 
-        return cursorLoader;
+        queryObservable
+                .subscribeOn(Schedulers.io() )
+                .observeOn(AndroidSchedulers.mainThread() )
+                .map(query -> {
+                    ArrayList<MagazinePage> list = new ArrayList<>();
 
-    }
+                    Cursor cursor = query.run();
+                    while (cursor.moveToNext()) {
+                        list.add(PageUtil.fromCursor( magazine, cursor ));
+                    }
 
-    @Override
-    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor query) {
-
-        pageList.clear();
-        Page page;
-
-        while( query.moveToNext())
-        {
-            page = PageUtil.fromCursor(query);
-            pageList.add( page );
-        }
-
-        query.close();
-
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoaderReset(android.content.Loader<Cursor> loader) {
-
+                    cursor.close();
+                    return list;
+                })
+                .subscribe( adapter );
     }
 }
