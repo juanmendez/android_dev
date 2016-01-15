@@ -12,8 +12,6 @@ import info.juanmendez.android.intentservice.helper.PageUtil;
  */
 public class SqlHelper extends SQLiteOpenHelper {
 
-    SQLiteDatabase db;
-
     public SqlHelper(Context context)
     {
         super(context, PageUtil.DB, null, PageUtil.TableUtils.version );

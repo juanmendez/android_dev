@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.squareup.sqlbrite.BriteContentResolver;
+import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
 import junit.framework.Assert;
@@ -26,6 +27,7 @@ import info.juanmendez.android.intentservice.helper.PageUtil;
 import info.juanmendez.android.intentservice.model.pojo.Magazine;
 import info.juanmendez.android.intentservice.service.provider.MagazineProvider;
 import info.juanmendez.android.intentservice.service.provider.table.SQLMagazine;
+import info.juanmendez.android.intentservice.service.provider.table.SqlHelper;
 import info.juanmendez.android.intentservice.ui.MagazineApp;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,6 +45,7 @@ public class SQLBriteTest
     private MagazineApp app;
     private SqlBrite sqlBrite;
     private BriteContentResolver briteContentResolver;
+    private BriteDatabase briteDatase;
 
     static{
         ShadowLog.stream = System.out;
@@ -59,10 +62,11 @@ public class SQLBriteTest
         ShadowContentResolver.registerProvider(MagazineProvider.AUTHORITY, provider);
 
        sqlBrite = SqlBrite.create();
-       briteContentResolver = sqlBrite.wrapContentProvider( resolver );
+       briteContentResolver = sqlBrite.wrapContentProvider(resolver);
+       briteDatase = sqlBrite.wrapDatabaseHelper( new SqlHelper(app));
     }
 
-    @Test
+    //@Test
     public  void testContentProvider()
     {
 
@@ -105,19 +109,70 @@ public class SQLBriteTest
          */
         queryObservable
                 .map(query -> {
-                                ArrayList<Magazine> list = new ArrayList<>();
+                    ArrayList<Magazine> list = new ArrayList<>();
 
-                                Cursor cursor = query.run();
-                                while (cursor.moveToNext()) {
-                                    list.add(MagazineUtil.fromCursor(cursor));
-                                }
+                    Cursor cursor = query.run();
+                    while (cursor.moveToNext()) {
+                        list.add(MagazineUtil.fromCursor(cursor));
+                    }
 
-                                return list;
+                    return list;
                 })
                 .subscribe(thoseMagazines -> {
                     for (Magazine m : thoseMagazines) {
                         Log.print(m.toString());
                     }
                 });
+    }
+
+    @Test
+    public void testDatabase()
+    {
+        briteDatase.createQuery( SQLMagazine.TABLE, "SELECT * FROM " + SQLMagazine.TABLE , new String[]{} )
+                .map(query -> {
+                    ArrayList<Magazine> list = new ArrayList<>();
+
+                    try {
+                        Cursor cursor = query.run();
+                        while (cursor.moveToNext()) {
+                            list.add(MagazineUtil.fromCursor(cursor));
+                        }
+
+                        cursor.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    return list;
+                })
+                .subscribe(thoseMagazines -> {
+
+                    Log.print( "================================");
+                    Log.print( "ON TABLE UPDATE, THEN ITERATE");
+                    for (Magazine m : thoseMagazines) {
+                        Log.print(m.toString());
+                    }
+                    Log.print( "================================");
+                });
+
+
+        ArrayList<Magazine> magazines = new ArrayList<Magazine>();
+        Uri uri = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/magazines" );
+
+        ContentValues row = new ContentValues();
+        row.put(SQLMagazine.ISSUE, "2.22");
+        row.put(SQLMagazine.DATETIME, PageUtil.TableUtils.dateFormat(new Date()));
+        row.put(SQLMagazine.LOCATION, "/wherever/1.zip");
+
+        long id = briteDatase.insert(SQLMagazine.TABLE, row);
+        Assert.assertEquals( id, 1 );
+
+        row = new ContentValues();
+        row.put(SQLMagazine.ISSUE, "2.23");
+        row.put(SQLMagazine.DATETIME, "2015-01-01 00:00:00");
+        row.put(SQLMagazine.LOCATION, "/wherever/2.zip");
+
+        id = briteDatase.insert(SQLMagazine.TABLE, row );
+        Assert.assertEquals(id, 2);
     }
 }

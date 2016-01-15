@@ -1,7 +1,6 @@
 package info.juanmendez.android.intentservice.ui.listmagazine;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -118,10 +117,12 @@ public class ListMagazinesPresenter implements IListMagazinesPresenter {
     @Override
     public void pause() {
 
-        magazineDispatcher.unsubscribe( magazineSubscription );
+        magazineDispatcher.unsubscribe(magazineSubscription);
         magazineNotificationSubject.unsubscribe(notificationSubscription);
         networkReceiver.unregister();
-        queryObservable.unsubscribeOn( AndroidSchedulers.mainThread() );
+
+        if( queryObservable != null )
+            queryObservable.unsubscribeOn( AndroidSchedulers.mainThread() );
     }
 
     @Override

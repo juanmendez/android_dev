@@ -146,7 +146,7 @@ public class ItemsFragment extends Fragment {
 
         subscriptions = new CompositeSubscription();
 
-        Observable<Integer> itemCount = db.createQuery( TodoItem.TABLE, COUNT_QUERY, listId )
+        Observable<Integer> countObservable = db.createQuery( TodoItem.TABLE, COUNT_QUERY, listId )
                 .map(query -> {
                     Cursor cursor = query.run();
                     try {
@@ -159,7 +159,7 @@ public class ItemsFragment extends Fragment {
                     }
                 });
 
-        Observable<String> listName = db.createQuery( TodoList.TABLE, TITLE_QUERY, listId )
+        Observable<String> namesObservable = db.createQuery( TodoList.TABLE, TITLE_QUERY, listId )
                 .map(query -> {
                     Cursor cursor = query.run();
                     try {
@@ -173,7 +173,7 @@ public class ItemsFragment extends Fragment {
                 });
 
         subscriptions.add(
-                Observable.combineLatest(listName, itemCount, new Func2<String, Integer, String>() {
+                Observable.combineLatest(namesObservable, countObservable, new Func2<String, Integer, String>() {
                     @Override
                     public String call(String listName, Integer itemCount) {
                         return listName + " (" + itemCount + ")";
