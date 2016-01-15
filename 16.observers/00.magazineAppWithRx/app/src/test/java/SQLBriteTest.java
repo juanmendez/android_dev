@@ -147,12 +147,12 @@ public class SQLBriteTest
                 })
                 .subscribe(thoseMagazines -> {
 
-                    Log.print( "================================");
-                    Log.print( "ON TABLE UPDATE, THEN ITERATE");
+                    Log.print("================================");
+                    Log.print("ON TABLE UPDATE, THEN ITERATE");
                     for (Magazine m : thoseMagazines) {
                         Log.print(m.toString());
                     }
-                    Log.print( "================================");
+                    Log.print("================================");
                 });
 
 
@@ -174,5 +174,12 @@ public class SQLBriteTest
 
         id = briteDatase.insert(SQLMagazine.TABLE, row );
         Assert.assertEquals(id, 2);
+
+
+        row = new ContentValues();
+        row.put(SQLMagazine.LOCATION, "/new_folder/2016.zip");
+
+        briteDatase.update(SQLMagazine.TABLE, row, SQLMagazine.ID + "=?", "2");
+        briteDatase.delete( SQLMagazine.TABLE, SQLMagazine.ID + "=?", "2" );
     }
 }
