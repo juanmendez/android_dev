@@ -157,7 +157,6 @@ public class SQLBriteTest
 
 
         ArrayList<Magazine> magazines = new ArrayList<Magazine>();
-        Uri uri = Uri.parse( "content://" + MagazineProvider.AUTHORITY + "/magazines" );
 
         ContentValues row = new ContentValues();
         row.put(SQLMagazine.ISSUE, "2.22");
