@@ -40,7 +40,7 @@ public class ReadActivity extends AppCompatActivity {
     @AfterViews
     void afterViews(){
 
-        Firebase.setAndroidContext(getApplicationContext());
+        //at App level:Firebase.setAndroidContext(getApplicationContext());
         posts =  new Firebase(BuildConfig.UNIQUE_FIREBASE_ROOT_URL + "/posts");
 
         //readChildEvents();

@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EActivity;
 import java.util.HashMap;
 import java.util.Map;
 
-import info.juanmendez.introfirebase.model.User;
+import info.juanmendez.introfirebase.model.People;
 
 @EActivity(R.layout.activity_main)
 public class WriteActivity extends AppCompatActivity {
@@ -25,7 +25,8 @@ public class WriteActivity extends AppCompatActivity {
 
     @AfterViews
     public void afterViews(){
-        Firebase.setAndroidContext( getApplicationContext() );
+
+        //at App level:Firebase.setAndroidContext(getApplicationContext());
         rootRef = new Firebase(BuildConfig.UNIQUE_FIREBASE_ROOT_URL);
         savingWithTransaction();
         savingWithTransaction();
@@ -39,18 +40,18 @@ public class WriteActivity extends AppCompatActivity {
         /**
          * custom objects
          */
-        Firebase userRef = rootRef.child("users").child("alanis");
-        User alanis = new User( "Alanis Morissette", 1974);
-        userRef.setValue(alanis);
-        userRef.child("birthYear").setValue(1912);
+        Firebase peopleRef = rootRef.child("people").child("alanis");
+        People alanis = new People( "Alanis Morissette", 1974);
+        peopleRef.setValue(alanis);
+        peopleRef.child("birthYear").setValue(1912);
     }
 
 
     void testAddingChildWithHandler(){
 
-        Firebase userRef = rootRef.child("users").child("alanis");
-        User alanis = new User( "Alanis Morissette", 1974);
-        userRef.setValue(alanis, (firebaseError, firebase) -> {
+        Firebase peopleRef = rootRef.child("people").child("alanis");
+        People alanis = new People( "Alanis Morissette", 1974);
+        peopleRef.setValue(alanis, (firebaseError, firebase) -> {
             if (firebaseError != null) {
                 Log.i(TAG, "Data could not be saved. " + firebaseError.getMessage());
             } else {
@@ -61,7 +62,7 @@ public class WriteActivity extends AppCompatActivity {
 
     /**
      * this is a synchronized way to save data while
-     * many users want to update at the same time.
+     * many people want to update at the same time.
      */
     void savingWithTransaction(){
 
@@ -90,23 +91,20 @@ public class WriteActivity extends AppCompatActivity {
         /**
          * Mapping objects
          */
-        Map<String, String> userMap = new HashMap<String, String>();
-        userMap.put( "birthYear", "1974" );
-        userMap.put("fullName", "Juan Mendez");
+        Map<String, String> peopleMap = new HashMap<String, String>();
+        peopleMap.put("birthYear", "1974");
+        peopleMap.put("fullName", "Juan Mendez");
 
-        Map<String, Map<String,String>> users = new HashMap<>();
-        users.put("juan", userMap);
+        Map<String, Map<String,String>> people = new HashMap<>();
+        people.put("juan", peopleMap);
     }
 
     void testUpdateChildWithHash(){
 
         //lets update Juan..
-        Firebase userRef = rootRef.child("users").child("juan");
+        Firebase peopleRef = rootRef.child("people").child("juan");
         Map<String, Object> nickname = new HashMap<>();
         nickname.put("nickname", "Juan Loco");
-        userRef.updateChildren(nickname);
+        peopleRef.updateChildren(nickname);
     }
-
-
-
 }

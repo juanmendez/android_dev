@@ -12,7 +12,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
 
-import info.juanmendez.introfirebase.model.User;
+import info.juanmendez.introfirebase.model.People;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
@@ -43,7 +43,7 @@ public class FirebaseIntroTest {
         System.out.println( "hello testing user");
 
         Firebase userRef = rootRef.child("users").child("alanis");
-        User alanis = new User( "Alanis Morissette", 1974);
+        People alanis = new People( "Alanis Morissette", 1974);
         userRef.setValue(alanis, (firebaseError, firebase) -> {
             if (firebaseError != null) {
                 System.out.println("Data could not be saved. " + firebaseError.getMessage());

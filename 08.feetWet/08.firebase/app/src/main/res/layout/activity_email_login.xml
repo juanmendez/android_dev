@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6b7fa7">
+    android:background="#2e080808">
 
 
     <LinearLayout
@@ -25,18 +25,39 @@
         <EditText
             android:id="@+id/editPassword"
             android:layout_height="wrap_content"
-            android:hint="p"
+            android:hint="*"
             android:inputType="textPassword"
             android:layout_width="match_parent">
         </EditText>
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/submit"
-            android:layout_gravity="right"
-            android:layout_marginTop="22dp" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textError"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#b62323"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp">
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/fb_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="login"
+                android:id="@+id/submit"
+                android:padding="0dp"
+                android:layout_margin="0dp" />
+        </LinearLayout>
+
 
     </LinearLayout>
 

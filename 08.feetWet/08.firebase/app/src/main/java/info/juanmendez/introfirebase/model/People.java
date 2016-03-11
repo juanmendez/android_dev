@@ -3,15 +3,15 @@ package info.juanmendez.introfirebase.model;
 /**
  * Created by Juan on 2/28/2016.
  */
-public class User {
+public class People {
 
     private int birthYear;
     private String fullName;
 
-    public User() {
+    public People() {
     }
 
-    public User(String fullName, int birthYear) {
+    public People(String fullName, int birthYear) {
 
         this.fullName = fullName;
         this.birthYear = birthYear;
