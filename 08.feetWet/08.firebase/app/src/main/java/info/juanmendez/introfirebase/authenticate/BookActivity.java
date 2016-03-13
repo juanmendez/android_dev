@@ -1,8 +1,8 @@
 package info.juanmendez.introfirebase.authenticate;
 
 import android.app.FragmentManager;
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -18,11 +18,9 @@ import org.androidannotations.annotations.ViewById;
 
 import javax.inject.Inject;
 
-import info.juanmendez.introfirebase.BuildConfig;
 import info.juanmendez.introfirebase.MyApp;
 import info.juanmendez.introfirebase.R;
 import info.juanmendez.introfirebase.model.AuthPointer;
-import info.juanmendez.introfirebase.model.Book;
 import rx.Subscription;
 
 @EActivity(R.layout.activity_main)
@@ -42,8 +40,6 @@ public class BookActivity extends AppCompatActivity {
 
     @ViewById
     ListView listView;
-
-    BookAdapter adapter;
 
     @AfterViews
     void afterViews(){
@@ -75,14 +71,14 @@ public class BookActivity extends AppCompatActivity {
                 removeLoginForm();
                 logoffReady();
                 //writeBooks();
-                readBooks();
+                showBooks();
             }else{
-                logoffReady();
+                addLoginForm();
             }
         });
 
         if( authPointer.getAuthData() != null ){
-            readBooks();
+            showBooks();
         }
     }
 
@@ -90,23 +86,20 @@ public class BookActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
         subscription.unsubscribe();
-
-        if( adapter != null ){
-            adapter.cleanup();
-        }
     }
 
     private void addLoginForm(){
         FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().add(android.R.id.content, EmailLoginForm_.builder().build(), "login_form").commit();
+
+        Fragment f = fm.findFragmentByTag("login_form");
+
+        if( f == null )
+            f = EmailLoginForm_.builder().build();
+
+        fm.beginTransaction().replace(android.R.id.content, f, "login_form").commit();
 
         if( menuLogOut != null )
             menuLogOut.setVisible(false);
-
-        if( adapter != null ){
-            adapter.cleanup();
-            adapter = null;
-        }
     }
 
     private void removeLoginForm(){
@@ -125,36 +118,17 @@ public class BookActivity extends AppCompatActivity {
     void onLogOff(){
 
         rootRef.unauth();
-        addLoginForm();
+        authPointer.setAuthData( null );
     }
 
-    void writeBooks(){
+    void showBooks(){
+        FragmentManager fm = getFragmentManager();
 
-        Firebase authorBooks = new Firebase( BuildConfig.UNIQUE_FIREBASE_ROOT_URL + "/books/"  + authPointer.getAuthData().getUid() );
-        Book b = new Book();
-        b.setTitle( "It's so Easy: and other lies");
-        b.setAuthor("Duff McKagan");
-        b.setShopUrl("http://www.amazon.com/Its-So-Easy-other-lies/dp/1451606648/ref=sr_1_1?ie=UTF8&qid=1457236684&sr=8-1&keywords=duff+mckagan");
-        authorBooks.push().setValue( b, (firebaseError, firebase) -> {
-            if( firebaseError != null )
-                Log.i("BookActivity", firebaseError.getMessage() );
+        Fragment f = fm.findFragmentByTag("book_list");
 
-        } );
+        if( f == null )
+           f = BookList_.builder().build();
 
-        b = new Book();
-        b.setTitle("How to Be a Man (and other illusions)");
-        b.setAuthor("Duff McKagan, Chris Kornelis");
-        b.setShopUrl("http://www.barnesandnoble.com/w/how-to-be-a-man-duff-mckagan/1119972606?ean=9780306823879");
-        authorBooks.push().setValue(b, (firebaseError, firebase) -> {
-            if( firebaseError != null )
-                Log.i("BookActivity", firebaseError.getMessage() );
-        });
-    }
-
-    void readBooks(){
-
-        Firebase authorBooks = new Firebase( BuildConfig.UNIQUE_FIREBASE_ROOT_URL + "/books/"  + authPointer.getAuthData().getUid() );
-        adapter = new BookAdapter(this, Book.class, R.layout.book_item, authorBooks);
-        listView.setAdapter( adapter );
+        fm.beginTransaction().replace(android.R.id.content, f, "book_list").commit();
     }
 }

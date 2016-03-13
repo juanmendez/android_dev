@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">IntroFirebase</string>
-    <string name="facebook_app_id">your_facebook_id</string>
+    <string name="facebook_app_id">your_app_id</string>
 </resources>

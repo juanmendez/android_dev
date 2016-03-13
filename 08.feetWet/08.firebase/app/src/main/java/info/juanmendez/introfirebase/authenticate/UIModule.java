@@ -17,7 +17,8 @@ import info.juanmendez.introfirebase.model.AuthPointer;
 @Module(
         injects = {
                 EmailLoginForm_.class,
-                BookActivity_.class
+                BookActivity_.class,
+                BookList_.class
         },
         complete = false,
         library = true
