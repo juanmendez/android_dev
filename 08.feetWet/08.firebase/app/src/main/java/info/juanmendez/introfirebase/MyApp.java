@@ -22,6 +22,7 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         Firebase.setAndroidContext(this);
+        Firebase.getDefaultConfig().setPersistenceEnabled(true);
         FacebookSdk.sdkInitialize(this);
         objectGraph = ObjectGraph.create( new UIModule(this) );
     }

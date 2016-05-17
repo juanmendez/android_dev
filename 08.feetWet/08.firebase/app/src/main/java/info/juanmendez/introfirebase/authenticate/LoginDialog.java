@@ -34,7 +34,7 @@ import info.juanmendez.introfirebase.model.AuthPointer;
  * Created by Juan on 3/4/2016.
  */
 @EFragment(R.layout.activity_email_login)
-public class EmailLoginForm extends Fragment {
+public class LoginDialog extends Fragment {
 
     @ViewById
     EditText editTextEmail;
@@ -62,7 +62,6 @@ public class EmailLoginForm extends Fragment {
 
     private static final String TAG = "Firebase";
     private CallbackManager callbackManager = CallbackManager.Factory.create();
-
     private Firebase.AuthResultHandler authResultHandler;
 
     @Override

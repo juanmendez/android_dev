@@ -8,9 +8,9 @@ import rx.subjects.PublishSubject;
 /**
  * Created by Juan on 3/12/2016.
  */
-public class RxDialogFragment<T> extends DialogFragment {
+public class RxDialogFragment<T> extends DialogFragment{
 
-    protected PublishSubject<T> subject;
+    private PublishSubject<T> subject;
 
     public RxDialogFragment(){
         super();
@@ -19,5 +19,17 @@ public class RxDialogFragment<T> extends DialogFragment {
 
     public Observable<T> asObservable(){
         return subject.asObservable();
+    }
+
+    protected void onNext( T t ){
+        subject.onNext( t );
+    }
+
+    protected void onError( Throwable throwable ){
+        subject.onError(throwable);
+    }
+
+    protected void onCompleted(){
+        subject.onCompleted();
     }
 }

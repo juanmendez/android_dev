@@ -77,6 +77,7 @@ public class BookList extends Fragment {
     public void afterViews(){
         MyApp.objectGraph(getActivity()).inject(this);
         authorBooks = new Firebase( BuildConfig.UNIQUE_FIREBASE_ROOT_URL + "/books/"  + authPointer.getAuthData().getUid() );
+        authorBooks.keepSynced(true);
         readBooks();
 
         if( menuAddBook != null ) {
@@ -117,9 +118,6 @@ public class BookList extends Fragment {
     }
 
     void writeBook( Book book ){
-
-        Firebase authorBooks = new Firebase( BuildConfig.UNIQUE_FIREBASE_ROOT_URL + "/books/"  + authPointer.getAuthData().getUid() );
-
         authorBooks.push().setValue( book, (firebaseError, firebase) -> {
             if( firebaseError != null )
                 Log.i("BookActivity", firebaseError.getMessage());

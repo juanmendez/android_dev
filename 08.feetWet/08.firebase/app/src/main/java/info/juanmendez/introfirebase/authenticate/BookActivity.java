@@ -65,7 +65,6 @@ public class BookActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
-
         subscription = authPointer.asObservable().subscribe( s -> {
             if( s != null ){
                 removeLoginForm();
@@ -90,11 +89,10 @@ public class BookActivity extends AppCompatActivity {
 
     private void addLoginForm(){
         FragmentManager fm = getFragmentManager();
-
         Fragment f = fm.findFragmentByTag("login_form");
 
         if( f == null )
-            f = EmailLoginForm_.builder().build();
+            f = LoginDialog_.builder().build();
 
         fm.beginTransaction().replace(android.R.id.content, f, "login_form").commit();
 

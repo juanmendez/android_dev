@@ -31,14 +31,14 @@ public class DeleteBookDialog extends RxDialogFragment<Boolean> {
                 .setPositiveButton( "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                subject.onNext( true );
+                                onNext( true );
                             }
                         }
                 )
                 .setNegativeButton("CANCEL",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                subject.onNext( false );
+                                onNext( false );
                             }
                         }
                 )

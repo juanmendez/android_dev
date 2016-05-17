@@ -40,20 +40,18 @@ public class AddBookDialog extends RxDialogFragment<Book> {
                 .setPositiveButton( "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-
                                 Book book = new Book();
                                 book.setShopUrl( urlText.getText().toString() );
                                 book.setAuthor(authorText.getText().toString());
                                 book.setTitle(titleText.getText().toString());
-
-                                subject.onNext( book );
+                                onNext( book );
                             }
                         }
                 )
                 .setNegativeButton("CANCEL",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                subject.onError( new Throwable( "no book selected"));
+                                onError( new Throwable( "no book selected"));
                             }
                         }
                 )

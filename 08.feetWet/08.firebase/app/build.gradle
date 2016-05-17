@@ -45,7 +45,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'UNIQUE_FIREBASE_ROOT_URL', "\"https://yours.firebaseio.com\""
+        it.buildConfigField 'String', 'UNIQUE_FIREBASE_ROOT_URL', "\"https://yourapp.firebaseio.com\""
     }
 
     dexOptions {
