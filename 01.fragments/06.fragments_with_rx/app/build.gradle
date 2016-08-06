@@ -4,7 +4,7 @@ apply plugin: 'com.zeroturnaround.jrebel.android'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
     compileOptions {
@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId "info.juanmendez.android.recyclerview"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -40,8 +40,8 @@ buildscript {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.squareup.picasso:picasso:2.5.1'
     compile 'com.yqritc:recyclerview-flexibledivider:1.0.1'

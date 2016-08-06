@@ -46,7 +46,7 @@ public class ContentProviderTest
    @Before
     public void prep(){
 
-         app = (MagazineApp) RuntimeEnvironment.application;
+        app = (MagazineApp) RuntimeEnvironment.application;
         provider = new MagazineProvider();
         resolver = RuntimeEnvironment.application.getContentResolver();
         shadowResolver = shadowOf(resolver);
