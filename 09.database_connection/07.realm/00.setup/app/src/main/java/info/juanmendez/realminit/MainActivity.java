@@ -40,12 +40,15 @@ public class MainActivity extends AppCompatActivity {
             song.setId(0);
             song.setTitle("Welcome to the Jungle");
             song.setVideo_url( "https://www.youtube.com/watch?v=o1tj2zJ2Wvg" );
+
+            /**
+             * if we want to check if the object is valid we depend on RealObject
+             * utility method, as well as for other features like addEventListener.. etc
+             */
         });
 
         /**
          * the code above won't work on device rotation.. makes total sense..
-         * Unable to resume activity {info.juanmendez.realminit/info.juanmendez.realminit.MainActivity}:
-         * io.realm.exceptions.RealmPrimaryKeyConstraintException: Value already exists: 0
          */
 
         RealmResults<Song>songs = realm.where(Song.class).findAll();

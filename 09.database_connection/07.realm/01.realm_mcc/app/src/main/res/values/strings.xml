@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Realm - Multiversion Concurrency Control</string>
+    <string name="add_song">Add Song</string>
+</resources>
