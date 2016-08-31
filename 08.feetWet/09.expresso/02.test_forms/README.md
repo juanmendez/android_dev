@@ -1,6 +1,6 @@
 # Expresso testing with Realm Demo
 
-This is the beginning of testing with Expresso. [Since there is already an application I am using Realm.] (https://github.com/juanmendez/jm_android_dev/tree/master/09.database_connection/07.realm/02.realm_band_to_songs)
+This is the beginning of testing with Expresso using [another ongoing application I am building up using Realm.] (https://github.com/juanmendez/jm_android_dev/tree/master/09.database_connection/07.realm/02.realm_band_to_songs)
 The purpose of this project is to test whenever the user creates a band and adds a song. I already found a bug with Expresso and gratefully it was easy to fix.
 
 
