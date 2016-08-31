@@ -16,4 +16,4 @@ Some other libraries which were used.
 
 What I learned:
   - There is a bit of configuration on gradle in order to run testing while dealing with RecyclerView, and other libraries.
-  - I had already an issue after filling up a song form and the submit button wasn't working. It was an error after a but which was found during testing. Through breakpoints I was able to fix it, and testing proved to be a handy tool.
+  - I had already an issue after filling up a song form and the submit button wasn't working. It was an error after a bug which was found during testing. Through breakpoints I was able to fix it, and testing proved to be a handy tool.
