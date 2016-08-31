@@ -6,7 +6,7 @@ The purpose of this project is to test whenever the user creates a band and adds
 
   - build.gradle has the blueprint of how to install Expresso along with Dagger and Recyclerview
   - First test starts up the song form fills it up and test to see if the title of how many songs have been created has updated
-  - Second test starts up the band form and is able to insert a band and hit the OK button. (more tests to come)
+  - Second test starts up the band form and is able to insert the name of a band and hit the OK button. (more tests to come)
 
 Some other libraries which were used.
   - [Android Annotations](http://androidannotations.org/)
