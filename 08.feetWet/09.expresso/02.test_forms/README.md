@@ -1,27 +1,12 @@
-# Realm using Multiversion Concurrency Control
+# Expresso testing with Realm Demo
 
-This short demo shows how SongFormDialog in MainActivity can do the following
-
-  - Have a form to create a song from Song.java
-  - Associate new song to a band.
-  - Use Realm to add it to its realm database
-  - Tell MainActivity to close the dialog
+This is the beginning of testing with Expresso. [Since there is already an application using Realm.] (https://github.com/juanmendez/jm_android_dev/tree/master/09.database_connection/07.realm/02.realm_band_to_songs)
+The purpose of this project is to test whenever the user creates a band and adds a song. I already found a bug and gratefully it was easy to fix.
 
 
-ArtistFormDialog in MainActivity can do the following
-
-  - Have a form to create a band from Band.java
-  - Use Realm to add it to its realm database
-  - Tell MainActivity to close the dialog
-
-
-MainActivity does the following
-  - Allow to display any dialog and remove it
-  - Having realm's default instance ensure to close it
-  - Having realm's default instance ensure to close any event listeners
-  - Have an event listener to update number of songs being added to realm.
-
-RealmApplication, does the initial Realm configuration.
+  - build.gradle has the blueprint of how to install Expresso along with Dagger and Recyclerview
+  - First test starts up the song form fills it up and test to see if the title of how many songs have been created has updated
+  - Second test starts up the band form and is able to insert a band and hit the OK button. (more tests to come)
 
 Some other libraries which were used.
   - [Android Annotations](http://androidannotations.org/)
@@ -30,5 +15,5 @@ Some other libraries which were used.
   - [RxAndroid] (https://github.com/ReactiveX/RxAndroid)
 
 What I learned:
-  - I used Retrolambda instead of relying on Jack Toolchain. Which couldn't work for me and found others with the same problems.
-  - Adding a song which points to a band wasn't just a simple transaction. The band associated came from UI thread, and needed to be pulled from current background thread
+  - There is a bit of configuration on gradle in order to run testing while dealing with RecyclerView, and other libraries.
+  - I had already an issue after filling up a song form and the submit button wasn't working. It was an error after a but which was found during testing. Through breakpoints I was able to fix it, and testing proved to be a handy tool.
