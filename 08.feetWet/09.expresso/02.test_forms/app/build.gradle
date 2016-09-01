@@ -46,6 +46,10 @@ dependencies {
 
     compile 'com.squareup.dagger:dagger:1.2.5'
     compile 'com.squareup.dagger:dagger-compiler:1.2.5'
+
+    compile "com.android.support:appcompat-v7:$ASVersion"
+    compile "com.android.support:support-v4:$ASVersion"
+    compile "com.android.support:design:$ASVersion"
     compile "com.android.support:recyclerview-v7:$ASVersion"
 
 
@@ -57,19 +61,22 @@ dependencies {
     }
 
     androidTestCompile "com.android.support.test.espresso:espresso-intents:$EVersion"
+
     androidTestCompile("com.android.support.test.espresso:espresso-contrib:$EVersion") {
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'design'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude module: 'appcompat'
+        exclude module: 'appcompat-v7'
+        exclude module: 'design'
+        exclude module: 'support-v4'
+        exclude module: 'recyclerview-v7'
     }
+
     androidTestCompile "com.android.support:support-annotations:$ASVersion"
-
     androidTestCompile 'com.android.support.test:runner:0.5'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile "com.android.support:appcompat-v7:$ASVersion"
-    compile "com.android.support:support-v4:$ASVersion"
-    compile "com.android.support:design:$ASVersion"
 
+    androidTestCompile ('com.github.donnfelker:RealmEspressoContrib:0.1.2'){
+        exclude module: 'appcompat-v7'
+        exclude module: 'design'
+        exclude module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
 }
