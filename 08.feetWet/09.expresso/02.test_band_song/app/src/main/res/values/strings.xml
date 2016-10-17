@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Realm - One to Many</string>
+    <string name="add_song">Add Song</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="band_form_title">Add new band</string>
+    <string name="action_songs">Songs</string>
+    <string name="action_bands">Bands</string>
+    <string name="band_list_no_bands_found">No bands found, please add one</string>
+    <string name="song_list_no_songs_found">No songs found</string>
+</resources>

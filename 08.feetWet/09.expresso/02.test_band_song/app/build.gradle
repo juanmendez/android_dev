@@ -1,0 +1,114 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
+apply plugin: 'android-apt'
+def AAnnotations = '4.1.0'
+def Android = '24.2.0'
+def EVersion = '2.2.2'
+def Realm = '0.9.23'
+
+/**
+ * i'm going to use retrolambda as there are issues with jackOptions
+ * http://stackoverflow.com/questions/37765760/gradle-fails-sync-when-realm-gradle-plugin1-0-0-added-to-android-studio-project
+ */
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+        applicationId "info.juanmendez.realminit"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+
+        expresso {
+            applicationIdSuffix ".expresso"
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+
+    apt "org.androidannotations:androidannotations:$AAnnotations"
+    compile "org.androidannotations:androidannotations-api:$AAnnotations"
+
+    compile 'com.squareup.dagger:dagger:1.2.5'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.5'
+
+    compile "com.android.support:appcompat-v7:$Android"
+    compile "com.android.support:support-v4:$Android"
+    compile "com.android.support:design:$Android"
+    compile "com.android.support:recyclerview-v7:$Android"
+    compile 'com.github.thorbenprimke:realm-recyclerview:0.9.23'
+
+    testCompile 'junit:junit:4.12'
+
+    //thanks Donn Felker http://goo.gl/JHPEUd
+    androidTestCompile ("com.android.support.test.espresso:espresso-core:$EVersion"){
+        exclude group: 'javax.inject'
+    }
+
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:$EVersion"
+
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$EVersion") {
+        exclude module: 'appcompat'
+        exclude module: 'appcompat-v7'
+        exclude module: 'design'
+        exclude module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
+
+    androidTestCompile "com.android.support:support-annotations:$Android"
+    androidTestCompile 'com.android.support.test:runner:0.5'
+
+    androidTestCompile ("com.github.thorbenprimke:realm-recyclerview:$Realm"){
+        exclude module: 'appcompat'
+        exclude module: 'appcompat-v7'
+        exclude module: 'design'
+        exclude module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'realm-android-library'
+        exclude module: 'realm-annotations'
+    }
+
+    testCompile "org.robolectric:robolectric:3.1.2"
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
+        // if you have multiple outputs (when using splits), you may want to have other index than 0
+
+        // you should set your package name here if you are using different application IDs
+        resourcePackageName "info.juanmendez.realminit"
+
+        // You can set optional annotation processing options here, like these commented options:
+        // logLevel 'INFO'
+        // logFile '/var/log/aa.log'
+    }
+}
