@@ -24,6 +24,7 @@ import info.juanmendez.realminit.models.SongStatus;
 import info.juanmendez.realminit.services.SongService;
 import io.realm.Realm;
 import rx.Subscription;
+import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
 /**
@@ -53,7 +54,7 @@ public class SongsFragment extends Fragment {
     SongService songService;
 
     @Inject
-    PublishSubject<SongCom> songSubject;
+    BehaviorSubject<SongCom> songSubject;
 
     SongAdapter adapter;
     Subscription songSubscription;
@@ -67,8 +68,10 @@ public class SongsFragment extends Fragment {
         toolBar.setTitle("List of songs");
         toolBar.inflateMenu( R.menu.songs_menu);
 
+        subscribeToSongSubject();
+    }
 
-
+    void subscribeToSongSubject(){
         /**
          * if song is selected, we need to allow the song to be updated.
          */
@@ -77,7 +80,6 @@ public class SongsFragment extends Fragment {
             if( songCom != null ){
 
                 if( songCom.getStatus() == SongCom.READ ){
-                    songStatus.setStatus( SongStatus.UPDATED, songCom.getSong().getId() );
                     createSongDialog();
                 }else
                 if( songCom.getStatus() == SongCom.DELETE ){
@@ -91,6 +93,12 @@ public class SongsFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        songSubscription.unsubscribe();
     }
 
     private void askToDelete(SongCom songCom) {
@@ -149,7 +157,12 @@ public class SongsFragment extends Fragment {
         }
 
         if( rightPane != null ){
-            fm.beginTransaction().addToBackStack(songTag).add( R.id.right_pane, songDialog, songTag).commit();
+
+            if( fm.findFragmentByTag( songTag) == null ){
+                fm.beginTransaction().addToBackStack(songTag).add( R.id.right_pane, songDialog, songTag).commit();
+            }
+        }else{
+
         }
     }
 }

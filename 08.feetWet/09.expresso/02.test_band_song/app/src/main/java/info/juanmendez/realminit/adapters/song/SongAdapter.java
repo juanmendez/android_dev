@@ -8,6 +8,7 @@ import info.juanmendez.realminit.models.Song;
 import info.juanmendez.realminit.models.SongCom;
 import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;
+import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
 /**
@@ -18,7 +19,7 @@ import rx.subjects.PublishSubject;
 public class SongAdapter extends RealmBasedRecyclerViewAdapter<Song, SongViewHolder> {
     
     SongCom songSelected = new SongCom();
-    PublishSubject<SongCom> songSubject;
+    BehaviorSubject<SongCom> songSubject;
 
     public SongAdapter(Context context, RealmResults<Song> realmResults, boolean automaticUpdate, boolean animateResults, String animateExtraColumnName) {
         super(context, realmResults, automaticUpdate, animateResults, animateExtraColumnName);
@@ -62,7 +63,7 @@ public class SongAdapter extends RealmBasedRecyclerViewAdapter<Song, SongViewHol
         songSubject.onNext( this.songSelected );
     }
 
-    public void setSongSubject(PublishSubject<SongCom> songSubject) {
+    public void setSongSubject(BehaviorSubject<SongCom> songSubject) {
         this.songSubject = songSubject;
     }
 }

@@ -17,6 +17,8 @@ import info.juanmendez.realminit.views.MainActivity_;
 import info.juanmendez.realminit.views.SongFormDialog_;
 import info.juanmendez.realminit.views.SongsFragment_;
 import io.realm.Realm;
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
 /**
@@ -63,8 +65,8 @@ public class RootModule {
 
     @Provides
     @Singleton
-    PublishSubject<SongCom> songSubject(){
-        return PublishSubject.create();
+    BehaviorSubject<SongCom> songSubject(){
+        return BehaviorSubject.create();
     }
 
     @Provides

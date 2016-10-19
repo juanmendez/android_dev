@@ -3,13 +3,10 @@ package info.juanmendez.realminit.models;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by musta on 8/20/2016.
- */
 public class Song extends RealmObject{
 
     @PrimaryKey
-    private int id;
+    private int id = -1;
     private String title;
     private String video_url;
     private int year;

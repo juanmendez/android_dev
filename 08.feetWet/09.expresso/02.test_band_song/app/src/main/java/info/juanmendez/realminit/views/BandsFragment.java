@@ -41,8 +41,6 @@ public class BandsFragment extends Fragment{
 
     BandAdapter adapter;
 
-    String bandTag = "bandFormDialog";
-
     @AfterViews
     void afterViews(){
         setRetainInstance(true);
@@ -69,21 +67,5 @@ public class BandsFragment extends Fragment{
         FragmentManager fm = getFragmentManager();
         BandFormDialog bandFormDialog = new BandFormDialog();
         bandFormDialog.show( fm, "band_form" );
-    }
-
-
-    private void createBandDialog(){
-
-        FragmentManager fm = getFragmentManager();
-
-        BandFormDialog bandFormDialog = (BandFormDialog) fm.findFragmentByTag(bandTag);
-
-        if( bandFormDialog == null ){
-            bandFormDialog = BandFormDialog.makeForm();
-        }
-
-        if( rightPane != null ){
-            fm.beginTransaction().addToBackStack(bandTag).add( R.id.right_pane, bandFormDialog, bandTag).commit();
-        }
     }
 }

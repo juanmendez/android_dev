@@ -1,7 +1,6 @@
 package info.juanmendez.realminit.views;
 
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,22 +17,23 @@ import info.juanmendez.realminit.RealmApplication;
 import info.juanmendez.realminit.adapters.band.BandAdapter;
 import info.juanmendez.realminit.models.Band;
 import info.juanmendez.realminit.models.Song;
-import info.juanmendez.realminit.models.SongStatus;
+import info.juanmendez.realminit.models.SongCom;
 import info.juanmendez.realminit.services.SongService;
 import io.realm.Realm;
+import rx.Subscription;
+import rx.subjects.BehaviorSubject;
 
 @EFragment(R.layout.song_form)
 public class SongFormDialog extends DialogFragment {
-
 
     @Inject
     SongService songService;
 
     @Inject
-    SongStatus songStatus;
+    Realm realm;
 
     @Inject
-    Realm realm;
+    BehaviorSubject<SongCom> songSubject;
 
     @ViewById
     EditText titleInput;
@@ -50,34 +50,45 @@ public class SongFormDialog extends DialogFragment {
     BandAdapter adapter;
     Song song;
 
+    Subscription songSubscription;
+
     @AfterViews
     protected void onAfterViews(){
         RealmApplication.inject( this );
+        configRecyclerView();
+        subscribeToSongSubject();
     }
 
     @Override
-     public void onResume(){
-        super.onResume();
+    public void onPause(){
 
-        configRecyclerView();
-        displaySong();
+        super.onPause();
+        songSubscription.unsubscribe();
     }
 
-    public static SongFormDialog makeForm(){
-        SongFormDialog fragmment = SongFormDialog_.builder().build();
-        return fragmment;
+    void subscribeToSongSubject(){
+        /**
+         * if song is selected, we need to allow the song to be updated.
+         */
+        songSubscription = songSubject.subscribe(songCom -> {
+
+            if( songCom != null ){
+
+                if( songCom.getStatus() == SongCom.READ ){
+
+                    song = songCom.getSong();
+
+                    titleInput.setText( song.getTitle() );
+                    urlInput.setText( song.getVideo_url() );
+                    yearInput.setText( Integer.toString(song.getYear()), TextView.BufferType.EDITABLE );
+
+                    if( song.getBand() != null ){
+                        adapter.setBandSelected( song.getBand() );
+                    }
+                }
+            }
+        });
     }
-
-
-    void displaySong(){
-        if( songStatus.getType().equals(SongStatus.UPDATED) && songStatus.getSongId() >= 0 ){
-            song = songService.getSong( songStatus.getSongId() );
-            titleInput.setText( song.getTitle() );
-            urlInput.setText( song.getVideo_url() );
-            yearInput.setText( Integer.toString(song.getYear()), TextView.BufferType.EDITABLE );
-        }
-    }
-
 
     @Click(R.id.submit_button)
     public void onSubmit(){
@@ -90,22 +101,17 @@ public class SongFormDialog extends DialogFragment {
             mockSong.setBand( adapter.getBandSelected());
         }
 
-        int songId = -1;
+        if( song.getId() >= 0 ){
+            mockSong.setId(  song.getId() );
+        }
 
-        if( songStatus.getType().equals( SongStatus.UPDATED ))
-            songId = songStatus.getSongId();
-
-
-        mockSong.setId(  songId );
         songService.addOrUpdate( mockSong );
     }
-
 
     @Click( R.id.delete_button )
     protected void onDeleteSong(){
         songService.deleteSong( song );
     }
-
 
     public void configRecyclerView(){
 
@@ -113,5 +119,10 @@ public class SongFormDialog extends DialogFragment {
             adapter = new BandAdapter( getContext(), realm.where( Band.class ).findAll(), true, true, null);
         }
         bandListView.setAdapter( adapter );
+    }
+
+    public static SongFormDialog makeForm(){
+        SongFormDialog fragmment = SongFormDialog_.builder().build();
+        return fragmment;
     }
 }

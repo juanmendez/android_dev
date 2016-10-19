@@ -1,111 +1,62 @@
 package info.juanmendez.realminit.views;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ViewById;
 
 import javax.inject.Inject;
 
-import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import info.juanmendez.realminit.R;
 import info.juanmendez.realminit.RealmApplication;
-import info.juanmendez.realminit.adapters.band.BandAdapter;
-import info.juanmendez.realminit.adapters.song.SongAdapter;
 import info.juanmendez.realminit.models.Band;
-import info.juanmendez.realminit.models.Song;
-import info.juanmendez.realminit.models.SongStatus;
 import info.juanmendez.realminit.services.BandService;
-import io.realm.Realm;
 
-@EFragment(R.layout.song_form)
-public class BandFormDialog extends DialogFragment {
+/**
+ * Created by musta on 8/27/2016.
+ */
 
+public class BandFormDialog extends DialogFragment{
 
     @Inject
     BandService bandService;
 
-    @Inject
-    SongStatus songStatus;
-
-    @Inject
-    Realm realm;
-
-    @ViewById
-    EditText titleInput;
-
-    @ViewById
-    RealmRecyclerView songListView;
-
-    SongAdapter adapter;
-    Song song;
-
-    @AfterViews
-    protected void onAfterViews(){
+    public BandFormDialog() {
         RealmApplication.inject( this );
     }
 
+    @NonNull
     @Override
-    public void onResume(){
-        super.onResume();
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        configRecyclerView();
-        displaySong();
-    }
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-    public static SongFormDialog makeForm(){
-        SongFormDialog fragmment = SongFormDialog_.builder().build();
-        return fragmment;
-    }
+        View dialogLayout = inflater.inflate(R.layout.band_form, null);
+        builder.setView( dialogLayout );
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
 
+                EditText editText = (EditText) dialogLayout.findViewById( R.id.bandTitleInput);
+                Band band = new Band();
+                band.setName( editText.getText().toString() );
 
-    void displaySong(){
-        if( songStatus.getType().equals(SongStatus.UPDATED) && songStatus.getSongId() >= 0 ){
-            song = bandService.getSong( songStatus.getSongId() );
-            titleInput.setText( song.getTitle() );
-            urlInput.setText( song.getVideo_url() );
-            yearInput.setText( Integer.toString(song.getYear()), TextView.BufferType.EDITABLE );
-        }
-    }
+                if( !band.getName().isEmpty() )
+                    bandService.add( band );
 
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
 
-    @Click(R.id.submit_button)
-    public void onSubmit(){
-        Song mockSong = new Song();
-        mockSong.setTitle( titleInput.getText().toString() );
-        mockSong.setVideo_url( urlInput.getText().toString() );
-        mockSong.setYear( Integer.parseInt( yearInput.getText().toString()) );
-
-        if( adapter.getBandSelected()!=null ){
-            mockSong.setBand( adapter.getBandSelected());
-        }
-
-        int songId = -1;
-
-        if( songStatus.getType().equals( SongStatus.UPDATED ))
-            songId = songStatus.getSongId();
-
-
-        mockSong.setId(  songId );
-        bandService.addOrUpdate( mockSong );
-    }
-
-
-    @Click( R.id.delete_button )
-    protected void onDeleteSong(){
-        bandService.deleteSong( song );
-    }
-
-
-    public void configRecyclerView(){
-
-        if( adapter == null ){
-            adapter = new BandAdapter( getContext(), realm.where( Band.class ).findAll(), true, true, null);
-        }
-        bandListView.setAdapter( adapter );
+        return builder.create();
     }
 }
