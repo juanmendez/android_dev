@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -156,13 +158,8 @@ public class SongsFragment extends Fragment {
             songDialog = SongFormDialog.makeForm();
         }
 
-        if( rightPane != null ){
-
-            if( fm.findFragmentByTag( songTag) == null ){
-                fm.beginTransaction().addToBackStack(songTag).add( R.id.right_pane, songDialog, songTag).commit();
-            }
-        }else{
-
+        if( songDialog != null && !songDialog.isAdded() ){
+            fm.beginTransaction().addToBackStack(songTag).add( R.id.right_pane, songDialog, songTag).commit();
         }
     }
 }
