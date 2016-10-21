@@ -54,4 +54,13 @@ public class SongCom{
 
         return this.song.getId() == song.getId();
     }
+
+    public static SongCom createEmpty(){
+        Song emptySong = new Song();
+        SongCom songCom = new SongCom();
+        songCom.setSong( emptySong );
+        songCom.setStatus( SongCom.ADD );
+
+        return songCom;
+    }
 }

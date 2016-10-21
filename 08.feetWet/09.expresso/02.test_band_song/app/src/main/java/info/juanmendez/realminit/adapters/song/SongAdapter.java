@@ -42,16 +42,20 @@ public class SongAdapter extends RealmBasedRecyclerViewAdapter<Song, SongViewHol
     public void setSongSelected(Song _song) {
 
         if(  this.songSelected != null && songSelected.getSong() != null ){
+            notifyItemChanged( realmResults.indexOf(songSelected.getSong()) );
+        }
+
+        if( _song != null ){
 
             if( this.songSelected.isSameSong( _song ) )
                 return;
 
-            notifyItemChanged( realmResults.indexOf(songSelected.getSong()) );
+            this.songSelected = new SongCom();
+            this.songSelected.setSong(_song);
+            this.songSelected.setStatus( SongCom.READ );
+        }else{
+            this.songSelected = SongCom.createEmpty();
         }
-
-        this.songSelected = new SongCom();
-        this.songSelected.setSong(_song);
-        this.songSelected.setStatus( SongCom.READ );
 
         songSubject.onNext( this.songSelected );
     }

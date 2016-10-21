@@ -56,7 +56,6 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Song"
             android:id="@+id/submit_button"
             android:layout_gravity="right" />
     </LinearLayout>

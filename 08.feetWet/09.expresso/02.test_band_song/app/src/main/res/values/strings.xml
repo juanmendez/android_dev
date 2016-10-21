@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Realm - One to Many</string>
-    <string name="add_song">Add Song</string>
+    <string name="add_song">add</string>
+    <string name="update_song">update</string>
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
     <string name="band_form_title">Add new band</string>

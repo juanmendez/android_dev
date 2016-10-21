@@ -71,7 +71,7 @@ public class RootModule {
 
     @Provides
     @Singleton
-    PublishSubject<BandCom> bandSubject(){
-        return PublishSubject.create();
+    BehaviorSubject<BandCom> bandSubject(){
+        return BehaviorSubject.create();
     }
 }

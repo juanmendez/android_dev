@@ -143,8 +143,7 @@ public class SongsFragment extends Fragment {
 
     @Click( R.id.button_add_song )
     public void add_song_handler(){
-
-        songStatus.setStatus( SongStatus.ADDED, -1 );
+        adapter.setSongSelected( null );
         createSongDialog();
     }
 

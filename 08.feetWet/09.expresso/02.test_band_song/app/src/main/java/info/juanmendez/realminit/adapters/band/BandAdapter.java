@@ -38,8 +38,15 @@ public class BandAdapter extends RealmBasedRecyclerViewAdapter<Band, BandViewHol
 
     public void setBandSelected(Band _band) {
 
-        this.bandSelected = _band;
-        notifyItemChanged( realmResults.indexOf(bandSelected) );
-    }
+        if( bandSelected != null ){
+            notifyItemChanged( realmResults.indexOf(bandSelected) );
+        }
 
+        if( _band != null ){
+            this.bandSelected = _band;
+            notifyItemChanged( realmResults.indexOf(bandSelected) );
+        }else{
+            this.bandSelected = null;
+        }
+    }
 }

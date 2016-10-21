@@ -27,8 +27,8 @@ import io.realm.Realm;
 @EFragment(R.layout.fragment_songs)
 public class BandsFragment extends Fragment{
 
-    @ViewById
-    RealmRecyclerView songListView;
+    @ViewById(R.id.songListView)
+    RealmRecyclerView listView;
 
     @ViewById(R.id.fragmentToolbar)
     Toolbar toolBar;
@@ -59,7 +59,7 @@ public class BandsFragment extends Fragment{
         if( adapter == null ){
             adapter = new BandAdapter( getContext(), realm.where( Band.class ).findAll(), true, true, null);
         }
-        songListView.setAdapter( adapter );
+        listView.setAdapter( adapter );
     }
 
     @Click( R.id.button_add_song )

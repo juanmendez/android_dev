@@ -11,6 +11,7 @@
         app:rrvLayoutType="LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         app:rrvEmptyLayoutId="@layout/empty_bands_view" />
 
     <android.support.design.widget.FloatingActionButton

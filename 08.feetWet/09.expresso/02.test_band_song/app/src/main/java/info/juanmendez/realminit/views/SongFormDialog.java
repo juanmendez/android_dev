@@ -1,6 +1,8 @@
 package info.juanmendez.realminit.views;
 
 import android.support.v4.app.DialogFragment;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -47,6 +49,13 @@ public class SongFormDialog extends DialogFragment {
     @ViewById
     RealmRecyclerView bandListView;
 
+
+    @ViewById
+    Button submit_button;
+
+    @ViewById
+    Button delete_button;
+
     BandAdapter adapter;
     Song song;
 
@@ -85,9 +94,29 @@ public class SongFormDialog extends DialogFragment {
                     if( song.getBand() != null ){
                         adapter.setBandSelected( song.getBand() );
                     }
+
+                }else
+                if( songCom.getStatus() == SongCom.ADD ){
+                    song = songCom.getSong();
+                    titleInput.setText( "" );
+                    urlInput.setText( "" );
+                    yearInput.setText( "", TextView.BufferType.EDITABLE );
+                    adapter.setBandSelected( null );
                 }
+
+                updateViewIfUpdated();
             }
         });
+    }
+
+    void updateViewIfUpdated(){
+        if( song != null && song.getId() >= 0 ){
+            submit_button.setText( getString(R.string.update_song));
+            delete_button.setVisibility(View.VISIBLE);
+        }else{
+            submit_button.setText( getString( R.string.add_song ));
+            delete_button.setVisibility(View.GONE);
+        }
     }
 
     @Click(R.id.submit_button)
