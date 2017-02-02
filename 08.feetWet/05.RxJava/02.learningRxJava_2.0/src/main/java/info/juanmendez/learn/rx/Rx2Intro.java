@@ -13,12 +13,12 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 /**
- * Created by musta on 1/28/2017.
+ * Created by @juanmendezinfo on 1/28/2017.
  */
 public class Rx2Intro {
 
     public static void main(final String[] args ){
-        mapDemo();
+
     }
 
     public static void singleDemo(){
@@ -111,6 +111,7 @@ public class Rx2Intro {
                 log( "completed!" );
             }
         };
+
         ResourceSubscriber<Integer> goodSubscriber = new ResourceSubscriber<Integer>() {
             public void onNext(Integer integer) {
                 log( "integer " + integer );
@@ -126,6 +127,8 @@ public class Rx2Intro {
         };
 
         Flowable<Integer> f = Flowable.just( 1, 2,3, 4, 5, 6, 7, 8, 9, 10 );
+        f.subscribe( naughtySubscriber );
+        f.subscribe( goodSubscriber );
     }
 
     /**

@@ -1,7 +1,7 @@
 package info.juanmendez.learn.rx.model;
 
 /**
- * Created by musta on 2/1/2017.
+ * Created by @juanmendezinfo on 2/1/2017.
  */
 public class Pet {
 

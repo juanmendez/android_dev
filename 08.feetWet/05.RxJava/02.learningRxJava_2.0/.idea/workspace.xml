@@ -30,53 +30,50 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="Rx2Intro.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Rx2Intro.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/info/juanmendez/learn/rx/Rx2Intro.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="186" column="0" lean-forward="true" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
+            <state relative-caret-position="645">
+              <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="docComment;class#Rx2Intro#0" expanded="false" />
-                <element signature="e#627#628#0" expanded="true" />
-                <element signature="e#652#653#0" expanded="true" />
                 <element signature="method#singleDemo#0;class#Rx2Intro#0" expanded="false" />
-                <element signature="class#731:1101" expanded="false" />
+                <element signature="class#723:1093" expanded="false" />
                 <element signature="method#completableDemo#0;class#Rx2Intro#0" expanded="false" />
-                <element signature="class#1489:2058" expanded="false" />
-                <element signature="class#2164:2717" expanded="false" />
-                <element signature="method#onSubscribe#0;class#2164:2717" expanded="false" />
-                <element signature="e#3617#3618#0" expanded="true" />
-                <element signature="e#3676#3677#0" expanded="true" />
-                <element signature="class#4228:4732" expanded="false" />
-                <element signature="method#onNext#0;class#4228:4732" expanded="false" />
-                <element signature="class#4795:5132" expanded="false" />
-                <element signature="method#onError#0;class#4795:5132" expanded="false" />
-                <element signature="e#5696#5713#0" expanded="false" />
-                <element signature="class#5850:6213" expanded="false" />
-                <element signature="e#6444#6624#0" expanded="true" />
-                <element signature="e#6623#6624#0" expanded="true" />
-                <element signature="e#6720#6721#0" expanded="true" />
-                <element signature="e#6798#6799#0" expanded="true" />
-                <element signature="e#6849#6850#0" expanded="true" />
-                <element signature="e#6917#6918#0" expanded="true" />
-                <element signature="e#6973#6974#0" expanded="true" />
-                <element signature="e#7057#7058#0" expanded="true" />
-                <element signature="e#7105#7106#0" expanded="true" />
-                <element signature="e#7177#7178#0" expanded="true" />
+                <element signature="class#1481:2050" expanded="false" />
+                <element signature="class#2156:2709" expanded="false" />
+                <element signature="method#onSubscribe#0;class#2156:2709" expanded="false" />
+                <element signature="e#3610#3611#0" expanded="true" />
+                <element signature="e#3669#3670#0" expanded="true" />
+                <element signature="class#4302:4806" expanded="false" />
+                <element signature="method#onNext#0;class#4302:4806" expanded="false" />
+                <element signature="class#4869:5206" expanded="false" />
+                <element signature="method#onError#0;class#4869:5206" expanded="false" />
+                <element signature="e#5770#5787#0" expanded="false" />
+                <element signature="class#5924:6287" expanded="false" />
+                <element signature="e#6518#6698#0" expanded="true" />
+                <element signature="e#6697#6698#0" expanded="true" />
+                <element signature="e#6794#6795#0" expanded="true" />
+                <element signature="e#6872#6873#0" expanded="true" />
+                <element signature="e#6923#6924#0" expanded="true" />
+                <element signature="e#6991#6992#0" expanded="true" />
+                <element signature="e#7047#7048#0" expanded="true" />
+                <element signature="e#7131#7132#0" expanded="true" />
+                <element signature="e#7179#7180#0" expanded="true" />
+                <element signature="e#7251#7252#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Pet.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Pet.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/info/juanmendez/learn/rx/model/Pet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="602">
-              <caret line="14" column="18" lean-forward="false" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+            <state relative-caret-position="301">
+              <caret line="7" column="23" lean-forward="true" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
               <folding>
-                <element signature="e#155#156#0" expanded="true" />
-                <element signature="e#183#184#0" expanded="true" />
+                <element signature="e#165#166#0" expanded="true" />
+                <element signature="e#193#194#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -104,6 +101,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>composite</find>
+      <find>naughty</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -509,14 +507,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/src/main/java/info/juanmendez/learn/rx/model/Pet.java" />
         <option value="$PROJECT_DIR$/src/main/java/info/juanmendez/learn/rx/Rx2Intro.java" />
+        <option value="$PROJECT_DIR$/src/main/java/info/juanmendez/learn/rx/model/Pet.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-4016" />
-    <option name="y" value="-1" />
+    <option name="y" value="3109" />
     <option name="width" value="4032" />
     <option name="height" value="2207" />
   </component>
@@ -951,7 +949,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4016" y="-1" width="4032" height="2207" extended-state="7" />
+    <frame x="-4016" y="3109" width="4032" height="2207" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -963,13 +961,13 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977644" sideWeight="0.50625" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31453252" sideWeight="0.49375" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31453252" sideWeight="0.49375" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1008,33 +1006,30 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="docComment;class#Rx2Intro#0" expanded="false" />
-            <element signature="e#627#628#0" expanded="true" />
-            <element signature="e#652#653#0" expanded="true" />
             <element signature="method#singleDemo#0;class#Rx2Intro#0" expanded="false" />
-            <element signature="class#731:1101" expanded="false" />
+            <element signature="class#723:1093" expanded="false" />
             <element signature="method#completableDemo#0;class#Rx2Intro#0" expanded="false" />
-            <element signature="class#1489:2058" expanded="false" />
-            <element signature="class#2164:2717" expanded="false" />
-            <element signature="method#onSubscribe#0;class#2164:2717" expanded="false" />
-            <element signature="e#3617#3618#0" expanded="true" />
-            <element signature="e#3676#3677#0" expanded="true" />
-            <element signature="class#4228:4732" expanded="false" />
-            <element signature="method#onNext#0;class#4228:4732" expanded="false" />
-            <element signature="class#4795:5132" expanded="false" />
-            <element signature="method#onError#0;class#4795:5132" expanded="false" />
-            <element signature="e#5696#5713#0" expanded="false" />
-            <element signature="class#5850:6213" expanded="false" />
-            <element signature="e#6444#6624#0" expanded="true" />
-            <element signature="e#6623#6624#0" expanded="true" />
-            <element signature="e#6720#6721#0" expanded="true" />
-            <element signature="e#6798#6799#0" expanded="true" />
-            <element signature="e#6849#6850#0" expanded="true" />
-            <element signature="e#6917#6918#0" expanded="true" />
-            <element signature="e#6973#6974#0" expanded="true" />
-            <element signature="e#7057#7058#0" expanded="true" />
-            <element signature="e#7105#7106#0" expanded="true" />
-            <element signature="e#7177#7178#0" expanded="true" />
+            <element signature="class#1481:2050" expanded="false" />
+            <element signature="class#2156:2709" expanded="false" />
+            <element signature="method#onSubscribe#0;class#2156:2709" expanded="false" />
+            <element signature="e#3610#3611#0" expanded="true" />
+            <element signature="e#3669#3670#0" expanded="true" />
+            <element signature="class#4302:4806" expanded="false" />
+            <element signature="method#onNext#0;class#4302:4806" expanded="false" />
+            <element signature="class#4869:5206" expanded="false" />
+            <element signature="method#onError#0;class#4869:5206" expanded="false" />
+            <element signature="e#5770#5787#0" expanded="false" />
+            <element signature="class#5924:6287" expanded="false" />
+            <element signature="e#6518#6698#0" expanded="true" />
+            <element signature="e#6697#6698#0" expanded="true" />
+            <element signature="e#6794#6795#0" expanded="true" />
+            <element signature="e#6872#6873#0" expanded="true" />
+            <element signature="e#6923#6924#0" expanded="true" />
+            <element signature="e#6991#6992#0" expanded="true" />
+            <element signature="e#7047#7048#0" expanded="true" />
+            <element signature="e#7131#7132#0" expanded="true" />
+            <element signature="e#7179#7180#0" expanded="true" />
+            <element signature="e#7251#7252#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1290,33 +1285,30 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="docComment;class#Rx2Intro#0" expanded="false" />
-            <element signature="e#627#628#0" expanded="true" />
-            <element signature="e#652#653#0" expanded="true" />
             <element signature="method#singleDemo#0;class#Rx2Intro#0" expanded="false" />
-            <element signature="class#731:1101" expanded="false" />
+            <element signature="class#723:1093" expanded="false" />
             <element signature="method#completableDemo#0;class#Rx2Intro#0" expanded="false" />
-            <element signature="class#1489:2058" expanded="false" />
-            <element signature="class#2164:2717" expanded="false" />
-            <element signature="method#onSubscribe#0;class#2164:2717" expanded="false" />
-            <element signature="e#3617#3618#0" expanded="true" />
-            <element signature="e#3676#3677#0" expanded="true" />
-            <element signature="class#4228:4732" expanded="false" />
-            <element signature="method#onNext#0;class#4228:4732" expanded="false" />
-            <element signature="class#4795:5132" expanded="false" />
-            <element signature="method#onError#0;class#4795:5132" expanded="false" />
-            <element signature="e#5696#5713#0" expanded="false" />
-            <element signature="class#5850:6213" expanded="false" />
-            <element signature="e#6444#6624#0" expanded="true" />
-            <element signature="e#6623#6624#0" expanded="true" />
-            <element signature="e#6720#6721#0" expanded="true" />
-            <element signature="e#6798#6799#0" expanded="true" />
-            <element signature="e#6849#6850#0" expanded="true" />
-            <element signature="e#6917#6918#0" expanded="true" />
-            <element signature="e#6973#6974#0" expanded="true" />
-            <element signature="e#7057#7058#0" expanded="true" />
-            <element signature="e#7105#7106#0" expanded="true" />
-            <element signature="e#7177#7178#0" expanded="true" />
+            <element signature="class#1481:2050" expanded="false" />
+            <element signature="class#2156:2709" expanded="false" />
+            <element signature="method#onSubscribe#0;class#2156:2709" expanded="false" />
+            <element signature="e#3610#3611#0" expanded="true" />
+            <element signature="e#3669#3670#0" expanded="true" />
+            <element signature="class#4302:4806" expanded="false" />
+            <element signature="method#onNext#0;class#4302:4806" expanded="false" />
+            <element signature="class#4869:5206" expanded="false" />
+            <element signature="method#onError#0;class#4869:5206" expanded="false" />
+            <element signature="e#5770#5787#0" expanded="false" />
+            <element signature="class#5924:6287" expanded="false" />
+            <element signature="e#6518#6698#0" expanded="true" />
+            <element signature="e#6697#6698#0" expanded="true" />
+            <element signature="e#6794#6795#0" expanded="true" />
+            <element signature="e#6872#6873#0" expanded="true" />
+            <element signature="e#6923#6924#0" expanded="true" />
+            <element signature="e#6991#6992#0" expanded="true" />
+            <element signature="e#7047#7048#0" expanded="true" />
+            <element signature="e#7131#7132#0" expanded="true" />
+            <element signature="e#7179#7180#0" expanded="true" />
+            <element signature="e#7251#7252#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1335,33 +1327,30 @@
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="docComment;class#Rx2Intro#0" expanded="false" />
-            <element signature="e#627#628#0" expanded="true" />
-            <element signature="e#652#653#0" expanded="true" />
             <element signature="method#singleDemo#0;class#Rx2Intro#0" expanded="false" />
-            <element signature="class#731:1101" expanded="false" />
+            <element signature="class#723:1093" expanded="false" />
             <element signature="method#completableDemo#0;class#Rx2Intro#0" expanded="false" />
-            <element signature="class#1489:2058" expanded="false" />
-            <element signature="class#2164:2717" expanded="false" />
-            <element signature="method#onSubscribe#0;class#2164:2717" expanded="false" />
-            <element signature="e#3617#3618#0" expanded="true" />
-            <element signature="e#3676#3677#0" expanded="true" />
-            <element signature="class#4228:4732" expanded="false" />
-            <element signature="method#onNext#0;class#4228:4732" expanded="false" />
-            <element signature="class#4795:5132" expanded="false" />
-            <element signature="method#onError#0;class#4795:5132" expanded="false" />
-            <element signature="e#5696#5713#0" expanded="false" />
-            <element signature="class#5850:6213" expanded="false" />
-            <element signature="e#6444#6624#0" expanded="true" />
-            <element signature="e#6623#6624#0" expanded="true" />
-            <element signature="e#6720#6721#0" expanded="true" />
-            <element signature="e#6798#6799#0" expanded="true" />
-            <element signature="e#6849#6850#0" expanded="true" />
-            <element signature="e#6917#6918#0" expanded="true" />
-            <element signature="e#6973#6974#0" expanded="true" />
-            <element signature="e#7057#7058#0" expanded="true" />
-            <element signature="e#7105#7106#0" expanded="true" />
-            <element signature="e#7177#7178#0" expanded="true" />
+            <element signature="class#1481:2050" expanded="false" />
+            <element signature="class#2156:2709" expanded="false" />
+            <element signature="method#onSubscribe#0;class#2156:2709" expanded="false" />
+            <element signature="e#3610#3611#0" expanded="true" />
+            <element signature="e#3669#3670#0" expanded="true" />
+            <element signature="class#4302:4806" expanded="false" />
+            <element signature="method#onNext#0;class#4302:4806" expanded="false" />
+            <element signature="class#4869:5206" expanded="false" />
+            <element signature="method#onError#0;class#4869:5206" expanded="false" />
+            <element signature="e#5770#5787#0" expanded="false" />
+            <element signature="class#5924:6287" expanded="false" />
+            <element signature="e#6518#6698#0" expanded="true" />
+            <element signature="e#6697#6698#0" expanded="true" />
+            <element signature="e#6794#6795#0" expanded="true" />
+            <element signature="e#6872#6873#0" expanded="true" />
+            <element signature="e#6923#6924#0" expanded="true" />
+            <element signature="e#6991#6992#0" expanded="true" />
+            <element signature="e#7047#7048#0" expanded="true" />
+            <element signature="e#7131#7132#0" expanded="true" />
+            <element signature="e#7179#7180#0" expanded="true" />
+            <element signature="e#7251#7252#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1651,50 +1640,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/info/juanmendez/learn/rx/model/Pet.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/info/juanmendez/learn/rx/Rx2Intro.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="602">
-          <caret line="14" column="18" lean-forward="false" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+        <state relative-caret-position="645">
+          <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="29" />
           <folding>
-            <element signature="e#155#156#0" expanded="true" />
-            <element signature="e#183#184#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="method#singleDemo#0;class#Rx2Intro#0" expanded="false" />
+            <element signature="class#723:1093" expanded="false" />
+            <element signature="method#completableDemo#0;class#Rx2Intro#0" expanded="false" />
+            <element signature="class#1481:2050" expanded="false" />
+            <element signature="class#2156:2709" expanded="false" />
+            <element signature="method#onSubscribe#0;class#2156:2709" expanded="false" />
+            <element signature="e#3610#3611#0" expanded="true" />
+            <element signature="e#3669#3670#0" expanded="true" />
+            <element signature="class#4302:4806" expanded="false" />
+            <element signature="method#onNext#0;class#4302:4806" expanded="false" />
+            <element signature="class#4869:5206" expanded="false" />
+            <element signature="method#onError#0;class#4869:5206" expanded="false" />
+            <element signature="e#5770#5787#0" expanded="false" />
+            <element signature="class#5924:6287" expanded="false" />
+            <element signature="e#6518#6698#0" expanded="true" />
+            <element signature="e#6697#6698#0" expanded="true" />
+            <element signature="e#6794#6795#0" expanded="true" />
+            <element signature="e#6872#6873#0" expanded="true" />
+            <element signature="e#6923#6924#0" expanded="true" />
+            <element signature="e#6991#6992#0" expanded="true" />
+            <element signature="e#7047#7048#0" expanded="true" />
+            <element signature="e#7131#7132#0" expanded="true" />
+            <element signature="e#7179#7180#0" expanded="true" />
+            <element signature="e#7251#7252#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/info/juanmendez/learn/rx/Rx2Intro.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/info/juanmendez/learn/rx/model/Pet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="186" column="0" lean-forward="true" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
+        <state relative-caret-position="301">
+          <caret line="7" column="23" lean-forward="true" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;class#Rx2Intro#0" expanded="false" />
-            <element signature="e#627#628#0" expanded="true" />
-            <element signature="e#652#653#0" expanded="true" />
-            <element signature="method#singleDemo#0;class#Rx2Intro#0" expanded="false" />
-            <element signature="class#731:1101" expanded="false" />
-            <element signature="method#completableDemo#0;class#Rx2Intro#0" expanded="false" />
-            <element signature="class#1489:2058" expanded="false" />
-            <element signature="class#2164:2717" expanded="false" />
-            <element signature="method#onSubscribe#0;class#2164:2717" expanded="false" />
-            <element signature="e#3617#3618#0" expanded="true" />
-            <element signature="e#3676#3677#0" expanded="true" />
-            <element signature="class#4228:4732" expanded="false" />
-            <element signature="method#onNext#0;class#4228:4732" expanded="false" />
-            <element signature="class#4795:5132" expanded="false" />
-            <element signature="method#onError#0;class#4795:5132" expanded="false" />
-            <element signature="e#5696#5713#0" expanded="false" />
-            <element signature="class#5850:6213" expanded="false" />
-            <element signature="e#6444#6624#0" expanded="true" />
-            <element signature="e#6623#6624#0" expanded="true" />
-            <element signature="e#6720#6721#0" expanded="true" />
-            <element signature="e#6798#6799#0" expanded="true" />
-            <element signature="e#6849#6850#0" expanded="true" />
-            <element signature="e#6917#6918#0" expanded="true" />
-            <element signature="e#6973#6974#0" expanded="true" />
-            <element signature="e#7057#7058#0" expanded="true" />
-            <element signature="e#7105#7106#0" expanded="true" />
-            <element signature="e#7177#7178#0" expanded="true" />
+            <element signature="e#165#166#0" expanded="true" />
+            <element signature="e#193#194#0" expanded="true" />
           </folding>
         </state>
       </provider>
