@@ -31,7 +31,7 @@ public class GithubApp {
        GithubComponent component = DaggerGithubComponent.builder().githubModule(new GithubModule()).build();
        component.inject(this);
 
-       userService.getUser();
+       userService.getUser("juanmendez");
     }
 
     private void testGettingTheUser(){

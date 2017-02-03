@@ -16,10 +16,6 @@ import javax.inject.Singleton;
 @Module
 public class GithubModule {
 
-    public GithubModule(){
-
-    }
-
     @Provides
     @Singleton
     @Named(GitConstants.Injection.URI.GITHUB_API )
