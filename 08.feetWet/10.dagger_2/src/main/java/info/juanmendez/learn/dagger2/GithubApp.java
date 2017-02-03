@@ -1,7 +1,11 @@
 package info.juanmendez.learn.dagger2;
 
+import info.juanmendez.learn.dagger2.github.module.DaggerGithubComponent;
+import info.juanmendez.learn.dagger2.github.module.GithubComponent;
+import info.juanmendez.learn.dagger2.github.module.GithubModule;
 import info.juanmendez.learn.dagger2.github.services.GitHubClient;
 import info.juanmendez.learn.dagger2.github.models.GitHubUser;
+import info.juanmendez.learn.dagger2.github.services.UserService;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -9,16 +13,28 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import javax.inject.Inject;
+
 /**
  * Created by musta on 2/2/2017.
  */
 public class GithubApp {
+
+    @Inject
+    UserService userService;
 
     public static void main( String[] args ){
         new GithubApp();
     }
 
     public GithubApp() {
+       GithubComponent component = DaggerGithubComponent.builder().githubModule(new GithubModule()).build();
+       component.inject(this);
+
+       userService.getUser();
+    }
+
+    private void testGettingTheUser(){
         GitHubClient client = getClient();
 
 
@@ -34,7 +50,7 @@ public class GithubApp {
             }
 
             public void onFailure(Call<GitHubUser> call, Throwable t) {
-               System.out.println( t.getMessage() );
+                System.out.println( t.getMessage() );
             }
         });
     }

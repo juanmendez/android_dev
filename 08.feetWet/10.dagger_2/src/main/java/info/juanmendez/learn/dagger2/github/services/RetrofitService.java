@@ -1,22 +1,30 @@
 package info.juanmendez.learn.dagger2.github.services;
 
+import info.juanmendez.learn.dagger2.github.models.GitConstants;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by musta on 2/3/2017.
  */
 public class RetrofitService {
+    String githubApi;
 
-    public Retrofit createRetrofit(){
-        String API_BASE_URL = "https://api.module.com/";
+    public RetrofitService(String api ){
+        this.githubApi = api;
+    }
+
+    public Retrofit getRetrofit(){
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         Retrofit.Builder builder =
                 new Retrofit.Builder()
-                        .baseUrl(API_BASE_URL)
+                        .baseUrl(this.githubApi)
                         .addConverterFactory(
                                 GsonConverterFactory.create()
                         );
