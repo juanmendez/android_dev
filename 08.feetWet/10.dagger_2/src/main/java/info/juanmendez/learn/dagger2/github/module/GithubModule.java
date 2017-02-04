@@ -16,6 +16,10 @@ import javax.inject.Singleton;
 @Module
 public class GithubModule {
 
+    public GithubModule(){
+        System.out.println( "githumb module created!" );
+    }
+
     @Provides
     @Singleton
     @Named(GitConstants.Injection.URI.GITHUB_API )

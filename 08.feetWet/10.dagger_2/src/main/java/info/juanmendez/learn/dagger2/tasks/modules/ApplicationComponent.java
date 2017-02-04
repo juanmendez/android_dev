@@ -8,7 +8,7 @@ import info.juanmendez.learn.dagger2.tasks.views.TodoListView;
 import javax.inject.Singleton;
 
 @Singleton
-@Component(modules={ApplicationModule.class, GithubModule.class })
+@Component(modules={ApplicationModule.class, GithubModule.class})
 public interface ApplicationComponent {
 
     void inject(MainView mainView);

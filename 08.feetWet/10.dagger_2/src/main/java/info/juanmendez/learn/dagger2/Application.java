@@ -21,11 +21,9 @@ public class Application {
     @SuppressWarnings("deprecation")
     public Application(){
         app = this;
-        applicationComponent =  DaggerApplicationComponent.
-                builder().
-                applicationModule(new ApplicationModule(this)).build();
+        applicationComponent =  DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
 
-        MainView mainView = new MainView();
+        new MainView();
     }
 
     public ApplicationComponent getComponent(){
