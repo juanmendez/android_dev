@@ -21,7 +21,7 @@ public class App extends Application {
         Timber.plant(new Timber.DebugTree(){
             @Override
             protected String createStackElementTag(StackTraceElement element) {
-                return super.createStackElementTag(element) + ":" + element.getLineNumber();
+                return super.createStackElementTag(element) + " " + element.getClassName() + ": " + element.getLineNumber();
             }
         });
     }
