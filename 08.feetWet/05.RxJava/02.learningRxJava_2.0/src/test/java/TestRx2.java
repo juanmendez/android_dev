@@ -1,27 +1,23 @@
-package info.juanmendez.learn.rx;
-
 import info.juanmendez.learn.rx.model.Pet;
 import io.reactivex.*;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableMaybeObserver;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subscribers.ResourceSubscriber;
+import org.junit.Test;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 /**
- * Created by @juanmendezinfo on 1/28/2017.
+ * Created by musta on 3/8/2017.
  */
-public class Rx2Intro {
 
-    public static void main(final String[] args ){
+public class TestRx2 {
 
-    }
-
-    public static void singleDemo(){
+    @Test
+    public void singleDemo(){
         Single.just( 1 ).subscribe(new SingleObserver<Integer>() {
             public void onSubscribe(Disposable d) {
                 log( "subscribe");
@@ -37,35 +33,8 @@ public class Rx2Intro {
         });
     }
 
-    /**
-     * no emmits, just complete|error
-     */
-    public static void completableDemo(){
-        Completable completable = Completable.create(new CompletableOnSubscribe() {
-            public void subscribe(CompletableEmitter e) throws Exception {
-                e.onComplete();
-            }
-
-        }).subscribeOn(Schedulers.io());
-
-        completable.subscribe(new CompletableObserver() {
-                                  public void onSubscribe(Disposable d) {
-                                      log( "on subscribe" );
-                                  }
-
-                                  public void onComplete() {
-                                      log( "on onComplete" );
-                                  }
-
-                                  public void onError(Throwable e) {
-                                      log( "on onError " + e.getMessage() );
-                                  }
-                              }
-
-        );
-    }
-
-    public static void flowableDemo(){
+    @Test
+    public void flowableDemo(){
         Flowable.just(1,2,3,4,5).subscribe(new Subscriber<Integer>() {
             public void onSubscribe(Subscription s) {
                 //how many do you want? if you don't know and want all, you can go with Integer.MAX_VALUE
@@ -90,7 +59,8 @@ public class Rx2Intro {
      * Naughty Subscriber, wants to stop listening when it reaches a value equal to six.
      * Good Subscriber, listens through!
      */
-    public static void disposingDemo(){
+    @Test
+    public void disposingDemo(){
 
         ResourceSubscriber<Integer> naughtySubscriber = new ResourceSubscriber<Integer>() {
             public void onNext(Integer integer) {
@@ -100,29 +70,30 @@ public class Rx2Intro {
                     dispose();
                 }
 
-                log( "integer " + integer );
+                log( "naughtySubscriber.onNext " + integer );
             }
 
             public void onError(Throwable t) {
-                log( "error! " + t.getMessage() );
+                log( "naughtySubscriber.error " + t.getMessage() );
             }
 
             public void onComplete() {
-                log( "completed!" );
+                log( "naughtySubscriber.completed" );
             }
         };
 
+
         ResourceSubscriber<Integer> goodSubscriber = new ResourceSubscriber<Integer>() {
             public void onNext(Integer integer) {
-                log( "integer " + integer );
+                log( "goodSubscriber.integer " + integer );
             }
 
             public void onError(Throwable t) {
-                log( "error! " + t.getMessage() );
+                log( "goodSubscriber.error " + t.getMessage() );
             }
 
             public void onComplete() {
-                log( "completed!" );
+                log( "goodSubscriber.completed" );
             }
         };
 
@@ -134,7 +105,8 @@ public class Rx2Intro {
     /**
      * one of my favorite observers has been PublishSubject, and BehaviorSubject
      */
-    public static void publishDemo(){
+    @Test
+    public void publishDemo(){
         PublishSubject<Integer> ps = PublishSubject.create();
         DisposableObserver<Integer> subscriber = new DisposableObserver<Integer>() {
             public void onNext(Integer integer) {
@@ -184,13 +156,14 @@ public class Rx2Intro {
      * Either it commits to emit a single value, completes without ever emitting, or simply throws an error.
      * You cannot do complete after emitting first.
      */
-    public static void maybeDemo(){
+    @Test
+    public void maybeDemo(){
         Maybe<Integer> maybe = Maybe.create(new MaybeOnSubscribe<Integer>() {
             public void subscribe(MaybeEmitter<Integer> e) throws Exception {
 
-                e.onSuccess(1);
+                //e.onSuccess(1);
                 //e.onComplete();
-                //throw new Exception("I feel like just revolting against RX");
+                throw new Exception("I feel like just revolting against RX");
             }
         });
 
@@ -213,7 +186,8 @@ public class Rx2Intro {
     /**
      * not just subscribe but make the subscription catch pets not strings!
      */
-    public static void mapDemo(){
+    @Test
+    public void mapDemo(){
 
         Flowable.just( "Felipe", "Chino", "Manchas", "Linda", "Amelia" )
                 .map(new Function<String, Pet>() {
@@ -221,25 +195,25 @@ public class Rx2Intro {
                         return new Pet( s );
                     }
                 }).subscribe(new Subscriber<Pet>() {
-                    public void onSubscribe(Subscription s) {
-                        s.request( Integer.MAX_VALUE );
-                    }
+            public void onSubscribe(Subscription s) {
+                s.request( Integer.MAX_VALUE );
+            }
 
-                    public void onNext(Pet pet) {
-                        log( "next " + pet );
-                    }
+            public void onNext(Pet pet) {
+                log( "next " + pet );
+            }
 
-                    public void onError(Throwable t) {
-                        log( "pet error " + t.getMessage() );
-                    }
+            public void onError(Throwable t) {
+                log( "pet error " + t.getMessage() );
+            }
 
-                    public void onComplete() {
-                        log( "pets completed!" );
-                    }
-                });
+            public void onComplete() {
+                log( "pets completed!" );
+            }
+        });
     }
 
-    public static void log( Object output ){
+    public void log( Object output ){
         System.out.println( output );
     }
 }
