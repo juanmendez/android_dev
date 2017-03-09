@@ -161,9 +161,11 @@ public class TestRx2 {
         Maybe<Integer> maybe = Maybe.create(new MaybeOnSubscribe<Integer>() {
             public void subscribe(MaybeEmitter<Integer> e) throws Exception {
 
+                //PLEASE uncomment any of the lines to see the behavior!
+
                 //e.onSuccess(1);
                 //e.onComplete();
-                throw new Exception("I feel like just revolting against RX");
+                //throw new Exception("I feel like just revolting against RX");
             }
         });
 
