@@ -215,6 +215,8 @@ public class TestRx2 {
         });
     }
 
+
+
     public void log( Object output ){
         System.out.println( output );
     }
