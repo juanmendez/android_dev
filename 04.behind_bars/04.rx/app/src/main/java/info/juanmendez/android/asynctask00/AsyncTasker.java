@@ -46,7 +46,6 @@ public class AsyncTasker
 
     public void doInBackground( String[] stringArray ) {
 
-        Scheduler scheduler = Schedulers.io();
         adapter.getList().clear();
 
         workingSubscription = Observable.from(stringArray).map(s1 -> {
@@ -60,7 +59,7 @@ public class AsyncTasker
             adapter.getList().add(s1);
             return s1;
         })
-        .subscribeOn(scheduler)
+        .subscribeOn(Schedulers.io() )
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
                 s -> {
