@@ -1,4 +1,4 @@
-# Review Services
+# Reviewing Services
 
 I went over services and made updates. I am removing old demos which were done in Eclipse!. This time the new work is moved into another repository which can be found here.
 
