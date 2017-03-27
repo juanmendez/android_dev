@@ -1,19 +1,15 @@
 package info.juanmendez.android.simplealarm;
 
 import android.annotation.TargetApi;
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 /**
  * Created by Juan on 8/15/2015.
