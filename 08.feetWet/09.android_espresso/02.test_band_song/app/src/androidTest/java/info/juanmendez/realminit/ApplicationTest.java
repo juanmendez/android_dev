@@ -49,7 +49,7 @@ public class ApplicationTest {
             addBand( bandName );
         }
 
-        onView(withId(R.id.addSongButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.action_add_song)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class ApplicationTest {
         editSong( song, band );
 
         Espresso.pressBack();
-        onView(withId(R.id.addSongButton)).perform( click() );
+        onView(withId(R.id.action_add_song)).perform( click() );
 
         //lets click again
         onView(withId(R.id.songListView)).perform(RealmRecyclerViewActions.scrollTo(Matchers.first(Matchers.withTextLabeled(song.getTitle()))));
