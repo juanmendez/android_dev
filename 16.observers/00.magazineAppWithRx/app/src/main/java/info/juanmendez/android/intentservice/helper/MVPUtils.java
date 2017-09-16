@@ -1,7 +1,5 @@
 package info.juanmendez.android.intentservice.helper;
 
-import info.juanmendez.android.intentservice.ui.listmagazine.IListMagazinesView;
-
 /**
  * Created by Juan on 8/20/2015.
  */

@@ -92,7 +92,7 @@ public class DatePreference extends DialogPreference implements DatePicker.OnDat
     }
 
     public static String defaultCalendarString() {
-        return PREF_FORMATTER.format(defaultCalendar().getTime());
+       return PREF_FORMATTER.format(new Date().getTime());
     }
 
     public static Calendar defaultCalendar() {

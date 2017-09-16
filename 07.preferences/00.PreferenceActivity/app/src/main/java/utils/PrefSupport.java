@@ -11,6 +11,4 @@ public class PrefSupport
     {
         return activity.onIsHidingHeaders() || !activity.onIsMultiPane();
     }
-
-
 }

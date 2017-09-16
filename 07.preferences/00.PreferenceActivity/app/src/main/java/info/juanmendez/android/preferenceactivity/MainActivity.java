@@ -15,15 +15,21 @@ import utils.PrefSupport;
 
 public class MainActivity extends PreferenceActivity {
 
-    Boolean isSinglePane = false;
+    Boolean isSinglePane = true;
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
-        if( isSinglePane == true )
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if( isSinglePane == true ){
+            //noinspection deprecation
             addPreferencesFromResource( R.xml.pref_screen);
+        }
 
         tellPrefences();
     }
@@ -32,14 +38,10 @@ public class MainActivity extends PreferenceActivity {
     @Override
     public void onBuildHeaders(List<Header> target)
     {
-        if( PrefSupport.isSinglePane(this))
-        {
-            isSinglePane = true;
-        }
-        else
-        {
+        isSinglePane = PrefSupport.isSinglePane(this);
+
+        if( !isSinglePane )
             loadHeadersFromResource( R.xml.headers, target);
-        }
     }
 
     /**
@@ -74,4 +76,3 @@ public class MainActivity extends PreferenceActivity {
         Logging.print( "quote: " + quote );
     }
 }
-

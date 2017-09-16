@@ -5,6 +5,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableMaybeObserver;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subscribers.DisposableSubscriber;
 import io.reactivex.subscribers.ResourceSubscriber;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
@@ -151,6 +152,75 @@ public class TestRx2 {
         ps.onNext(4);
         ps.onComplete();
     }
+
+
+    public void doWithoutRx(final Function<Integer, Void> fun, final Function<Throwable, Void> ferror ){
+        Flowable<Integer> f = Flowable.just(1,2,3,4,5, 6, 7 );
+
+        f.subscribe(new DisposableSubscriber<Integer>() {
+            public void onNext(Integer integer) {
+                try {
+                    fun.apply( integer );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            public void onError(Throwable t) {
+                try {
+                    ferror.apply( t );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            public void onComplete() {
+
+            }
+        });
+    }
+
+
+    public void doWithSomeRx( DisposableSubscriber<Integer> disposableSubscriber ){
+        Flowable<Integer> f = Flowable.just(1,2,3,4,5, 6, 7 );
+        f.subscribe( disposableSubscriber );
+    }
+
+
+    /**
+     * we would like to allow for asynchronicity through a function
+     */
+     @Test
+     public void testFunctions(){
+
+         doWithoutRx(new Function<Integer, Void>() {
+             public Void apply(Integer integer) throws Exception {
+                 log( integer );
+                 return null;
+             }
+         }, new Function<Throwable, Void>() {
+             public Void apply(Throwable e) throws Exception {
+                 log( e.getMessage() );
+                 return null;
+             }
+         });
+
+
+         doWithSomeRx(new DisposableSubscriber<Integer>() {
+             public void onNext(Integer integer) {
+                 log( integer );
+             }
+
+             public void onError(Throwable t) {
+                 log( t.getMessage() );
+             }
+
+             public void onComplete() {
+
+             }
+         });
+     }
+
 
     /**
      * Either it commits to emit a single value, completes without ever emitting, or simply throws an error.
