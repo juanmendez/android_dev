@@ -1,13 +1,10 @@
-package info.juanmendez.android.preferenceactivity;
+package info.juanmendez.android.preferencefragment;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-/**
- * Created by Juan on 6/17/2015.
- */
-public class ShowActivity extends Activity
-{
+public class MainActivity  extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

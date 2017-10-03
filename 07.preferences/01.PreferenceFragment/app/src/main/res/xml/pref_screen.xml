@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="My Preference Category">
+        <CheckBoxPreference android:key="checkbox_id" android:title="Checkbox Preference"
+            android:summary="Checkbox Preference Description" android:defaultValue="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Favorite Programming Language">
+        <ListPreference android:key="fav_language" android:title="Language"
+            android:summary="Tells what language you like to write most of the time"
+           android:entries="@array/list" android:entryValues="@array/list"/>
+
+        <EditTextPreference android:key="quote" android:title="Your Favorite Quote"
+            android:summary="what inspires you"/>
+
+        <info.juanmendez.android.preferencefragment.DatePreference
+            android:key="dob" android:title="date picker"
+            android:defaultValue="1991.01.01" />
+    </PreferenceCategory>
+</PreferenceScreen>

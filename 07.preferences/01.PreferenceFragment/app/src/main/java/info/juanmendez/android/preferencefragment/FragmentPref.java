@@ -1,16 +1,12 @@
-package info.juanmendez.android.preferenceactivity;
+package info.juanmendez.android.preferencefragment;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 /**
  * Created by Juan on 6/17/2015.
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class FragmentPref extends PreferenceFragment
-{
+public class FragmentPref extends PreferenceFragment {
     @Override
     public void onCreate( Bundle savedBundle ){
 
