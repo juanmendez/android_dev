@@ -1,5 +1,6 @@
 package info.juanmendez.android.preferencefragment;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -20,7 +21,7 @@ public class MainActivity  extends AppCompatActivity {
 
     @AfterViews
     void afterViews(){
-        /*FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getFragmentManager();
 
         if( doublePane ){
             if( fm.findFragmentByTag("dialogPreference") == null ){
@@ -40,7 +41,7 @@ public class MainActivity  extends AppCompatActivity {
             if( fm.findFragmentByTag("dialogPreference") != null ){
                 fm.beginTransaction().remove( fm.findFragmentByTag("dialogPreference") ).commit();
             }
-        }*/
+        }
     }
 
     //avoid menu_item which points to this activity
