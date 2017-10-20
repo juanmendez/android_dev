@@ -15,6 +15,7 @@ import org.androidannotations.annotations.EFragment;
  * Created by Juan Mendez on 10/19/2017.
  * www.juanmendez.info
  * contact@juanmendez.info
+ * Dialog wraps FragmentPref
  */
 @EFragment
 public class DialogPreference extends DialogFragment {
@@ -22,14 +23,20 @@ public class DialogPreference extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-
         return dialog;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
         View v = inflater.inflate( R.layout.layout_dialogpreference, container, false );
         return v;
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
     }
 }
