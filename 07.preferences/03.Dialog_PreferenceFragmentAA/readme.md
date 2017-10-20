@@ -4,4 +4,4 @@ This is a demo to find out how to create `PreferenceFragments` in dialog mode. I
 
 I personally like the Dialog-PreferenceFragment when the options are just a few rather than using a regular fragment.
 
-![screenshot](github/screenshot.PNG)
+![screenshot](./github/screenshot.PNG?raw=true)
