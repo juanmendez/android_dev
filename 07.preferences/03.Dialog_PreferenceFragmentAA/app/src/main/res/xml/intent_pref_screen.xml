@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="Intent Preference"
+    android:summary="System preference imported using an intent">
+    <intent android:action="info.juanmendez.android.preferencefragment.ACTION_USER_PREFERENCE"/>
+</PreferenceScreen>

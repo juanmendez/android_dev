@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="list">
+        <item>Javascript</item>
+        <item>PHP</item>
+        <item>Swift</item>
+        <item>Java</item>
+        <item>Ruby</item>
+        <item>C#</item>
+        <item>Kotlin</item>
+    </array>
+</resources>
