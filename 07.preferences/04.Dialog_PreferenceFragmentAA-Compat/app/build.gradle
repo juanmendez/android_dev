@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "info.juanmendez.android.preferencefragment"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -31,7 +31,8 @@ dependencies {
     implementation "com.jakewharton.timber:timber:4.5.1"
     implementation "com.android.support:design:${supportLibVersion}"
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
-
+    implementation 'com.takisoft.fix:preference-v7:26.1.0.2'
+    implementation 'com.takisoft.fix:preference-v7-datetimepicker:26.1.0.2'
     annotationProcessor "org.androidannotations:androidannotations:${aaVersion}"
     implementation "org.androidannotations:androidannotations-api:${aaVersion}"
 }

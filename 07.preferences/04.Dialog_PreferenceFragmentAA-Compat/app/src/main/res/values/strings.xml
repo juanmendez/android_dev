@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Preference Fragment Compat</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="fav_language">fav_language</string>
+    <string name="quote">quote</string>
+    <string name="dob">dob</string>
+    <string name="check_preference">check_preference</string>
+    <string name="second_activity">preferences saved</string>
+</resources>

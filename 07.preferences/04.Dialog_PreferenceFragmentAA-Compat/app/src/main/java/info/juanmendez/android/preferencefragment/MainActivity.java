@@ -1,6 +1,6 @@
 package info.juanmendez.android.preferencefragment;
 
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -18,7 +18,7 @@ public class MainActivity  extends AppCompatActivity {
     @Click
     void openPreference(){
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
         DialogPreference dialogPreference = DialogPreference_.builder().build();
         dialogPreference.show( fm, "dialogPreference");
