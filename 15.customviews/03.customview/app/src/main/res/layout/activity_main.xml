@@ -13,92 +13,94 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <info.juanmendez.customview.BoxGroup
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true">
+            android:layout_height="match_parent">
 
             <info.juanmendez.customview.Box
                 android:layout_width="150px"
                 android:layout_height="150px"
                 android:background="@color/colorPrimary"
                 app:padding_color="@color/colorAccent"
-                app:padding_stroke="10px"
-                /><info.juanmendez.customview.Box
-            android:layout_width="150px"
-            android:layout_height="150px"
-            android:background="@color/colorPrimary"
-            app:padding_color="@color/colorAccent"
-            app:padding_stroke="10px"
-            /><info.juanmendez.customview.Box
-            android:layout_width="150px"
-            android:layout_height="150px"
-            android:background="@color/colorPrimary"
-            app:padding_color="@color/colorAccent"
-            app:padding_stroke="10px"
-            /><info.juanmendez.customview.Box
-            android:layout_width="150px"
-            android:layout_height="150px"
-            android:background="@color/colorPrimary"
-            app:padding_color="@color/colorAccent"
-            app:padding_stroke="10px"
-            /><info.juanmendez.customview.Box
-            android:layout_width="150px"
-            android:layout_height="150px"
-            android:background="@color/colorPrimary"
-            app:padding_color="@color/colorAccent"
-            app:padding_stroke="10px"
-            />
+                app:padding_stroke="10px" />
+
             <info.juanmendez.customview.Box
                 android:layout_width="150px"
                 android:layout_height="150px"
                 android:background="@color/colorPrimary"
                 app:padding_color="@color/colorAccent"
-                app:padding_stroke="10px"
-                />
+                app:padding_stroke="10px" />
+
             <info.juanmendez.customview.Box
                 android:layout_width="150px"
                 android:layout_height="150px"
                 android:background="@color/colorPrimary"
                 app:padding_color="@color/colorAccent"
-                app:padding_stroke="10px"
-                />
+                app:padding_stroke="10px" />
+
             <info.juanmendez.customview.Box
                 android:layout_width="150px"
                 android:layout_height="150px"
                 android:background="@color/colorPrimary"
                 app:padding_color="@color/colorAccent"
-                app:padding_stroke="10px"
-                />
+                app:padding_stroke="10px" />
+
             <info.juanmendez.customview.Box
                 android:layout_width="150px"
                 android:layout_height="150px"
                 android:background="@color/colorPrimary"
                 app:padding_color="@color/colorAccent"
-                app:padding_stroke="10px"
-                />
+                app:padding_stroke="10px" />
+
             <info.juanmendez.customview.Box
                 android:layout_width="150px"
                 android:layout_height="150px"
                 android:background="@color/colorPrimary"
                 app:padding_color="@color/colorAccent"
-                app:padding_stroke="10px"
-                />
+                app:padding_stroke="10px" />
+
             <info.juanmendez.customview.Box
                 android:layout_width="150px"
                 android:layout_height="150px"
                 android:background="@color/colorPrimary"
                 app:padding_color="@color/colorAccent"
-                app:padding_stroke="10px"
-                />
+                app:padding_stroke="10px" />
+
             <info.juanmendez.customview.Box
                 android:layout_width="150px"
                 android:layout_height="150px"
                 android:background="@color/colorPrimary"
                 app:padding_color="@color/colorAccent"
-                app:padding_stroke="10px"
-                />
+                app:padding_stroke="10px" />
+
+            <info.juanmendez.customview.Box
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:background="@color/colorPrimary"
+                app:padding_color="@color/colorAccent"
+                app:padding_stroke="10px" />
+
+            <info.juanmendez.customview.Box
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:background="@color/colorPrimary"
+                app:padding_color="@color/colorAccent"
+                app:padding_stroke="10px" />
+
+            <info.juanmendez.customview.Box
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:background="@color/colorPrimary"
+                app:padding_color="@color/colorAccent"
+                app:padding_stroke="10px" />
+
+            <info.juanmendez.customview.Box
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:background="@color/colorPrimary"
+                app:padding_color="@color/colorAccent"
+                app:padding_stroke="10px" />
         </info.juanmendez.customview.BoxGroup>
     </HorizontalScrollView>
 

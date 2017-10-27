@@ -20,18 +20,17 @@ public class Box extends View {
     BoxStyles boxStyles = new BoxStyles();
     int index = 0;
 
-    public Box(Context context) {
-        this(context, null);
+    public Box(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context, attrs, defStyleAttr);
     }
-
 
     public Box(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public Box(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
+    public Box(Context context) {
+        this(context, null);
     }
 
     public int getIndex() {
@@ -55,13 +54,7 @@ public class Box extends View {
         boxAttrs = context.obtainStyledAttributes(attrs, R.styleable.BoxStyle);
         androidAttrs = context.obtainStyledAttributes( attrs, new int[]{ android.R.attr.background} );
 
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(v.getContext(), "clicked", Toast.LENGTH_LONG).show();
-            }
-        });
+        setOnClickListener(v -> Toast.makeText(v.getContext(), "clicked", Toast.LENGTH_LONG).show());
     }
 
     @Override
@@ -94,13 +87,11 @@ public class Box extends View {
         paint.setColor(Color.BLACK);
         paint.setTextSize(45);
         int textWidth = Float.valueOf(paint.measureText( Integer.toString(getIndex()) )).intValue();
+
         canvas.drawText( Integer.toString(getIndex()),
                ( getWidth() - textWidth )/2,
                 getHeight()/2 + padding_stroke, /**here we draw laying on the baseline**/
                 paint );
-
-        //androidAttrs.recycle();
-        //boxAttrs.recycle();
     }
 
     static class BoxStyles{
@@ -137,7 +128,5 @@ public class Box extends View {
         public BoxStyles(){
 
         }
-
-
     }
 }

@@ -1,17 +1,12 @@
 package info.juanmendez.customview;
 
 import android.content.Context;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 /**
@@ -20,14 +15,14 @@ import java.util.HashMap;
 @RemoteViews.RemoteView
 public class BoxGroup extends ViewGroup {
 
-    public BoxGroup(Context context) {
-        this( context, null );
+    public BoxGroup(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     public BoxGroup(Context context, AttributeSet attrs) {this( context, attrs, 0 );}
 
-    public BoxGroup(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public BoxGroup(Context context) {
+        this( context, null );
     }
 
     private void createChildren( int numChildren ){
@@ -83,22 +78,18 @@ public class BoxGroup extends ViewGroup {
         int dim = 150;
         int count;
 
-        if( getChildCount() == 0 )
-        {
+        if( getChildCount() == 0 ) {
             createChildren( count = 15 );
         }
-        else
-        {
+        else {
             count = getChildCount();
         }
 
-        if( heightMode == MeasureSpec.EXACTLY )
-        {
+        if( heightMode == MeasureSpec.EXACTLY ) {
             roundHeight = heightSize;
         }
         else
-        if( heightMode == MeasureSpec.AT_MOST )
-        {
+        if( heightMode == MeasureSpec.AT_MOST ) {
             roundHeight = Math.min( roundHeight, heightSize );
         }
 
@@ -106,13 +97,11 @@ public class BoxGroup extends ViewGroup {
         int totalHeight = count * dim;
 
         /**find out the height of this viewgroup**/
-        if( roundHeight > totalHeight  )
-        {
+        if( roundHeight > totalHeight  ) {
             roundHeight = totalHeight;
             roundWidth = dim;
         }
-        else
-        {
+        else {
             roundHeight = Double.valueOf( Math.floor( (float)roundHeight / dim ) ).intValue() * dim;
             roundWidth = Double.valueOf( Math.ceil( (float)totalHeight / roundHeight) ).intValue() * dim;
         }

@@ -1,28 +1,16 @@
 apply plugin: 'com.android.application'
-// This does not break the build when Android Studio is missing the JRebel for Android plugin.
-apply plugin: 'com.zeroturnaround.jrebel.android'
-apply plugin: 'android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 
-def AAVersion = "3.3.2"
-def IcepickVersion = "3.0.3-SNAPSHOT";
-def Project = "info.juanmendez.customview"
-
-apt {
-    arguments {
-        resourcePackageName "$Project"
-        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
-    }
-}
+def aaVersion = "4.3.1"
+def project = "info.juanmendez.customview"
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "$Project"
-        minSdkVersion 14
-        targetSdkVersion 24
+        applicationId "$project"
+        minSdkVersion 16
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -39,19 +27,17 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
-    dexOptions {
-        preDexLibraries = false
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.1.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
 
-    apt "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
-
-    compile "frankiesardo:icepick:$IcepickVersion"
-    provided "frankiesardo:icepick-processor:$IcepickVersion"
+    annotationProcessor "org.androidannotations:androidannotations:${aaVersion}"
+    implementation "org.androidannotations:androidannotations-api:${aaVersion}"
 
 }

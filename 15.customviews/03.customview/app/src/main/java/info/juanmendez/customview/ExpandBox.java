@@ -13,17 +13,17 @@ public class ExpandBox extends Box implements View.OnClickListener {
     ExpandStyles expandStyles = new ExpandStyles();
     private ValueAnimator mCurrentAnimator;
 
-    public ExpandBox(Context context) {
-        this(context, null);
+    public ExpandBox(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context, attrs);
     }
 
     public ExpandBox(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ExpandBox(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs);
+    public ExpandBox(Context context) {
+        this(context, null);
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -54,14 +54,12 @@ public class ExpandBox extends Box implements View.OnClickListener {
             nextDimension = expandStyles.getInitWidth();
 
         mCurrentAnimator = ValueAnimator.ofFloat(getMeasuredWidth(), nextDimension);
-        mCurrentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
 
-                ExpandBox.this.getLayoutParams().width = Math.round((float) animation.getAnimatedValue());
-                ExpandBox.this.getLayoutParams().height = Math.round((float) animation.getAnimatedValue());
-                requestLayout();
-            }
+        mCurrentAnimator.addUpdateListener(animation -> {
+            //new ValueAnimator.AnimatorUpdateListener
+            ExpandBox.this.getLayoutParams().width = Math.round((float) animation.getAnimatedValue());
+            ExpandBox.this.getLayoutParams().height = Math.round((float) animation.getAnimatedValue());
+            requestLayout();
         });
 
         mCurrentAnimator.setDuration(500);

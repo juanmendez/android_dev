@@ -10,16 +10,15 @@ import android.view.ViewGroup;
  *
  * Have two boxes and make one slide
  */
-public class ExpandBoxGroup extends ViewGroup
-{
-    public ExpandBoxGroup(Context context) {
-        this( context, null );
+public class ExpandBoxGroup extends ViewGroup {
+    public ExpandBoxGroup(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     public ExpandBoxGroup(Context context, AttributeSet attrs) {this( context, attrs, 0 );}
 
-    public ExpandBoxGroup(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public ExpandBoxGroup(Context context) {
+        this( context, null );
     }
 
     /**
