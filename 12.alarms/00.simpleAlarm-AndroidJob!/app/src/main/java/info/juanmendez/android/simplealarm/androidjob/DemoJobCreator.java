@@ -13,11 +13,12 @@ import com.evernote.android.job.JobCreator;
  */
 
 public class DemoJobCreator implements JobCreator{
+
     @Nullable
     @Override
     public Job create(@NonNull String tag) {
-        if( tag.equals( DemoSyncJob.TAG )){
-            return new DemoSyncJob();
+        if( tag.equals( DemoPeriodicJob.TAG )){
+            return new DemoPeriodicJob();
         }
         return null;
     }

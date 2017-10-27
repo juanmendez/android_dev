@@ -17,7 +17,7 @@ import static info.juanmendez.android.simplealarm.MainActivity.AlarmBroadcaster.
  * contact@juanmendez.info
  */
 
-public class DemoSyncJob extends Job{
+public class DemoPeriodicJob extends Job{
     public static final String TAG = "job_demo_tag";
 
 
@@ -43,6 +43,12 @@ public class DemoSyncJob extends Job{
                 .schedule();
     }
 
+    /**
+     * From the old demo, this is the way to start a job periodically
+     * @param interval
+     * @param extras data we want to save and provide during execution..
+     * @return
+     */
     public static int scheduleRepeatingJob( long interval, @NonNull PersistableBundleCompat extras ){
 
         return new JobRequest.Builder(TAG)

@@ -19,6 +19,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Timber.plant( new Timber.DebugTree());
+
+        //JobManager, root of AndroidJob, requires to be created, and register a jobCreator
         JobManager.create(this).addJobCreator( new DemoJobCreator() );
     }
 }

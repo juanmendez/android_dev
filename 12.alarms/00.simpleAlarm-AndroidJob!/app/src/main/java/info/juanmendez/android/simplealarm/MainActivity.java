@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.util.support.PersistableBundleCompat;
 
-import info.juanmendez.android.simplealarm.androidjob.DemoSyncJob;
+import info.juanmendez.android.simplealarm.androidjob.DemoPeriodicJob;
 import timber.log.Timber;
 
 import static info.juanmendez.android.simplealarm.MainActivity.AlarmBroadcaster.ALARM_BROADCAST_ACTION;
@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         PersistableBundleCompat extras = new PersistableBundleCompat();
         extras.putInt( "code", ALARM_ID );
 
-        //currentJobId = DemoSyncJob.scheduleSingleJob( extras );
-        currentJobId = DemoSyncJob.scheduleRepeatingJob( PERIOD, extras );
+        //currentJobId = DemoPeriodicJob.scheduleSingleJob( extras );
+        currentJobId = DemoPeriodicJob.scheduleRepeatingJob( PERIOD, extras );
 
         statusText.setText(getString(R.string.start));
         startBroadcaster();
