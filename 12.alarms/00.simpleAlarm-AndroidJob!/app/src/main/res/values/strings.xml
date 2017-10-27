@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Simple Alarm</string>
+
+    <string name="start">Alarm toasts will appear towards the bottom of the screen, when the system makes it as early as possible</string>
+    <string name="end">Alarm is being canceled. Therefore it won\'t run anymore</string>
+    <string name="toast">Well, hello there!</string>
+</resources>
