@@ -1,8 +1,9 @@
 package info.juanmendez.android.simplealarm;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -11,26 +12,52 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.util.support.PersistableBundleCompat;
+
 import info.juanmendez.android.simplealarm.androidjob.DemoSyncJob;
 import timber.log.Timber;
+
+import static info.juanmendez.android.simplealarm.MainActivity.AlarmBroadcaster.ALARM_BROADCAST_ACTION;
 
 /**
  * There have been additional code to test if an alarm is retained to one instance
  * or many upon creating several times.
  */
 public class MainActivity extends AppCompatActivity {
-    private static final int ALARM_ID=1337;
-    private static final int PERIOD=60000;
-    private PendingIntent pi=null;
-    private AlarmManager mgr=null;
+
+    private static final int ALARM_ID = 1337;
+    private static final long PERIOD = 15 * 60 * 1000;
+
     private TextView statusText;
-    private long start = SystemClock.elapsedRealtime();
+
+    private static final String START_JOB = "startJob";
+    private long start;
+
+    private static final String JOB_ID = "lastJobId";
+    private int currentJobId = 0;
+
+    private AlarmBroadcaster broadcaster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        statusText = (TextView) findViewById(R.id.statusText);
+
+        if( savedInstanceState != null ){
+            currentJobId = savedInstanceState.getInt( JOB_ID );
+            start = savedInstanceState.getLong( START_JOB);
+        }
+
+        statusText = findViewById(R.id.statusText);
+        startBroadcaster();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(JOB_ID, currentJobId );
+        outState.putLong( START_JOB, start );
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -58,48 +85,54 @@ public class MainActivity extends AppCompatActivity {
 
     public void startAlarm(){
 
-        DemoSyncJob.scheduleJob();
-        /*mgr=(AlarmManager)getSystemService(ALARM_SERVICE);
-        pi=createPendingResult(ALARM_ID, new Intent(), 0);*/
+        start  = SystemClock.elapsedRealtime();
+        PersistableBundleCompat extras = new PersistableBundleCompat();
+        extras.putInt( "code", ALARM_ID );
 
-        /**
-         * Based on commonsware book up to targetSdkVersion 18 the alarm behavior is
-         * time precise, where from version 19 has an inexact behavior. Next demo will
-         * be aiming for using the precise time.. why not test this app in a version older than 19?
-         */
-
-        /*start = SystemClock.elapsedRealtime();
-        mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + PERIOD, PERIOD, pi);*/
+        //currentJobId = DemoSyncJob.scheduleSingleJob( extras );
+        currentJobId = DemoSyncJob.scheduleRepeatingJob( PERIOD, extras );
 
         statusText.setText(getString(R.string.start));
+        startBroadcaster();
     }
 
     public void cancelAlarm(){
         Timber.i( "canceled");
-        /*mgr=(AlarmManager)getSystemService(ALARM_SERVICE);
 
-        if( mgr != null && pi != null ){
-            mgr.cancel(pi);
-            statusText.setText(getString(R.string.end));
-        }else{
-            statusText.setText( "there was no alarm to cancel!");
-        }*/
+        if( currentJobId > 0 ){
+            start = 0;
+            JobManager.instance().cancel( currentJobId );
+        }
+
     }
 
     @Override
-    public void onDestroy() {
-        cancelAlarm();
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
+        cancelBroadcaster();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ALARM_ID) {
+    private void cancelBroadcaster(){
+        if( broadcaster != null ){
+            unregisterReceiver( broadcaster );
+            broadcaster = null;
+        }
+    }
+
+    private void startBroadcaster(){
+        cancelBroadcaster();
+        registerReceiver( broadcaster = new AlarmBroadcaster(), new IntentFilter(ALARM_BROADCAST_ACTION));
+    }
+
+    public class AlarmBroadcaster extends BroadcastReceiver{
+        public static final String ALARM_BROADCAST_ACTION = "alarmBroadcastAction";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
             long secondsPassed = (( SystemClock.elapsedRealtime()-start )/1000);
             Timber.i("activity result. " + secondsPassed + " vs " + PERIOD/1000 + " diff " + ( (secondsPassed*1000) - PERIOD));
             start = SystemClock.elapsedRealtime();
-            Toast.makeText(this, R.string.toast, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, R.string.toast, Toast.LENGTH_SHORT).show();
         }
     }
 }
