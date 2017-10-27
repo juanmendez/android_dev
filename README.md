@@ -5,3 +5,5 @@ This is an ongoing learning and testing of many of the fundamentals in Android d
 - March 25, 2017. [services demos](https://github.com/juanmendez/jm_android_dev/tree/master/10.services) are going away in exchange of [new repository](https://github.com/juanmendez/reviewing-services).
 
 - October 20, 2017. [databinding](https://github.com/juanmendez/jm_android_dev/tree/master/08.feetWet/07.mvvm) demo went away for [learning Android Databinding](https://github.com/juanmendez/learning-android-databinding) repo.
+
+- October 26, 2017. [AndroidJob](https://github.com/juanmendez/jm_android_dev/tree/master/12.alarms/00.simpleAlarm-AndroidJob!) new demo from a regular alarm project.
