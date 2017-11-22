@@ -1,6 +1,5 @@
 package info.juanmendez.android.preferencefragment;
 
-import org.androidannotations.annotations.sharedpreferences.DefaultString;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
 /**
@@ -15,6 +14,4 @@ public interface MyPrefs {
     String fav_language();
     String quote();
 
-    @DefaultString(value="1991.01.01")
-    String dob();
 }

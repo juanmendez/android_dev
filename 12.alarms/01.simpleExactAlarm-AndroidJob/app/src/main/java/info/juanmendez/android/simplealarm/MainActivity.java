@@ -13,31 +13,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.evernote.android.job.JobManager;
-import com.evernote.android.job.util.support.PersistableBundleCompat;
 
-import info.juanmendez.android.simplealarm.androidjob.DemoPeriodicJob;
+import info.juanmendez.android.simplealarm.androidjob.DemoExactTimeJob;
 import timber.log.Timber;
 
 import static info.juanmendez.android.simplealarm.MainActivity.AlarmBroadcaster.ALARM_BROADCAST_ACTION;
 
 /**
+ * This is a demo created from COMMONSWARE book as Simple alarm.
  * There have been additional code to test if an alarm is retained to one instance
  * or many upon creating several times.
  */
 public class MainActivity extends AppCompatActivity {
-
-    private static final int ALARM_ID = 1337;
-    private static final long PERIOD = 15 * 60 * 1000;
-
+    private static final long  PERIOD= 5 * 60 * 1000;
     private TextView statusText;
 
+
+    private AlarmBroadcaster broadcaster;
     private static final String START_JOB = "startJob";
     private long start;
 
     private static final String JOB_ID = "lastJobId";
     private int currentJobId = 0;
-
-    private AlarmBroadcaster broadcaster;
+    private static final String STATUS = "status";
+    private String status = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
         if( savedInstanceState != null ){
             currentJobId = savedInstanceState.getInt( JOB_ID );
             start = savedInstanceState.getLong( START_JOB);
+            status = savedInstanceState.getString(STATUS);
         }
 
-        statusText = findViewById(R.id.statusText);
+        statusText = (TextView) findViewById(R.id.statusText);
+        statusText.setText( status );
         startBroadcaster();
     }
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(JOB_ID, currentJobId );
         outState.putLong( START_JOB, start );
+        outState.putString( STATUS, status );
         super.onSaveInstanceState(outState);
     }
 
@@ -83,27 +85,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public void startAlarm(){
 
-        start  = SystemClock.elapsedRealtime();
-        PersistableBundleCompat extras = new PersistableBundleCompat();
-        extras.putInt( "code", ALARM_ID );
+        start = SystemClock.elapsedRealtime();
+        currentJobId = DemoExactTimeJob.scheduleJobAtAGivenTime( PERIOD, PERIOD  + (5*60*1000L) );
 
-        //currentJobId = DemoPeriodicJob.scheduleSingleJob( extras );
-        currentJobId = DemoPeriodicJob.scheduleRepeatingJob( PERIOD, extras );
-
-        statusText.setText(getString(R.string.start));
         startBroadcaster();
     }
 
     public void cancelAlarm(){
-        Timber.i( "canceled");
-
-        if( currentJobId > 0 ){
-            start = 0;
-            JobManager.instance().cancel( currentJobId );
-        }
-
+        JobManager.instance().cancelAllForTag(DemoExactTimeJob.TAG);
+        cancelBroadcaster();
     }
 
     @Override
@@ -113,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startBroadcaster(){
-        cancelBroadcaster();
         registerReceiver( broadcaster = new AlarmBroadcaster(), new IntentFilter(ALARM_BROADCAST_ACTION));
     }
 
@@ -124,14 +116,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public class AlarmBroadcaster extends BroadcastReceiver{
+    public class AlarmBroadcaster extends BroadcastReceiver {
         public static final String ALARM_BROADCAST_ACTION = "alarmBroadcastAction";
 
         @Override
         public void onReceive(Context context, Intent intent) {
             long secondsPassed = (( SystemClock.elapsedRealtime()-start )/1000);
-            Timber.i("activity result. " + secondsPassed + " vs " + PERIOD/1000 + " diff " + ( (secondsPassed*1000) - PERIOD));
+            status = "activity result. " + secondsPassed + " vs " + PERIOD/1000 + " diff " + ( (secondsPassed*1000) - PERIOD);
+            statusText.setText( status );
+            Timber.i( status);
             start = SystemClock.elapsedRealtime();
             Toast.makeText(MainActivity.this, R.string.toast, Toast.LENGTH_SHORT).show();
         }

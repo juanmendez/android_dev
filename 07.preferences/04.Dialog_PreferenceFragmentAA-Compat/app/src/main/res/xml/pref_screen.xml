@@ -11,11 +11,5 @@
 
         <EditTextPreference android:key="@string/quote" android:title="Your Favorite Quote"
             android:summary="what inspires you"/>
-
-        <DatePickerPreference
-            android:key="@string/dob"
-            android:persistent="true"
-            android:summary="Select a date"
-            android:title="DatePickerPreference" />
     </PreferenceCategory>
 </PreferenceScreen>

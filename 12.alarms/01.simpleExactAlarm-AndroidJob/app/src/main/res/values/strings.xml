@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Simple Exact Alarm</string>
+
+    <string name="start">Alarm toasts will appear towards the bottom of the screen in 60 seconds approximately</string>
+    <string name="end">Alarm is being canceled. Therefore it won\'t run anymore</string>
+    <string name="toast">Well, hello there!</string>
+</resources>
