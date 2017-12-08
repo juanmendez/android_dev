@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="view"
+            type="info.juanmendez.introfirebase.ui.book.BookFormActivity" />
+        <variable
+            name="bookModel"
+            type="info.juanmendez.introfirebase.ui.book.BookViewModel"/>
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout android:id="@+id/book_form_coordinatorLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="@dimen/ui_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:text="@={bookModel.book.title}"
+                android:hint="title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+            </EditText>
+
+            <EditText
+                android:text="@={bookModel.book.author}"
+                android:hint="author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+            </EditText>
+
+            <EditText
+                android:text="@={bookModel.book.shopUrl}"
+                android:hint="shopping url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+            </EditText>
+
+            <Button
+                android:text="Submit"
+                android:onClick="@{()->view.saveBook()}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

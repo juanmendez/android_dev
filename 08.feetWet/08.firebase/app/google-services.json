@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "840693228023",
+    "firebase_url": "https://essentials-220.firebaseio.com",
+    "project_id": "essentials-220",
+    "storage_bucket": "essentials-220.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840693228023:android:561a0c9439ab2bb3",
+        "android_client_info": {
+          "package_name": "info.juanmendez.introfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840693228023-p656a9su2s99uth81k3264dnqe93h57i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUvYs-Uv7pyh1qhdsMHl_MIWlj0CO3DWs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
