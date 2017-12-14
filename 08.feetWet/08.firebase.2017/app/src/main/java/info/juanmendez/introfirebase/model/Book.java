@@ -1,9 +1,15 @@
 package info.juanmendez.introfirebase.model;
 
+import com.google.firebase.database.Exclude;
+
 /**
  * Created by Juan on 3/5/2016.
  */
 public class Book {
+
+
+    private String key;
+
     private String title;
     private String author;
     private String shopUrl;
@@ -12,6 +18,15 @@ public class Book {
         this.title = title;
         this.author = author;
         this.shopUrl = shopUrl;
+    }
+
+    @Exclude
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public Book() {

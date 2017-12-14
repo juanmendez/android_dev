@@ -20,9 +20,11 @@ import java.util.List;
 import info.juanmendez.introfirebase.R;
 import info.juanmendez.introfirebase.databinding.ActivityAuthBinding;
 import info.juanmendez.introfirebase.deps.Books;
+import info.juanmendez.introfirebase.deps.Books_;
 import info.juanmendez.introfirebase.deps.Session;
 import info.juanmendez.introfirebase.model.Book;
 import info.juanmendez.introfirebase.ui.book.BookFormActivity_;
+import info.juanmendez.introfirebase.ui.books.BooksActivity_;
 
 @DataBound
 @EActivity(R.layout.activity_auth)
@@ -90,7 +92,7 @@ public class AuthActivity extends AppCompatActivity {
                 mSession.setLoggedIn( true );
 
                 mBooks.setBookEdited( new Book() );
-                Intent intent = new Intent(this, BookFormActivity_.class );
+                Intent intent = new Intent(this, BooksActivity_.class );
                 startActivity( intent );
                 // ...
             } else {

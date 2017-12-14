@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="book"
+            type="info.juanmendez.introfirebase.model.Book" />
+
+        <variable
+            name="viewModel"
+            type="info.juanmendez.introfirebase.ui.books.BooksViewModel"/>
+    </data>
+    <LinearLayout
+        android:onClick="@{()->viewModel.setBookPicked(book)}"
+        app:itemSelected="@{viewModel.bookPicked==book}"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:padding="10dp" android:background="@drawable/selector_row"
+        android:weightSum="1">
+        <TextView
+            android:text="@{book.title}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@{book.author}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</layout>

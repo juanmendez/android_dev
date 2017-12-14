@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Intro Firebase</string>
+    <string name="app_name">Firebase Books</string>
     <string name="tbl_books">books</string>
 </resources>
