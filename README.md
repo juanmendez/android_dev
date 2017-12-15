@@ -7,3 +7,5 @@ This is an ongoing learning and testing of many of the fundamentals in Android d
 - October 20, 2017. [databinding](https://github.com/juanmendez/jm_android_dev/tree/master/08.feetWet/07.mvvm) demo went away for [learning Android Databinding](https://github.com/juanmendez/learning-android-databinding) repo.
 
 - October 26, 2017. [AndroidJob](https://github.com/juanmendez/jm_android_dev/tree/master/12.alarms/00.simpleAlarm-AndroidJob!) new demo from a regular alarm project.
+
+- December 14, 2017 [Firebase in 2017](https://github.com/juanmendez/jm_android_dev/tree/master/08.feetWet/08.firebase.2017) Times are changing and a demo done a long ago I couldn't even make it run anymore so I did it from scratch. 
