@@ -57,12 +57,15 @@ public class BooksActivity extends AppCompatActivity {
     @AfterViews
     void afterViews(){
         mBinding.setViewModel( new BooksViewModel() );
+        setUpView();
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        setUpView();
+        mBooksAdapter.connect();
+
         loadBooks();
         observeBookList();
     }
@@ -92,7 +95,7 @@ public class BooksActivity extends AppCompatActivity {
                 }
 
                 mBinding.getViewModel().setBooks( books );
-                mBinding.getViewModel().isLoading.set(false );
+                mBinding.getViewModel().isLoading.set(false);
             }
 
             @Override
@@ -101,7 +104,7 @@ public class BooksActivity extends AppCompatActivity {
             }
         };
 
-        mBookQuery.addValueEventListener( mValueEventListener);
+        mBookQuery.addListenerForSingleValueEvent( mValueEventListener);
     }
 
     private void observeBookList(){

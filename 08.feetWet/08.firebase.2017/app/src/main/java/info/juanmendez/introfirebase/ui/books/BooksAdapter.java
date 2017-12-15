@@ -26,15 +26,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
     public BooksAdapter(LayoutInflater inflater, BooksViewModel viewModel) {
         mInflater = inflater;
         mViewModel = viewModel;
-
-        mViewModel.addOnPropertyChangedCallback(mCallback = new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int brId) {
-                if( brId == BR.books){
-                    notifyDataSetChanged();
-                }
-            }
-        });
     }
 
     private List<Book> getBooks(){
@@ -72,6 +63,17 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
         public void setBook(@NonNull Book book ){
             mBookItemBinding.setBook( book );
         }
+    }
+
+    public void connect(){
+        mViewModel.addOnPropertyChangedCallback(mCallback = new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int brId) {
+                if( brId == BR.books){
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     public void disconnect(){
