@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">objectbox</string>
+    <string name="app_name">Object Box</string>
+    <string name="add_song">Add Song</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="band_form_title">Add new band</string>
+    <string name="objectbox_demo">ObjectBox demo</string>
 </resources>
