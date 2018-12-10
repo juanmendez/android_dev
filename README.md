@@ -10,4 +10,4 @@ This is an ongoing learning and testing of many of the fundamentals in Android d
 
 - December 14, 2017 [Firebase in 2017](https://github.com/juanmendez/jm_android_dev/tree/master/08.feetWet/08.firebase.2017) Times are changing and a demo done a long ago I couldn't even make it run anymore so I did it from scratch. 
 
-- November 27, 2018 [Object Box](https://github.com/juanmendez/jm_android_dev/tree/master/09.database_connection/08.object_box) Reusing a Realm demo in this repo using instead [ObjectBox.io](https://objectbox.io/)
+- (in progress) November 27, 2018 [Object Box](https://github.com/juanmendez/jm_android_dev/tree/master/09.database_connection/08.object_box) Reusing a Realm demo in this repo using instead [ObjectBox.io](https://objectbox.io/)
