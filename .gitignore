@@ -38,3 +38,7 @@ captures/
 # Keystore files
 *.jks
 \.DS_Store
+
+17\.animation/00\.physics_animation/gradlew
+
+17\.animation/00\.physics_animation/gradlew\.bat
