@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Super Size Notification</string>
     <string name="supersize_notification">SuperSize Notification</string>
+    <string name="notification_description">how tasty is a Whopper</string>
 </resources>
